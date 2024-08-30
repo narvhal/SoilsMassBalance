@@ -49,7 +49,8 @@ if plot_type == "boxflux":
     selval_dict = {}
 
     # Select Sample Name
-    si = st.selectbox("Choose sample: ", siu, index = siu.index("NQT0"))
+    default_ix = list(siu).index("NQT0")
+    si = st.selectbox("Choose sample: ", siu, index = default_ix)
     selval_dict['sample_id'] = si
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
