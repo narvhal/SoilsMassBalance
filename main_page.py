@@ -72,14 +72,15 @@ if plot_type == "boxflux":
         model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"], key = "model_shape_radio")
     selval_dict['model_shape'] = model_shape
 
-    with mc:
-
-        if st.checkbox("Continue?"):
-            # Scenario and values:
-            baseline_dict = {}
-            # units_dict = {}  #
-            dft = df.copy()
-            for k, vlist in vars_dict.items():
+    colll = [lc, mc, rc, lc, mc, rc, lc, mc, rc]
+    if st.checkbox("Continue?"):
+        # Scenario and values:
+        baseline_dict = {}
+        # units_dict = {}  #
+        dft = df.copy()
+        count = 0
+        for k, vlist in vars_dict.items():
+            with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                 # st.write(k, list(vlist[:]))
                 # st.write(k in df_default.columns.to_list())
@@ -95,6 +96,9 @@ if plot_type == "boxflux":
                 else:
                     dft = dft[dft[k] == val].copy()
                 st.write("Length of df: ", len(dft))
+                count+=1
+        with mc:
+
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
             st.pyplot(fig)
