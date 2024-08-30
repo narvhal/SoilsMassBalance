@@ -20,6 +20,7 @@ df = pd.read_excel(fn)
 
 fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
 df_default =  pd.read_excel(fn)
+df_default['Coarse_seds_subsurface'] = 0
 
 
 # toc = stoc()
@@ -31,9 +32,6 @@ st.header("Flux boxes")
 
 
 st.text("Change the variables and see how the fluxes change!")
-dfdc = df_default.columns.to_list()
-st.select_slider("Label", options = dfdc)
-df_default['Coarse_seds_subsurface'] = 0
 
 siu = df.sample_id.unique()
 selcolu = df.select_col.unique()
@@ -54,18 +52,18 @@ if plot_type == "boxflux":
     # Select Sample Name
     with lc:
         default_ix = list(siu).index("NQT0")
-        si = st.selectbox("Choose sample: ", siu, index = default_ix)
+        si = st.selectbox("Choose sample: ", siu, index = default_ix, key = "sample_id_selbox")
     selval_dict['sample_id'] = si
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
     with mc:
-        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt)
+        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = "model_type_radio")
 
     selval_dict['model_type'] = model_type
 
     with rc:
     # Select box model shape:
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"])
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"], key = "model_shape_radio")
     selval_dict['model_shape'] = model_shape
 
     with mc:
@@ -78,7 +76,8 @@ if plot_type == "boxflux":
             for k, vlist in vars_dict.items():
                 st.write(k, vlist)
                 dfdsi = df_default[df_default['sample_id']== si].copy()
-                val = st.select_slider(f"{k}: ", options = vlist, value = df_default[k].copy(), key = str(k) + "_sliderval")
+                def_ix = vlist.index(df_default[k])
+                val = st.radio(f"{k}: ", vlist, index = def_ix, key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
                 dft = dft[dft[k]==val].copy()
