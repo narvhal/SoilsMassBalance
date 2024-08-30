@@ -3,7 +3,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
-
+from io import BytesIO
 def fltr(df, scenario, selcol, selcolval, sample_id = None):
     dft = df[(df.default_scenario == scenario) & (df.select_col == selcol) & (df.select_col_val == selcolval)  ].copy()
     if sample_id != None:
@@ -77,7 +77,9 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     list_of_tuplelists,ft,fst, height = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
     maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
     # fig.set_size_inches(.05,.010)
-
+    buf = BytesIO()
+    fig.savefig(buf, format="png")
+    st.image(buf)
     return fig
 
 
