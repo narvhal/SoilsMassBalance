@@ -76,7 +76,7 @@ if plot_type == "boxflux":
             for k, vlist in vars_dict.items():
                 st.write(k, vlist)
                 dfdsi = df_default[df_default['sample_id']== si].copy()
-                def_ix = vlist.index(dfdsi[k])
+                def_ix = list(vlist[:]).index(dfdsi[k])
                 val = st.radio(f"{k}: ", vlist, index = def_ix, key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
