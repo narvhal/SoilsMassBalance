@@ -74,6 +74,7 @@ if plot_type == "boxflux":
             # units_dict = {}  #
             dft = df.copy()
             for k, vlist in vars_dict.items():
+                st.write(k, vlist)
                 dfdsi = df_default[df_default['sample_id']== si].copy()
                 val = st.select_slider(f"{k}: ", options = vlist, value = df_default[k].copy(), key = str(k) + "_sliderval")
                 selval_dict[k] = val
