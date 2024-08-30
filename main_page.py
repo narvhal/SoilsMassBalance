@@ -33,7 +33,7 @@ st.header("Flux boxes")
 
 
 
-st.text("Change the variables and see how the fluxes change!")
+st.sidebar.text("Change the variables and see how the fluxes change!")
 
 siu = df.sample_id.unique()
 selcolu = df.select_col.unique()
@@ -93,7 +93,7 @@ if plot_type == "boxflux":
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                 keystr = str(k) + "_radioval"
-                val = st.radio(f"{k}: ", vlist,  key = keystr, on_change=proc, args = (keystr,))
+                val = st.sidebar.radio(f"{k}: ", vlist,  key = keystr, on_change=proc, args = (keystr,))
                 vix = list(vlist).index(val)
                 selval_dict[k] = val
                 # Filter df outside of func...
