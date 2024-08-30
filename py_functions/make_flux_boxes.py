@@ -138,7 +138,8 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         # xy coord of Lower Left corner: :
         csum = L[i]+csum +shape_buffer
         XY.append( csum)
-
+    st.write(H)
+    st.write(height)
     # Now need to make each corners
     list_of_tuplelists= []
     for i, (x,y) in enumerate(zip(L,H)):

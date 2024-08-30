@@ -33,7 +33,7 @@ st.header("Flux boxes")
 
 
 
-st.sidebar.text("Change the variables and see how the fluxes change!")
+st.sidebar.text("Change the variables and \nsee how the fluxes \nchange!")
 
 siu = df.sample_id.unique()
 selcolu = df.select_col.unique()
