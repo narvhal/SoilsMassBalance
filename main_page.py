@@ -88,7 +88,7 @@ if plot_type == "boxflux":
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                 val = st.radio(f"{k}: ", vlist,  key = str(k) + "_radioval")
-                st.write(type(list(vlist))
+                st.write(type(list(vlist)))
                 vix = list(vlist).index(val)
                 selval_dict[k] = val
                 # Filter df outside of func...
