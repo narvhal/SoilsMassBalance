@@ -90,12 +90,13 @@ if plot_type == "boxflux":
                 val = st.radio(f"{k}: ", vlist,  key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
-                if k == "Coarse_seds_subsurface":
-                    dft = dft[dft["select_col"]==k].copy()
-                    dft = dft[dft["select_col_val"]==val].copy()
-                else:
-                    dft = dft[dft[k] == val].copy()
-                st.write("Length of df: ", len(dft))
+                if len(dft)>1:
+                    if k == "Coarse_seds_subsurface":
+                        dft = dft[dft["select_col"]==k].copy()
+                        dft = dft[dft["select_col_val"]==val].copy()
+                    else:
+                        dft = dft[dft[k] == val].copy()
+                    st.write("Length of df: ", len(dft))
                 count+=1
         with mc:
 
