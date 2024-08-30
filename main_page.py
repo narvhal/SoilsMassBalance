@@ -80,6 +80,7 @@ if plot_type == "boxflux":
             # units_dict = {}  #
             dft = df.copy()
             for k, vlist in vars_dict.items():
+                # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                 st.write(k, list(vlist[:]))
                 # st.write(k in df_default.columns.to_list())
                 # st.write(df_default[k])   index = def_ix,
@@ -88,9 +89,11 @@ if plot_type == "boxflux":
                 val = st.radio(f"{k}: ", vlist,  key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
-                st.write(k in dft.columns.to_list(), k)
-                st.write(dft[k])
-                dft = dft[dft[k]==val].copy()
+                if k == "Coarse_seds_subsurface":
+                    dft = dft[dft["select_col"]==k].copy()
+                    dft = dft[dft["select_col_val"]==val].copy()
+                else:
+                    dft = dft[dft[k] == val].copy()
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
