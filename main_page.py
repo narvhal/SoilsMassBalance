@@ -77,6 +77,7 @@ if plot_type == "boxflux":
             for k, vlist in vars_dict.items():
                 st.write(k, list(vlist[:]))
                 st.write(k in df_default.columns.to_list())
+                st.write(df_default[k] in vlist)
                 dfdsi = df_default[df_default['sample_id']== si].copy()
                 vll = list(vlist[:])
                 st.write(vll, type(vll))
