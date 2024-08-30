@@ -48,18 +48,22 @@ plot_type = "boxflux" #"stackedbarfluxes"
 if plot_type == "boxflux":
     selval_dict = {}
 
-
+    lc, mc, rc = st.columnst([0.3, 0.3, 0.3])
     # Select Sample Name
-    default_ix = list(siu).index("NQT0")
-    si = st.selectbox("Choose sample: ", siu, index = default_ix)
+    with lc:
+        default_ix = list(siu).index("NQT0")
+        si = st.selectbox("Choose sample: ", siu, index = default_ix)
     selval_dict['sample_id'] = si
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
-    model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt)
+    with mc:
+        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt)
 
     selval_dict['model_type'] = model_type
+
+    with rc:
     # Select box model shape:
-    model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"])
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"])
     selval_dict['model_shape'] = model_shape
 
     if st.checkbox("Continue?"):
