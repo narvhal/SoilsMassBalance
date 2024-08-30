@@ -83,7 +83,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
 
 def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     if flag_model == 'simple':
-        fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,  'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr_val'  ])
+        fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,  'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
         ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
         spacerloc = 0
     else:
@@ -110,8 +110,8 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     fst = [df[fmcols[0]].to_numpy()[0]]
     for i, col in enumerate(fmcols[1:]):
         # Actual dimensions of each box:
-        st.write(col)
-        st.write(col in df.columns.to_list())
+        # st.write(col)
+        # st.write(col in df.columns.to_list())
         colval = df[col].to_numpy()[0]
 
         if isinstance(colval, str):
