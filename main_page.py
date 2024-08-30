@@ -103,8 +103,8 @@ if plot_type == "boxflux":
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-            # st.pyplot(fig, use_container_width = False)
-            st.pyplot(fig)
+            st.pyplot(fig, use_container_width = False)
+            # st.pyplot(fig)
         st.dataframe(dft)
 
 elif plot_type == "stackedbarfluxes":
