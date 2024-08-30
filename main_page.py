@@ -105,8 +105,8 @@ if plot_type == "boxflux":
 
 
 
-        width = st.sidebar.slider("plot width", 1, 25, 3)
-        height = st.sidebar.slider("plot height", 1, 25, 1)
+        width = st.sidebar.slider("plot width", .1, .5, .1)
+        height = st.sidebar.slider("plot height", .1, .5, .1)
         selval_dict['figwidth'] = width
         selval_dict['figheight'] = height
 
