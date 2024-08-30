@@ -12,7 +12,7 @@ from py_functions.make_flux_boxes import *
 # from py_functions.load_plotting_funcs import *       # map_cdict
 # from py_functions.load_plotting_funcs_02_13 import *
 # from uncertainties import ufloat_fromstr
-st.set_page_config(layout="wide" )
+# st.set_page_config(layout="wide" )
 
 
 fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_all_Tables_vars_baseline.xlsx"
