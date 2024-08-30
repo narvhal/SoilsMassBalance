@@ -107,21 +107,23 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         spacerloc = 1
     shape_buffer = .5
 
-    H = []
-    L = []
+    H = []  # Vertical
+    L = []  # Horiz
     XY = []
     csum = 0
     fst = []
-    Fbr_L = df[fmcols[0]].to_numpy()[0]
+    Fbr_L = df[fmcols[0]].to_numpy()[0]   # BR value
+
+
     for i, col in enumerate(fmcols[1:]):
         colval = df[col].to_numpy()[0]
         colval = deal_w_ustring(colval)
         if colval > 0:
-            if height == 'Uniform height':
-                L1 = (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
-                htt = Fbr_L
-            elif isinstance(height, float):
+            if height == 'Uniform height':  # About half of sqrt (FBr_L)
+                htt = 0.5 * (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
                 L1 = colval/htt
+            elif isinstance(height, float):
+                L1 = colval/height
             else:  # squares
                 L1 = colval**(0.5)
                 htt = L1
