@@ -77,7 +77,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
     height = selval_dict['model_shape']
     flag_model = selval_dict['model_type']
-    list_of_tuplelists,ft,fst, height = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
+    list_of_tuplelists,ft,fst, height , L, H, XY, fst = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
     maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
@@ -155,7 +155,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
             UR = (x1, y+.1)
 
         else: # along centerline
-            midy = np.max(L+H)/2
+            midy = np.max(H)/2
             x0 = XY[i]
             x1 = x0 + x
             newxy = [(x0,midy-(y/2))]
@@ -168,20 +168,24 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
 
     # ft = column labels, fst = values of each column, height =
-    return list_of_tuplelists, ft, fst, height
+    return list_of_tuplelists, ft, fst, height, L, H, XY, fst
 
 
-def plot_patches(list_of_tuplelist, df, ft,fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
+def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
     if newfig:
         fig, ax = plt.subplots()
     else:
         ax = plt.gca()
         fig = plt.gcf()
     equals_locx = 0
-    if height != 'auto':
+
+    if height != 'Uniform height':
+        maxy = H[0]   # bedrock height
+    elif isinstance(height, float):
         maxy = height
-    else:
-        maxy = 1
+    else:# squares
+        maxy = max(H)
+
     if flag_model == 'simple':
         hch = ['x', '', '', '']
         bxc = ['grey', 'rosybrown', 'indianred', 'lightcyan']
@@ -222,7 +226,7 @@ def plot_patches(list_of_tuplelist, df, ft,fst,add_conc = 'auto',  height = 'aut
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
                     if i == 2:
                         equals_locx = npp[1][0]-spacex
-            st.write("xy: ", maxy, adjx)
+            # st.write("xy: ", maxy, adjx)
             xy = [maxy]+adjx
             maxy = np.max(xy)
 
