@@ -86,6 +86,13 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     return fig
 
 
+def deal_w_ustring(val):
+    if isinstance(val, str):
+        numstr = ufloat_fromstr(val)
+    else:
+        numstr = val
+    return numstr
+
 def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     if flag_model == 'simple':
         fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,  'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
@@ -99,39 +106,34 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
         spacerloc = 1
     shape_buffer = .5
-    if height == 'Uniform height':
-        Fb_L = (df[fmcols[0]].to_numpy()[0] )**(0.5)  # bedrock length where Fb_L**2 = Fb
-        height = Fb_L
-    elif isinstance(height, float):
-        Fb_L = df[fmcols[0]].to_numpy()[0]/height
-    else:  # squares
-        Fb_L = df[fmcols[0]].to_numpy()[0]**(0.5)
-        height = Fb_L
 
-    H = [height]
-    L = [Fb_L]
+    H = []
+    L = []
+    XY = []
     csum = 0
-    XY = [0]
-    fst = [df[fmcols[0]].to_numpy()[0]]
+    fst = []
+    Fbr_L = df[fmcols[0]].to_numpy()[0]
     for i, col in enumerate(fmcols[1:]):
-        # Actual dimensions of each box:
-        # st.write(col)
-        # st.write(col in df.columns.to_list())
         colval = df[col].to_numpy()[0]
-
-        if isinstance(colval, str):
-            numstr = ufloat_fromstr(colval)
-            L1 = numstr.nominal_value/Fb_L
+        colval = deal_w_ustring(colval)
+        if colval > 0:
+            if height == 'Uniform height':
+                L1 = (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
+                htt = Fbr_L
+            elif isinstance(height, float):
+                L1 = colval/htt
+            else:  # squares
+                L1 = colval**(0.5)
+                htt = L1
         else:
-            if colval>0:
-                L1 = colval/height
-            else:
-                L1 = 0
+            L1 = 0
+
         if i == spacerloc:
             csum = csum + shape_buffer
+
         L.append(L1)
         fst.append(colval)
-        H.append(height)
+        H.append(htt)
 #         print('col: ', col, 'colval: ','{:0.2f}'.format(colval),'colval/height: ','{:0.2f}'.format(colval/height),'height: ',height, 'L1: ', '{:0.2f}'.format(L1) )
         # xy coord of Lower Left corner: :
         csum = L[i]+csum +shape_buffer
@@ -140,6 +142,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     # Now need to make each corners
     list_of_tuplelists= []
     for i, (x,y) in enumerate(zip(L,H)):
+        # y0 is 0.1 basically
         x0 = XY[i]
         x1 = x0 + x
         newxy = [(x0,.1)]
@@ -151,152 +154,6 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
 
     # ft = column labels, fst = values of each column, height =
     return list_of_tuplelists, ft, fst, height
-
-
-
-def wrap_flux_box_visual2(df, saveloc , scenario ,selcol,selcolval):
-    saveloc2 = saveloc + '\\flux_box_figs_'+ scenario + '_'+selcol+ '_'+ str(selcolval)
-    if not os.path.exists(saveloc2):
-        os.mkdir(saveloc2)
-    for si in ['MT120',  'MT140',  'NQT0', 'NQCV2']:
-
-        height = 'auto'
-        dft = fltr(df, scenario, selcol, selcolval, sample_id = [si])
-        print(len(dft))
-        fig, ax = plt.subplots(nrows = 3, gridspec_kw={'height_ratios': [3, 1, 3]})
-        plt.sca(ax[1])
-        frame1 = ax[1]
-        frame1.axes.get_yaxis().set_visible(False)
-        frame1.axis('off')
-        # plot_patches(list_of_tuplelists, dft, ft,fst, height = 3, flag_model =flag_model, newfig = False, flag_annot = True)
-        plt.sca(ax[2])
-
-        flag_model = 'not'
-        list_of_tuplelists,ft,fst, height = make_into_area(dft, flag_model = flag_model, height = height)
-        maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
-
-        flag_model = 'simple'
-
-        plt.sca(ax[0])
-        dblht = height *2
-        list_of_tuplelists,ft,fst, height = make_into_area(dft, flag_model = flag_model, height = height)
-        xoffs = eqlocx - list_of_tuplelists[0][3][0] - .5
-
-        plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False, flag_annot = False,set_maxy = maxynot, xoffset = xoffs)
-
-        fig.set_size_inches(10,5)
-        filenametag = si +'_boxflux_aligned'
-
-        savefig(filenametag,
-            saveloc2,
-            [],
-            [],
-            (1,2),
-            w_legend=False,
-            prefixtag='')
-        plt.close('all')
-
-def wrap_flux_box_visual3_2(df, saveloc , scenario ,selcol,selcolval):
-    saveloc2 = saveloc + '\\flux_box_figs_'+ scenario + '_'+selcol+ '_'+ str(selcolval)
-    if not os.path.exists(saveloc2):
-        os.mkdir(saveloc2)
-    for si in ['MT120',  'MT130',  'NQT0', 'NQCV2']:
-
-        height = 'auto'
-        dft =  fltr2(df, selcol, selcolval, sample_id = [si])
-        print(len(dft))
-        fig, ax = plt.subplots(nrows = 3, gridspec_kw={'height_ratios': [3, 1, 3]})
-        plt.sca(ax[1])
-        frame1 = ax[1]
-        frame1.axes.get_yaxis().set_visible(False)
-        frame1.axis('off')
-        # plot_patches(list_of_tuplelists, dft, ft,fst, height = 3, flag_model =flag_model, newfig = False, flag_annot = True)
-        plt.sca(ax[2])
-
-        flag_model = 'not'
-        list_of_tuplelists,ft,fst, height = make_into_area(dft, flag_model = flag_model, height = height)
-        maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
-
-        flag_model = 'simple'
-
-        plt.sca(ax[0])
-        dblht = height *2
-        list_of_tuplelists,ft,fst, height = make_into_area(dft, flag_model = flag_model, height = height)
-        xoffs = eqlocx - list_of_tuplelists[0][3][0] - .5
-
-        plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False, flag_annot = False,set_maxy = maxynot, xoffset = xoffs)
-
-        fig.set_size_inches(10,5)
-        filenametag = si +'_boxflux_aligned'
-
-        savefig(filenametag,
-            saveloc2,
-            [],
-            [],
-            (1,2),
-            w_legend=False,
-            prefixtag='')
-        plt.close('all')
-
-
-
-
-def wrap_flux_box_visual3(df, saveloc , scenario ,selcol,selcolval):
-
-
-
-    # Need to get CaCO3 values for rock and soils (fines) + magnitude of clasts
-    # Bedrock -- show carbonate/non carbonate within box ~ 99% carb
-    # fine soil == show carb/non carb within box  -- 5-25% carb  (10% NQ, up to 30% MT1)
-    # lithic fragments same ~ 99% carb 
-    # Also show dust CaCO3? 
-
-    # CaCO3 +MgCO3 conservation (assuming maximum amt in each quantity)
-
-
-
-    saveloc2 = saveloc + '\\flux_box_figs_'+ scenario + '_'+selcol+ '_'+ str(selcolval)
-    if not os.path.exists(saveloc2):
-        os.mkdir(saveloc2)
-    for si in ['MT120',  'MT140',  'NQT0', 'NQCV2']:
-
-        height = 'auto'
-        dft = fltr(df, scenario, selcol, selcolval, sample_id = [si])
-        print(len(dft))
-        fig, ax = plt.subplots(nrows = 3, gridspec_kw={'height_ratios': [3, 1, 3]})
-        plt.sca(ax[1])
-        frame1 = ax[1]
-        frame1.axes.get_yaxis().set_visible(False)
-        frame1.axis('off')
-        # plot_patches(list_of_tuplelists, dft, ft,fst, height = 3, flag_model =flag_model, newfig = False, flag_annot = True)
-        plt.sca(ax[2])
-
-        flag_model = 'not'
-        list_of_tuplelists,ft,fst, height = make_into_area(dft, flag_model = flag_model, height = height)
-        maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
-
-        flag_model = 'simple'
-
-        plt.sca(ax[0])
-        dblht = height *2
-        list_of_tuplelists,ft,fst, height = make_into_area(dft, flag_model = flag_model, height = height)
-        xoffs = eqlocx - list_of_tuplelists[0][3][0] - .5
-
-        plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False, flag_annot = False,set_maxy = maxynot, xoffset = xoffs)
-
-        fig.set_size_inches(10,5)
-        filenametag = si +'_boxflux_aligned'
-
-        savefig(filenametag,
-            saveloc2,
-            [],
-            [],
-            (1,2),
-            w_legend=False,
-            prefixtag='')
-        plt.close('all')
-
-
 
 
 def plot_patches(list_of_tuplelist, df, ft,fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
