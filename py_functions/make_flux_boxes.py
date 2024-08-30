@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 from io import BytesIO
+
 def fltr(df, scenario, selcol, selcolval, sample_id = None):
     dft = df[(df.default_scenario == scenario) & (df.select_col == selcol) & (df.select_col_val == selcolval)  ].copy()
     if sample_id != None:
@@ -66,7 +67,6 @@ def wrap_flux_box_visual(df, saveloc , scenario ,selcol,selcolval):
 def proc(key):
     st.info(st.session_state[key])
 
-setBrightness = st.slider("Brightness", -10, 10, 0, step=1, key="Brightness", on_change=waschanged, args=("Brightness",)
 
 def mtfmt(mt):   # functions to provide vals for 'model_type'
     mtd = {'simple':"Solve for dissolved flux, no dust ('simple')",
