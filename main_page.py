@@ -55,6 +55,11 @@ if plot_type == "boxflux":
         default_ix = list(siu).index("NQT0")
         si = st.selectbox("Choose sample: ", siu, index = default_ix, key = "sample_id_selbox")
     selval_dict['sample_id'] = si
+
+    dfdsi = df_default[df_default['sample_id']== si].copy()
+    default_cols = dfdsi.columns.to_list()
+
+    default_dict = {c:dfdsi[c] for c in default_cols}
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
     with mc:
@@ -76,12 +81,10 @@ if plot_type == "boxflux":
             dft = df.copy()
             for k, vlist in vars_dict.items():
                 st.write(k, list(vlist[:]))
-                st.write(k in df_default.columns.to_list())
-                st.write(df_default[k])
-                dfdsi = df_default[df_default['sample_id']== si].copy()
+                # st.write(k in df_default.columns.to_list())
+                # st.write(df_default[k])
                 vll = list(vlist[:])
-                st.write(vll, type(vll))
-                def_ix = vll.index(dfdsi[k])
+                def_ix = vll.index(default_dict[k])
                 val = st.radio(f"{k}: ", vlist, index = def_ix, key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
