@@ -66,21 +66,24 @@ if plot_type == "boxflux":
         model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"])
     selval_dict['model_shape'] = model_shape
 
-    if st.checkbox("Continue?"):
-        # Scenario and values:
-        baseline_dict = {}
-        units_dict = {}
-        vars_dict = {}
-        dft = df.copy()
-        for k, vlist in vars_dict.items():
-            val = st.slider(f"{k} ({units_dict[k]}): ", vlist, default = df_default.loc[df_default['sample_id']== si, k].copy(), key = str(k) + "_sliderval")
-            selval_dict[k] = val
-            # Filter df outside of func...
-            dft = dft[dft[k]==val].copy()
+    with mc:
 
-        fig = wrap_flux_box_streamlit(dft, selval_dict)
+        if st.checkbox("Continue?"):
+            # Scenario and values:
+            baseline_dict = {}
+            units_dict = {}
+            vars_dict = {}
+            dft = df.copy()
+            for k, vlist in vars_dict.items():
+                st.write(k, vlist)
+                val = st.slider(f"{k} ({units_dict[k]}): ", vlist, default = df_default.loc[df_default['sample_id']== si, k].copy(), key = str(k) + "_sliderval")
+                selval_dict[k] = val
+                # Filter df outside of func...
+                dft = dft[dft[k]==val].copy()
 
-        st.pyplot(fig)
+            fig = wrap_flux_box_streamlit(dft, selval_dict)
+
+            st.pyplot(fig)
 
 
 elif plot_type == "stackedbarfluxes":
