@@ -144,6 +144,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     list_of_tuplelists= []
     for i, (x,y) in enumerate(zip(L,H)):
         # y0 is 0.1 basically
+        flag_along_baseline = False
         if flag_along_baseline:
             x0 = XY[i]
             x1 = x0 + x
@@ -157,11 +158,11 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
             midy = np.max(L+H)/2
             x0 = XY[i]
             x1 = x0 + x
-            newxy = [(x0,.1)]
-            UL = (x0, y+.1)
+            newxy = [(x0,midy-(y/2))]
+            UL = (x0, midy+(y/2))
     #         print(y, H[i])
-            DR = (x1, .1)
-            UR = (x1, y+.1)
+            DR = (x1, midy-(y/2))
+            UR = (x1, midy+(y/2))
 
 
         list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
