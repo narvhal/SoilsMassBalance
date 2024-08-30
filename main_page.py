@@ -74,7 +74,7 @@ if plot_type == "boxflux":
             # units_dict = {}  #
             dft = df.copy()
             for k, vlist in vars_dict.items():
-                st.write(k, vlist)
+                st.write(k, list(vlist[:]))
                 dfdsi = df_default[df_default['sample_id']== si].copy()
                 def_ix = list(vlist[:]).index(dfdsi[k])
                 val = st.radio(f"{k}: ", vlist, index = def_ix, key = str(k) + "_radioval")
