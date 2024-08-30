@@ -71,10 +71,10 @@ if plot_type == "boxflux":
         if st.checkbox("Continue?"):
             # Scenario and values:
             baseline_dict = {}
-            units_dict = {}
+            # units_dict = {}  #
             dft = df.copy()
             for k, vlist in vars_dict.items():
-                val = st.select_slider(f"{k} ({units_dict[k]}): ", options = vlist, value = df_default.loc[df_default['sample_id']== si, k].copy(), key = str(k) + "_sliderval")
+                val = st.select_slider(f"{k}: ", options = vlist, value = df_default.loc[df_default['sample_id']== si, k].copy(), key = str(k) + "_sliderval")
                 selval_dict[k] = val
                 # Filter df outside of func...
                 dft = dft[dft[k]==val].copy()
