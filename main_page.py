@@ -72,19 +72,16 @@ if plot_type == "boxflux":
             # Scenario and values:
             baseline_dict = {}
             units_dict = {}
-            vars_dict = {}
             dft = df.copy()
-            st.write(vars_dict.items())
             for k, vlist in vars_dict.items():
-                st.write(k, vlist)
                 val = st.select_slider(f"{k} ({units_dict[k]}): ", options = vlist, value = df_default.loc[df_default['sample_id']== si, k].copy(), key = str(k) + "_sliderval")
                 selval_dict[k] = val
                 # Filter df outside of func...
                 dft = dft[dft[k]==val].copy()
 
-            # fig = wrap_flux_box_streamlit(dft, selval_dict)
+            fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-            # st.pyplot(fig,)
+            st.pyplot(fig)
 
 
 elif plot_type == "stackedbarfluxes":
