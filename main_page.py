@@ -31,7 +31,8 @@ st.header("Flux boxes")
 
 
 st.text("Change the variables and see how the fluxes change!")
-
+st.write(df_default.columns.to_list())
+df_default['Coarse_seds_subsurface'] = 0
 
 siu = df.sample_id.unique()
 selcolu = df.select_col.unique()
