@@ -81,9 +81,9 @@ if plot_type == "boxflux":
                 # Filter df outside of func...
                 dft = dft[dft[k]==val].copy()
 
-            fig = wrap_flux_box_streamlit(dft, selval_dict)
+            # fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-            st.pyplot(fig)
+            # st.pyplot(fig,)
 
 
 elif plot_type == "stackedbarfluxes":
