@@ -81,7 +81,7 @@ if plot_type == "boxflux":
             dft = df.copy()
             for k, vlist in vars_dict.items():
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
-                st.write(k, list(vlist[:]))
+                # st.write(k, list(vlist[:]))
                 # st.write(k in df_default.columns.to_list())
                 # st.write(df_default[k])   index = def_ix,
                 # vll = list(vlist[:])
@@ -94,7 +94,7 @@ if plot_type == "boxflux":
                     dft = dft[dft["select_col_val"]==val].copy()
                 else:
                     dft = dft[dft[k] == val].copy()
-
+            st.write("Length of df: ", len(dft))
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
             st.pyplot(fig)
