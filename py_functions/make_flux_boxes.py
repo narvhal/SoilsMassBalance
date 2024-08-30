@@ -222,7 +222,7 @@ def plot_patches(list_of_tuplelist, df, ft,fst,add_conc = 'auto',  height = 'aut
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
                     if i == 2:
                         equals_locx = npp[1][0]-spacex
-            st.write("xy: ", xy)
+            st.write("xy: ", maxy, adjx)
             xy = [maxy]+adjx
             maxy = np.max(xy)
 
