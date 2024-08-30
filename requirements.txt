@@ -1,0 +1,7 @@
+streamlit>=1.13.0
+unidecode
+matplotlib
+pyxlsb
+openpyxl
+matplotlib-scalebar
+uncertainties
