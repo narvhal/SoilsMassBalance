@@ -73,10 +73,9 @@ def mtfmt(mt):   # functions to provide vals for 'model_type'
 def wrap_flux_box_streamlit(dft, selval_dict):
 
     height = selval_dict['model_shape']
-    fig, ax = plt.subplots()
     flag_model = selval_dict['model_type']
     list_of_tuplelists,ft,fst, height = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
-    maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
+    maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = True,flag_annot = False)
     fig.set_size_inches(5,5)
     return fig
 
