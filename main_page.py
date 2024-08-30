@@ -88,6 +88,8 @@ if plot_type == "boxflux":
                 val = st.radio(f"{k}: ", vlist,  key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
+                st.write(k in dft.columns.to_list(), k)
+                st.write(dft[k])
                 dft = dft[dft[k]==val].copy()
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
