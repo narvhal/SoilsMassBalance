@@ -63,7 +63,10 @@ def wrap_flux_box_visual(df, saveloc , scenario ,selcol,selcolval):
             w_legend=False,
             prefixtag='')
 
+def proc(key):
+    st.info(st.session_state[key])
 
+setBrightness = st.slider("Brightness", -10, 10, 0, step=1, key="Brightness", on_change=waschanged, args=("Brightness",)
 
 def mtfmt(mt):   # functions to provide vals for 'model_type'
     mtd = {'simple':"Solve for dissolved flux, no dust ('simple')",
@@ -79,7 +82,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
-    st.image(buf, width = 500)
+    st.image(buf, width = 600)
     return fig
 
 

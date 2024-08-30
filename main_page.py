@@ -54,7 +54,8 @@ if plot_type == "boxflux":
     # Select Sample Name
     with lc:
         default_ix = list(siu).index("NQT0")
-        si = st.selectbox("Choose sample: ", siu, index = default_ix, key = "sample_id_selbox")
+        keystr = "sample_id_selbox"
+        si = st.selectbox("Choose sample: ", siu, index = default_ix, key = keystr, on_change=proc, args = (keystr,))
     selval_dict['sample_id'] = si
     dft = df[df['sample_id'] == si].copy()
 
@@ -65,13 +66,16 @@ if plot_type == "boxflux":
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
     with mc:
-        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = "model_type_radio")
+        keystr = "model_type_radio"
+        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr, on_change=proc, args = (keystr,))
 
     selval_dict['model_type'] = model_type
 
     with rc:
     # Select box model shape:
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"], key = "model_shape_radio")
+        keystr = "model_shape_radio"
+
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"], key = keystr, on_change=proc, args = (keystr,))
     selval_dict['model_shape'] = model_shape
 
     colll = [lc, mc, rc, lc, mc, rc, lc, mc, rc]
@@ -88,7 +92,8 @@ if plot_type == "boxflux":
                 # st.write(df_default[k])   index = def_ix,
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
-                val = st.radio(f"{k}: ", vlist,  key = str(k) + "_radioval")
+                keystr = str(k) + "_radioval"
+                val = st.radio(f"{k}: ", vlist,  key = keystr, on_change=proc, args = (keystr,))
                 vix = list(vlist).index(val)
                 selval_dict[k] = val
                 # Filter df outside of func...
