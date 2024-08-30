@@ -106,15 +106,15 @@ if plot_type == "boxflux":
 
             width = st.sidebar.slider("plot width", 1, 25, 3)
             height = st.sidebar.slider("plot height", 1, 25, 1)
-
-            # st.pyplot(fig)
+            selval_dict['figwidth'] = width
+            selval_dict['figheight'] = height
 
 
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-            # st.pyplot(fig, use_container_width = False)
-            st.pyplot(fig)
+            st.pyplot(fig, use_container_width = False)
+            # st.pyplot(fig)
         st.dataframe(dft)
 
 elif plot_type == "stackedbarfluxes":
