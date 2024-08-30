@@ -2,14 +2,14 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-
-
+import streamlit as st
+import pandas as pd
 import matplotlib.pyplot as plt
 from py_functions.make_flux_boxes import *
 # from py_functions.load_intro import *
 # from py_functions.load_prep_initial_df import *
 # from py_functions.load_wrap_plotting_funcs import *
-from py_functions.load_plotting_funcs import *       # map_cdict
+# from py_functions.load_plotting_funcs import *       # map_cdict
 # from py_functions.load_plotting_funcs_02_13 import *
 # from uncertainties import ufloat_fromstr
 st.set_page_config(layout="wide" )
@@ -49,7 +49,7 @@ if plot_type == "boxflux":
     selval_dict = {}
 
     # Select Sample Name
-    si = st.selectbox("Choose sample: ", siu, default = "NQT0")
+    si = st.selectbox("Choose sample: ", siu, index = siu.index("NQT0"))
     selval_dict['sample_id'] = si
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
