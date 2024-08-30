@@ -94,7 +94,7 @@ if plot_type == "boxflux":
                     dft = dft[dft["select_col_val"]==val].copy()
                 else:
                     dft = dft[dft[k] == val].copy()
-            st.write("Length of df: ", len(dft))
+                st.write("Length of df: ", len(dft))
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
             st.pyplot(fig)
