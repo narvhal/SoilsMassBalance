@@ -56,8 +56,8 @@ if plot_type == "boxflux":
         si = st.selectbox("Choose sample: ", siu, index = default_ix, key = "sample_id_selbox")
     selval_dict['sample_id'] = si
 
-    dfdsi = df_default[df_default['sample_id']== si].copy()
-    default_cols = dfdsi.columns.to_list()
+    # dfdsi = df_default[df_default['sample_id']== si].copy()
+    # default_cols = dfdsi.columns.to_list()
 
     default_dict = {c:dfdsi[c] for c in default_cols}
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
@@ -82,10 +82,10 @@ if plot_type == "boxflux":
             for k, vlist in vars_dict.items():
                 st.write(k, list(vlist[:]))
                 # st.write(k in df_default.columns.to_list())
-                # st.write(df_default[k])
-                vll = list(vlist[:])
-                def_ix = vll.index(default_dict[k])
-                val = st.radio(f"{k}: ", vlist, index = def_ix, key = str(k) + "_radioval")
+                # st.write(df_default[k])   index = def_ix,
+                # vll = list(vlist[:])
+                # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
+                val = st.radio(f"{k}: ", vlist,  key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
                 dft = dft[dft[k]==val].copy()
