@@ -73,43 +73,6 @@ if plot_type == "boxflux":
             selval_dict[k] = val
             # Filter df outside of func...
             dft = dft[dft[k]==val].copy()
-            # st.write(len(dft))
-        # st.write(dft.columns.to_list())
-
-
-        height = selval_dict['model_shape']
-        flag_model = selval_dict['model_type']
-        if flag_model == 'simple':
-                fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,  'F_dis_simple'  ])
-                ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
-                spacerloc = 0
-        else:
-            fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
-                 'F_coarse_g_m2_yr' ,
-                 'F_fines_from_br_g_m2_yr' ,
-                 'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-            ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
-            spacerloc = 1
-        shape_buffer = .5
-        if height == 'Uniform height':
-            Fb_L = (df[fmcols[0]].to_numpy()[0] )**(0.5)  # bedrock length where Fb_L**2 = Fb
-            height = Fb_L
-        elif isinstance(height, float):
-            Fb_L = df[fmcols[0]].to_numpy()[0]/height
-        else:  # squares
-            Fb_L = df[fmcols[0]].to_numpy()[0]**(0.5)
-            height = Fb_L
-
-        H = [height]
-        L = [Fb_L]
-        csum = 0
-        XY = [0]
-        fst = [df[fmcols[0]].to_numpy()[0]]
-        for i, col in enumerate(fmcols[1:]):
-            # Actual dimensions of each box:
-            st.write(col)
-            st.write(col in dft.columns.to_list())
-
 
         fig = wrap_flux_box_streamlit(dft, selval_dict)
 
