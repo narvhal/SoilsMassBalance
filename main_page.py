@@ -31,7 +31,8 @@ st.header("Flux boxes")
 
 
 st.text("Change the variables and see how the fluxes change!")
-st.write(df_default.columns.to_list())
+dfdc = df_default.columns.to_list()
+st.select_slider("Label", options = dfdc)
 df_default['Coarse_seds_subsurface'] = 0
 
 siu = df.sample_id.unique()
