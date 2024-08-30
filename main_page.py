@@ -59,7 +59,7 @@ if plot_type == "boxflux":
     # dfdsi = df_default[df_default['sample_id']== si].copy()
     # default_cols = dfdsi.columns.to_list()
 
-    default_dict = {c:dfdsi[c] for c in default_cols}
+    # default_dict = {c:dfdsi[c] for c in default_cols}
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
     with mc:
