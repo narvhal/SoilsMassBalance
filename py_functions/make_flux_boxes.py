@@ -110,7 +110,8 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     fst = [df[fmcols[0]].to_numpy()[0]]
     for i, col in enumerate(fmcols[1:]):
         # Actual dimensions of each box:
-
+        st.write(col)
+        st.write(col in df.columns.to_list())
         colval = df[col].to_numpy()[0]
 
         if isinstance(colval, str):
