@@ -79,7 +79,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
-    st.image(buf)
+    st.image(buf, width = 500)
     return fig
 
 
