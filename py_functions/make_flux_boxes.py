@@ -78,7 +78,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     height = selval_dict['model_shape']
     flag_model = selval_dict['model_type']
     list_of_tuplelists,ft,fst, height , L, H, XY, fst = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
-    maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft,fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
+    maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft, L, H, XY, fst, height = height, flag_model =flag_model, newfig = False,flag_annot = False)
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
@@ -171,7 +171,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     return list_of_tuplelists, ft, fst, height, L, H, XY, fst
 
 
-def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
+def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
     if newfig:
         fig, ax = plt.subplots()
     else:
