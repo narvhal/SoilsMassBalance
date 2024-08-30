@@ -55,6 +55,7 @@ if plot_type == "boxflux":
         default_ix = list(siu).index("NQT0")
         si = st.selectbox("Choose sample: ", siu, index = default_ix, key = "sample_id_selbox")
     selval_dict['sample_id'] = si
+    dft = df[df['sample_id'] == si].copy()
 
     # dfdsi = df_default[df_default['sample_id']== si].copy()
     # default_cols = dfdsi.columns.to_list()
@@ -77,7 +78,6 @@ if plot_type == "boxflux":
         # Scenario and values:
         baseline_dict = {}
         # units_dict = {}  #
-        dft = df.copy()
         count = 0
         for k, vlist in vars_dict.items():
             with colll[count]:
