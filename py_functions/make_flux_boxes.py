@@ -138,19 +138,32 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         # xy coord of Lower Left corner: :
         csum = L[i]+csum +shape_buffer
         XY.append( csum)
-    st.write(H)
-    st.write(height)
+    # st.write(H)
+    # st.write(height)
     # Now need to make each corners
     list_of_tuplelists= []
     for i, (x,y) in enumerate(zip(L,H)):
         # y0 is 0.1 basically
-        x0 = XY[i]
-        x1 = x0 + x
-        newxy = [(x0,.1)]
-        UL = (x0, y+.1)
-#         print(y, H[i])
-        DR = (x1, .1)
-        UR = (x1, y+.1)
+        if flag_along_baseline:
+            x0 = XY[i]
+            x1 = x0 + x
+            newxy = [(x0,.1)]
+            UL = (x0, y+.1)
+    #         print(y, H[i])
+            DR = (x1, .1)
+            UR = (x1, y+.1)
+
+        else: # along centerline
+            midy = np.max(L+H)/2
+            x0 = XY[i]
+            x1 = x0 + x
+            newxy = [(x0,.1)]
+            UL = (x0, y+.1)
+    #         print(y, H[i])
+            DR = (x1, .1)
+            UR = (x1, y+.1)
+
+
         list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
 
     # ft = column labels, fst = values of each column, height =
@@ -208,7 +221,7 @@ def plot_patches(list_of_tuplelist, df, ft,fst,add_conc = 'auto',  height = 'aut
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
                     if i == 2:
                         equals_locx = npp[1][0]-spacex
-
+            st.write("xy: ", xy)
             xy = [maxy]+adjx
             maxy = np.max(xy)
 
