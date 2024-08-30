@@ -48,7 +48,7 @@ plot_type = "boxflux" #"stackedbarfluxes"
 if plot_type == "boxflux":
     selval_dict = {}
 
-    lc, mc, rc = st.columnst([0.3, 0.3, 0.3])
+    lc, mc, rc = st.columns([0.3, 0.3, 0.3])
     # Select Sample Name
     with lc:
         default_ix = list(siu).index("NQT0")
