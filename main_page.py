@@ -17,10 +17,11 @@ from py_functions.make_flux_boxes import *
 
 fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_all_Tables_vars_baseline.xlsx"
 df = pd.read_excel(fn)
+df = df[df['select_col'] != "zcol"].copy()  # not useful
+
 
 fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
 df_default =  pd.read_excel(fn)
-df_default['Coarse_seds_subsurface'] = 0
 
 
 # toc = stoc()
@@ -76,7 +77,8 @@ if plot_type == "boxflux":
             for k, vlist in vars_dict.items():
                 st.write(k, list(vlist[:]))
                 dfdsi = df_default[df_default['sample_id']== si].copy()
-                def_ix = list(vlist[:]).index(dfdsi[k])
+                vll = list(vlist[:])
+                def_ix = vll.index(dfdsi[k])
                 val = st.radio(f"{k}: ", vlist, index = def_ix, key = str(k) + "_radioval")
                 selval_dict[k] = val
                 # Filter df outside of func...
