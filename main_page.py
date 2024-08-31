@@ -120,12 +120,6 @@ if plot_type == "boxflux":
             # vars_itemfmt_dict[sc]= tempd
             # vld.append(tempd)
             def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
-                st.write(mt)
-                ks = list(tempd.keys())
-                st.write(tempd)
-                st.write(dc)
-                st.write(f"mt in dict keys: {mt in ks}")
-                st.write(f"mt in dict keys: {mt in list(dc.keys())}")
                 return dc[mt]
             with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
@@ -157,18 +151,20 @@ if plot_type == "boxflux":
             return start + np.arange(num)*step
 
         with st.popover("More figure dimension options"):
-            selval_dict['figwidth'] = st.slider("Scale figure width: ", sliderrange(5, 2, 12), index = 1,
+            st.write(sliderrange(5, 2, 12))
+            hh = sliderrange(5, 2, 12)
+            selval_dict['figwidth'] = st.select_slider("Scale figure width: ", hh, index = 1,
                 key = "figwidth_radio", on_change = proc, args = ("figwidth_radio",), horizontal = True) # width
-            selval_dict['figheight']  = st.slider("Scale figure height: ",  sliderrange(1, 1,7), index = 1,
+            selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), index = 1,
                 key = "figheight_radio", on_change = proc, args = ("figheight_radio",), horizontal = True) # width
             # height
-            selval_dict["pixelwidth"] = st.slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), index = 3,
+            selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), index = 3,
                 key = "pixelwidth_radio", on_change = proc, args = ("pixelwidth_radio",), horizontal = True) # width
              # Width in px of image produced...
-            selval_dict["boxscale"] = st.slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), index = 1,
+            selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), index = 1,
                 key = "boxscale_radio", on_change = proc, args = ("boxscale_radio",), horizontal = True) # width
 
-            selval_dict["shape_buffer"] =st.slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
+            selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                  index = 2, key = "shape_buffer_radio", on_change = proc, args = ("shape_buffer_radio",), horizontal = True) # width
 
 
