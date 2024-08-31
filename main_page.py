@@ -121,6 +121,7 @@ if plot_type == "boxflux":
             # vld.append(tempd)
             def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                 st.write(mt)
+                st.write(tempd)
                 return dc[str(mt)]
             with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
