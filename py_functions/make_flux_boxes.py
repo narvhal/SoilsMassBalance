@@ -184,7 +184,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
     else:# squares
         maxy = max(H)
         maxx = XY[-1]
-    st.write("ONE max x",maxx)
+    st.write("XY",XY)
     mxo = maxx
     if flag_model == 'simple':
         hch = ['x', '', '', '']
