@@ -59,24 +59,16 @@ varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
 siu = df.sample_id.unique()
 selcolu = df.select_col.unique()
 vars_dict = {}
-vars_itemfmt_dict = {}
+# vars_itemfmt_dict = {}
 for i, sc in enumerate(selcolu):
     dft = df[df['select_col'] == sc].copy()
     vars_dict[sc]= dft.select_col_val.unique()
-    vars_itemfmt_dict[sc] = {}
-    tempd = {}
-    for k, sv in enumerate(vars_dict[sc]):
-        valid_list = varvalues_dict[sc]
-        tempd[sv] = valid_list[k]
-    vars_itemfmt_dict[sc]= tempd
+
 
 plot_type = "boxflux" #"stackedbarfluxes"
-st.write(vars_itemfmt_dict)
+# st.write(vars_itemfmt_dict)
 
 
-def varvalsfmt(mt, dc = vars_itemfmt_dict):   # functions to provide vals for 'model_type'
-    st.write(mt)
-    return dc[str(mt)]
 
 if plot_type == "boxflux":
     selval_dict = {}
@@ -119,6 +111,17 @@ if plot_type == "boxflux":
         # units_dict = {}  #
         count = 0
         for k, vlist in vars_dict.items():
+            vld = []
+            vars_itemfmt_dict[k] = {}
+            tempd = {}
+            for k, sv in enumerate(vlist):
+                valid_list = varvalues_dict[sc]
+                tempd[sv] = valid_list[k]
+            # vars_itemfmt_dict[sc]= tempd
+            # vld.append(tempd)
+            def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
+                st.write(mt)
+                return dc[str(mt)]
             with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                 # st.write(k, list(vlist[:]))
@@ -127,7 +130,8 @@ if plot_type == "boxflux":
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                 keystr = str(k) + "_radioval"
-                val = st.sidebar.radio(f"{varnames_dict[k]}: ", vlist, format_func = varvalsfmt, key = keystr, on_change=proc, args = (keystr,))
+                val = st.sidebar.radio(f"{varnames_dict[k]}: ", vlist, format_func = varvalsfmt,
+                    key = keystr, on_change=proc, args = (keystr,))
                 vix = list(vlist).index(val)
                 selval_dict[k] = val
                 # Filter df outside of func...
