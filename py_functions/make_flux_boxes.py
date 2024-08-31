@@ -182,7 +182,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
     else:# squares
         maxy = max(H)
         maxx = XY[-1]
-    st.write("max x",maxx)
+    st.write("ONE max x",maxx)
 
     if flag_model == 'simple':
         hch = ['x', '', '', '']
@@ -236,7 +236,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
 
         frame1 = plt.gca()
     else:
-        st.write("max x",maxx)
+        st.write("TWO max x",maxx)
         plt.xlim(0, maxx+0.3 )
         plt.ylim(0, maxy*2+0.1 )
     frame1.axes.get_xaxis().set_visible(False)
