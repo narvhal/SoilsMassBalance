@@ -117,7 +117,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     Fbr_L = df[fmcols[0]].to_numpy()[0]   # BR value
 
 
-    for i, col in enumerate(fmcols[1:]):
+    for i, col in enumerate(fmcols[0:]):
         colval = df[col].to_numpy()[0]
         colval = deal_w_ustring(colval)
         if colval > 0:
@@ -212,7 +212,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, fst,add_conc = 'auto',  he
         else: # LABEL boxes in middle
             plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15)
             plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center')
-        plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
+        # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
         # Add equation stuff to nearby box
         if i>0:
             spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
