@@ -75,6 +75,7 @@ st.write(vars_itemfmt_dict)
 
 
 def varvalsfmt(mt, dc = vars_itemfmt_dict):   # functions to provide vals for 'model_type'
+    st.write(mt)
     return dc[mt]
 
 if plot_type == "boxflux":
