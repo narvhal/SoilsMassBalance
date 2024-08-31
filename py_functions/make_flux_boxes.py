@@ -136,7 +136,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         if i == spacerloc:
             csum = csum + shape_buffer
         st.write("Make area L1xH: {:.1f}x {:.1f} = {:.1f}".format(float(L1), float(htt), float(L1)*float(htt)))
-        st.write(f"    Orig Area: {colval}")
+        st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round(float(L1)*float(htt), 1), colval)) )
         L.append(L1)
         fst.append(colval)
         H.append(htt)
@@ -165,7 +165,8 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         DR = (x1, y0)
         UR = (x1, y1)
         st.write(f"Make area from points: {(x1-x0) *(y1-y0)}")
-        st.write(f"    Orig Area: {colval}")
+            st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round((x1-x0) *(y1-y0)), colval)) )
+
         list_of_tuplelists.append([DL] + [UL] + [UR]+[DR] +[DL])
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
