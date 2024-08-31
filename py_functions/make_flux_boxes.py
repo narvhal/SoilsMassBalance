@@ -163,7 +163,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     #         print(y, H[i])
             DR = (x1, midy-(y/2))
             UR = (x1, midy+(y/2))
-            YC.append(midy-(y/2), midy-(y/2))
+            YC.append((midy-(y/2), midy-(y/2)))
         list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
