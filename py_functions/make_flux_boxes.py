@@ -136,12 +136,8 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         L.append(L1)
         fst.append(colval)
         H.append(htt)
-#         print('col: ', col, 'colval: ','{:0.2f}'.format(colval),'colval/height: ','{:0.2f}'.format(colval/height),'height: ',height, 'L1: ', '{:0.2f}'.format(L1) )
-        # xy coord of Lower Left corner: :
         csum = L[i]+csum +shape_buffer
         XY.append( csum)
-    # st.write(H)
-    # st.write(height)
     # Now need to make each corners
     list_of_tuplelists= []
     for i, (x,y) in enumerate(zip(L,H)):
@@ -152,7 +148,6 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
             x1 = x0 + x
             newxy = [(x0,.1)]
             UL = (x0, y+.1)
-    #         print(y, H[i])
             DR = (x1, .1)
             UR = (x1, y+.1)
 
@@ -166,10 +161,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
             DR = (x1, midy-(y/2))
             UR = (x1, midy+(y/2))
 
-
         list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
-
-    # ft = column labels, fst = values of each column, height =
     return list_of_tuplelists, ft, fst, height, L, H, XY, fst
 
 
@@ -183,10 +175,14 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
 
     if height != 'Uniform height':
         maxy = H[0]   # bedrock height
+        maxx = XY[-1]
     elif isinstance(height, float):
         maxy = height
+        maxx = XY[-1]
+
     else:# squares
         maxy = max(H)
+        maxx = XY[-1]
 
     if flag_model == 'simple':
         hch = ['x', '', '', '']
@@ -196,75 +192,77 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
         bxc = ['grey','burlywood', 'rosybrown', 'indianred', 'lightcyan', 'burlywood']
     flag_tilt_label = False
 
-    if flag_annot!= True:
-        for i, points in enumerate(list_of_tuplelist):
-            adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
-            y = [points[p][1] for p in np.arange(len(points))]
-            npp = list(zip(adjx, y))
-            ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
-            npn = (npp[0][0], (npp[0][1]+npp[1][1])/2 )
+    # if flag_annot!= True:
+    for i, points in enumerate(list_of_tuplelist):
+        adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
+        y = [points[p][1] for p in np.arange(len(points))]
+        npp = list(zip(adjx, y))
+        ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
+        npn = (npp[0][0], (npp[0][1]+npp[1][1])/2 )
 
-            if (points[3][0] - points[0][0])<=.8:
-                plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
-                if (points[3][0] - points[0][0])>=.6:
-                    plt.annotate(''+ft[i], npn, va = 'center')
-                flag_tilt_label = True
-            else: # LABEL boxes in middle
-                plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15)
-                plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center')
-            # Add equation stuff to nearby box
-            if i>0:
-                spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
-                if flag_model == 'simple':
-    #                 print(i, points)
-                    syms = [' ', '=', '+', '+', ' ']
-                    sy = syms[i]
-                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
-                    if i == 1:
-                        equals_locx = npp[1][0]-spacex
-                else:
-                    syms = [' ','+', '=', '+', '+','+', ' ']
-                    sy = syms[i]
-                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
-                    if i == 2:
-                        equals_locx = npp[1][0]-spacex
-            # st.write("xy: ", maxy, adjx)
-            xy = [maxy]+adjx
-            maxy = np.max(xy)
+        if (points[3][0] - points[0][0])<=.8:
+            plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
+            if (points[3][0] - points[0][0])>=.6:
+                plt.annotate(''+ft[i], npn, va = 'center')
+            flag_tilt_label = True
+        else: # LABEL boxes in middle
+            plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15)
+            plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center')
+        # Add equation stuff to nearby box
+        if i>0:
+            spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
+            if flag_model == 'simple':
+#                 print(i, points)
+                syms = [' ', '=', '+', '+', ' ']
+                sy = syms[i]
+                plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
+                if i == 1:
+                    equals_locx = npp[1][0]-spacex
+            else:
+                syms = [' ','+', '=', '+', '+','+', ' ']
+                sy = syms[i]
+                plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
+                if i == 2:
+                    equals_locx = npp[1][0]-spacex
+        # st.write("xy: ", maxy, adjx)
+        maxx = maxx+adjx
+        # maxy = np.max(xy)
+
+    frame1 = plt.gca()
+    if set_maxy !=None:
+        maxx = set_maxy
+        plt.xlim(0, set_maxy+0.3)
+        plt.ylim(0, maxy*2) #set_maxy/3+0.1 )
 
         frame1 = plt.gca()
-        if set_maxy !=None:
-            plt.xlim(0, set_maxy+0.3)
-            plt.ylim(0, height*2) #set_maxy/3+0.1 )
 
-            frame1 = plt.gca()
+    else:
+        plt.xlim(0, maxx+0.3 )
+        plt.ylim(0, maxy*2+0.1 )
+    frame1.axes.get_xaxis().set_visible(False)
+    frame1.axes.get_yaxis().set_visible(False)
 
-            plt.annotate(df.sample_id.iloc[0], (0, set_maxy/3+0.1 -1.5)) #(0, npp[1][1]+4.5))
-            plt.annotate('(g/m$^2$/yr)', (0, set_maxy/3+0.1 -3.5 ) )#npp[1][1]+3.5))
-            plt.annotate(df.sample_region.iloc[0], (0, set_maxy/3+0.1 -2.4) ) #npp[1][1]+1.5))
+    plt.annotate(df.sample_id.iloc[0], (0, maxy/3+0.1 -1.5)) #(0, npp[1][1]+4.5))
+    plt.annotate('(g/m$^2$/yr)', (0, maxy/3+0.1 -3.5 ) )#npp[1][1]+3.5))
+    plt.annotate(df.sample_region.iloc[0], (0, maxy/3+0.1 -2.4) ) #npp[1][1]+1.5))
 
-        else:
-            plt.xlim(0, maxy+0.3 )
-            plt.ylim(0, height*2+0.1 )
-        frame1.axes.get_xaxis().set_visible(False)
-        frame1.axes.get_yaxis().set_visible(False)
-        x = maxy+.4
-        if flag_tilt_label:
-            y = maxy/2+1.1
-        else:
-            y = maxy/2+0.1
+    # x = maxy+.4
+    # if flag_tilt_label:
+    #     y = maxy/2+1.1
+    # else:
+    #     y = maxy/2+0.1
 
-        if height == 'auto':
-            fig.set_size_inches(x,y)
-        else:
-            fig.set_size_inches(height*2+5, height)
+    # if height == 'auto':
+    #     fig.set_size_inches(x,y)
+    # else:
+    #     fig.set_size_inches(maxy*2+5, height)
 
-    elif flag_annot:
-        frame1 = plt.gca()
+    # elif flag_annot:
+    #     frame1 = plt.gca()
 
-        plt.annotate(df.sample_id.iloc[0], (0, 1)) #(0, npp[1][1]+4.5))
-        plt.annotate('(g/m$^2$/yr)', (0, .1) )#npp[1][1]+3.5))
-        plt.annotate(df.sample_region.iloc[0], (0, .5) ) #npp[1][1]+1.5))
+    #     plt.annotate(df.sample_id.iloc[0], (0, 1)) #(0, npp[1][1]+4.5))
+    #     plt.annotate('(g/m$^2$/yr)', (0, .1) )#npp[1][1]+3.5))
+    #     plt.annotate(df.sample_region.iloc[0], (0, .5) ) #npp[1][1]+1.5))
 
 
     frame1.axis('off')
