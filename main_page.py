@@ -114,9 +114,9 @@ if plot_type == "boxflux":
             vld = []
             # vars_itemfmt_dict[k] = {}
             tempd = {}
-            for k, sv in enumerate(vlist):
+            for j, sv in enumerate(vlist):
                 valid_list = varvalues_dict[k]
-                tempd[sv] = valid_list[k]
+                tempd[sv] = valid_list[j]
             # vars_itemfmt_dict[sc]= tempd
             # vld.append(tempd)
             def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
