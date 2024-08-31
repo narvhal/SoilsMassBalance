@@ -99,7 +99,7 @@ if plot_type == "boxflux":
             si.append(samp)
     selval_dict['sample_id'] = si
     # dft = df[df['sample_id'] == si].copy()
-    dft = df[df['sample_id'].isin(si)].copy()
+    # dft = df[df['sample_id'].isin(si)].copy()
 
     # dfdsi = df_default[df_default['sample_id']== si].copy()
     # default_cols = dfdsi.columns.to_list()
@@ -131,9 +131,11 @@ if plot_type == "boxflux":
         # units_dict = {}  #
         count = 0
 
-        for rix, row in dft.iterrows():
-            st.write(row.columns.to_list())
-            with st.expander(f"Sample {row[sample_id]}", key = "expander_"+ str(rix)):
+        for six, samp in enumerate(si):
+            dft = df[df['sample_id']== samp].copy()
+            st.write(dft.columns.to_list())
+            with st.expander(f"Sample {samp}", key = "expander_"+ str(six)):
+                st.write()
                 for k, vlist in vars_dict.items():
                     vld = []
                     # vars_itemfmt_dict[k] = {}
