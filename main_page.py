@@ -75,7 +75,7 @@ if plot_type == "boxflux":
     # Select box model shape:
         keystr = "model_shape_radio"
 
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.], key = keystr, on_change=proc, args = (keystr,))
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.], key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     selval_dict['model_shape'] = model_shape
 
     colll = [lc, mc, rc, lc, mc, rc, lc, mc, rc]
@@ -103,16 +103,18 @@ if plot_type == "boxflux":
                         dft = dft[dft["select_col_val"]==val].copy()
                     else:
                         dft = dft[dft[k] == dft[k].unique()[vix]].copy()
-                    st.write("Length of df: ", len(dft))
+                    # st.write("Length of df: ", len(dft))
                 count+=1
         # with mc:
 
         # width = st.sidebar.slider("plot width", 1, 20, 3)
         # height = st.sidebar.slider("plot height", 1, 14, 3)
-        selval_dict['figwidth'] = 7 # width
-        selval_dict['figheight'] = 3 # height
-
-
+        with st.popover("More figure dimension options"):
+            selval_dict['figwidth'] = 7 # width
+            selval_dict['figheight'] = 3 # height
+            selval_dict["pixelwidth"] = 650 # Width in px of image produced...
+            selval_dict["boxscale"] = 1
+            selval_dict["shape_buffer"] = 1
 
         fig = wrap_flux_box_streamlit(dft, selval_dict)
 
