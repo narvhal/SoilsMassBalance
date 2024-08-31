@@ -125,6 +125,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
                 htt = 0.5 * (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
                 L1 = colval/htt
             elif isinstance(height, float):
+                htt = height
                 L1 = colval/height
             else:  # squares
                 L1 = colval**(0.5)
@@ -134,7 +135,8 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
 
         if i == spacerloc:
             csum = csum + shape_buffer
-
+        st.write(f"Make area L1xH: {L1*H}")
+        st.write(f"    Orig Area: {colval}")
         L.append(L1)
         fst.append(colval)
         H.append(htt)
@@ -149,22 +151,22 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         if flag_along_baseline:
             x0 = XC[i]
             x1 = x0 + x
-            newxy = [(x0,.1)]
-            UL = (x0, y+.1)
-            DR = (x1, .1)
-            UR = (x1, y+.1)
-
+            y0 = 0.1
+            y1 = y0+y
         else: # along centerline
             midy = np.max(H)/2
             x0 = XC[i]
             x1 =  x0 + x
-            newxy = [(x0,midy-(y/2))]
-            UL = (x0, midy+(y/2))
-    #         print(y, H[i])
-            DR = (x1, midy-(y/2))
-            UR = (x1, midy+(y/2))
-            YC.append((midy-(y/2), midy-(y/2)))
-        list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
+            y0 = midy-(y/2)
+            y1 = midy+(y/2)
+        YC.append((y0, y1))
+        DL = (x0,y0)
+        UL = (x0, y1)
+        DR = (x1, y0)
+        UR = (x1, y1)
+        st.write(f"Make area from points: {(x1-x0) *(y1-y0)}")
+        st.write(f"    Orig Area: {colval}")
+        list_of_tuplelists.append([DL] + [UL] + [UR]+[DR] +[DL])
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
 
@@ -228,7 +230,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                 # st.write()
 
                 plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15, ha = 'left')
-                plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'left')
+                plt.annotate('\n {:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'left')
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
             if i>0:

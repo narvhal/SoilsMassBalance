@@ -42,7 +42,7 @@ for i, sc in enumerate(selcolu):
     dft = df[df['select_col'] == sc].copy()
     vars_dict[sc]= dft.select_col_val.unique()
 
-
+varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface","D":"$^{10}$Be$_{met}$"}
 plot_type = "boxflux" #"stackedbarfluxes"
 
 
@@ -75,7 +75,7 @@ if plot_type == "boxflux":
     # Select box model shape:
         keystr = "model_shape_radio"
 
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares"], key = keystr, on_change=proc, args = (keystr,))
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.], key = keystr, on_change=proc, args = (keystr,))
     selval_dict['model_shape'] = model_shape
 
     colll = [lc, mc, rc, lc, mc, rc, lc, mc, rc]
