@@ -77,8 +77,8 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
     height = selval_dict['model_shape']
     flag_model = selval_dict['model_type']
-    list_of_tuplelists,ft,fst, height , L, H, XY, fst = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
-    maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft, L, H, XY, fst, height = height,
+    list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
+    maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft, L, H, XY,YC, fst, height = height,
         flag_model =flag_model, newfig = False,flag_annot = False)
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
@@ -144,6 +144,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     list_of_tuplelists= []
     for i, (x,y) in enumerate(zip(L,H)):
         # y0 is 0.1 basically
+        YC = []
         flag_along_baseline = False
         if flag_along_baseline:
             x0 = XC[i]
@@ -156,18 +157,18 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         else: # along centerline
             midy = np.max(H)/2
             x0 = XC[i]
-            x1 = x0 + x
+            x1 = XC[i]   # x0 + x
             newxy = [(x0,midy-(y/2))]
             UL = (x0, midy+(y/2))
     #         print(y, H[i])
             DR = (x1, midy-(y/2))
             UR = (x1, midy+(y/2))
-
+            YC.append(midy-(y/2), midy-(y/2))
         list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
-    return list_of_tuplelists, ft, fst, height, L, H, XC, fst
+    return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
 
-def plot_patches(list_of_tuplelist, df, ft, L, H, XC, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple',
+def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple',
     newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
     if newfig:
         fig, ax = plt.subplots()
@@ -201,11 +202,13 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, fst,add_conc = 'auto',  he
         flag_along_baseline = False
         if flag_along_baseline: pass
         else:
+            midy = np.max(H)/2
             adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
-            y = [points[p][1] for p in np.arange(len(points))]
+            y = [midy + points[p][1] for p in np.arange(len(points))]
             npp = list(zip(adjx, y))
             ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
-            npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
+            # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
+            npn = ( (npp[0][1]+npp[1][1])/2 ,  midy)  # Find x and y-midpoint
 
             st.write("Points:",points)
             st.write("X Points:",npp)
