@@ -79,7 +79,6 @@ if plot_type == "boxflux":
     # Select Sample Name
     with lc:
         default_ix = list(siu).index("NQT0")
-        keystr = "sample_id_selbox"
 
         # si = st.selectbox("Choose sample: ", siu, index = default_ix,
             # key = keystr, on_change=proc, args = (keystr,))
@@ -90,6 +89,7 @@ if plot_type == "boxflux":
 
             if samp == "NQT0": tfsamp = True
             if samp == "MT120": tfsamp = True
+            keystr = "sample_id_selbox_" + samp
 
             sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
             if sitemp:
