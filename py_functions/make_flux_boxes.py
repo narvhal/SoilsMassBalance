@@ -96,7 +96,8 @@ def deal_w_ustring(val):
 
 def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     if flag_model == 'simple':
-        fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,  'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
+        fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
+            'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
         ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
         spacerloc = 0
     else:
@@ -110,8 +111,8 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
 
     H = []  # Vertical
     L = []  # Horiz
-    XY = []
-    csum = 0.5
+    XC = []
+    csum = shape_buffer
     fst = []
     Fbr_L = df[fmcols[0]].to_numpy()[0]   # BR value
 
@@ -138,14 +139,14 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         fst.append(colval)
         H.append(htt)
         csum = L1+csum +shape_buffer
-        XY.append( csum)
+        XC.append( csum)
     # Now need to make each corners
     list_of_tuplelists= []
     for i, (x,y) in enumerate(zip(L,H)):
         # y0 is 0.1 basically
         flag_along_baseline = False
         if flag_along_baseline:
-            x0 = XY[i]
+            x0 = XC[i]
             x1 = x0 + x
             newxy = [(x0,.1)]
             UL = (x0, y+.1)
@@ -154,7 +155,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
 
         else: # along centerline
             midy = np.max(H)/2
-            x0 = XY[i]
+            x0 = XC[i]
             x1 = x0 + x
             newxy = [(x0,midy-(y/2))]
             UL = (x0, midy+(y/2))
@@ -163,10 +164,10 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
             UR = (x1, midy+(y/2))
 
         list_of_tuplelists.append(newxy + [UL] + [UR]+[DR] +newxy)
-    return list_of_tuplelists, ft, fst, height, L, H, XY, fst
+    return list_of_tuplelists, ft, fst, height, L, H, XC, fst
 
 
-def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple',
+def plot_patches(list_of_tuplelist, df, ft, L, H, XC, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple',
     newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
     if newfig:
         fig, ax = plt.subplots()
@@ -177,13 +178,13 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
 
     if height != 'Uniform height':
         maxy = H[0]   # bedrock height
-        maxx = XY[-1]
+        maxx = XC[-1]
     elif isinstance(height, float):
         maxy = height
-        maxx = XY[-1]
+        maxx = XC[-1]
     else:# squares
         maxy = np.max(H)
-        maxx = XY[-1]
+        maxx = XC[-1]
     # st.write("XY",XY)
     mxo = maxx
     if flag_model == 'simple':
