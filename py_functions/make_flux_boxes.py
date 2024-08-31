@@ -107,7 +107,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
              'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
         ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
         spacerloc = 1
-    shape_buffer = .5
+    shape_buffer = .75
 
     H = []  # Vertical
     L = []  # Horiz
@@ -210,8 +210,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
             npn = ( (npp[0][1]+npp[1][1])/2 ,  midy)  # Find x and y-midpoint
 
-            st.write("Points:",points)
-            st.write("X Points:",npp)
+            # st.write("Points:",points)
+            st.write("npp Points:",npp[1])
 
             if (points[3][0] - points[0][0])<=.8:
                 plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
@@ -219,8 +219,11 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     plt.annotate(''+ft[i], npn, va = 'center')
                 flag_tilt_label = True
             else: # LABEL boxes in middle
-                plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15)
-                plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center')
+                st.write("wide box")
+                st.write(npn)
+                st.write(points[p][0])
+                plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15, ha = 'middle')
+                plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center', ha = 'middle')
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
             if i>0:
@@ -248,8 +251,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
 
         frame1 = plt.gca()
     else:
-        st.write("TWO max x",maxx)
-        st.write("TWO max Y",maxy)
+        # st.write("TWO max x",maxx)
+        # st.write("TWO max Y",maxy)
         plt.xlim(0, maxx2*1.1+0.3 )
         plt.ylim(0, maxy*2+0.1 )
     frame1.axes.get_xaxis().set_visible(False)
