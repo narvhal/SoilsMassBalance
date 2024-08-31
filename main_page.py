@@ -112,7 +112,7 @@ if plot_type == "boxflux":
         count = 0
         for k, vlist in vars_dict.items():
             vld = []
-            vars_itemfmt_dict[k] = {}
+            # vars_itemfmt_dict[k] = {}
             tempd = {}
             for k, sv in enumerate(vlist):
                 valid_list = varvalues_dict[sc]
