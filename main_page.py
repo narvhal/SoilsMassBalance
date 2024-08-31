@@ -126,7 +126,7 @@ if plot_type == "boxflux":
         # units_dict = {}  #
         count = 0
 
-        for rix, row in dft.iterrows()::
+        for rix, row in dft.iterrows():
             with st.expander(f"Sample {row[sample_id]}", key = "expander_"+ str(rix)):
                 for k, vlist in vars_dict.items():
                     vld = []
