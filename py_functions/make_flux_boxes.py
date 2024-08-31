@@ -227,7 +227,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
                 if i == 2:
                     equals_locx = npp[1][0]-spacex
         # st.write("xy: ", maxy, adjx)
-    maxx = maxx+adjx
+    maxx2 = maxx+adjx
         # maxy = np.max(xy)
 
     frame1 = plt.gca()
@@ -239,7 +239,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
         frame1 = plt.gca()
     else:
         st.write("TWO max x",maxx)
-        plt.xlim(0, maxx+0.3 )
+        plt.xlim(0, maxx2+0.3 )
         plt.ylim(0, maxy*2+0.1 )
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
