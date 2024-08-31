@@ -135,7 +135,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
 
         if i == spacerloc:
             csum = csum + shape_buffer
-        st.write(f"Make area L1xH: {L1*H}")
+        st.write(f"Make area L1xH: {L1*htt}")
         st.write(f"    Orig Area: {colval}")
         L.append(L1)
         fst.append(colval)
