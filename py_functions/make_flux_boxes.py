@@ -136,7 +136,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         L.append(L1)
         fst.append(colval)
         H.append(htt)
-        csum = L[i]+csum +shape_buffer
+        csum = L1+csum +shape_buffer
         XY.append( csum)
     # Now need to make each corners
     list_of_tuplelists= []
@@ -182,6 +182,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
     else:# squares
         maxy = max(H)
         maxx = XY[-1]
+    st.write("max x",maxx)
 
     if flag_model == 'simple':
         hch = ['x', '', '', '']
