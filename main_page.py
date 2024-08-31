@@ -67,7 +67,7 @@ for i, sc in enumerate(selcolu):
     tempd = {}
     for k, sv in enumerate(vars_dict[sc]):
         valid_list = varvalues_dict[sc]
-        tempd[valid_list[k]] = sv
+        tempd[sv] = valid_list[k]
     vars_itemfmt_dict[sc]= tempd
 
 plot_type = "boxflux" #"stackedbarfluxes"
