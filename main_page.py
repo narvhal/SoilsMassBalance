@@ -49,7 +49,7 @@ varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
                 #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
                 #
 varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-                "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
+                "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_{AZ}$", "1.5$\cdot$ $D_{AZ}$", "0.5 $\cdot$ $D_{Sp}$", "$D_{Sp}$", "1.5 $\cdot$ $D_{Sp}$", "4$\cdot$ $D_{Sp}$"],
                 "DF":[7.5, 15, 22.5],
                 "p_re": [0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5],
