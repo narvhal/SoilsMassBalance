@@ -179,7 +179,6 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
     elif isinstance(height, float):
         maxy = height
         maxx = XY[-1]
-
     else:# squares
         maxy = max(H)
         maxx = XY[-1]
@@ -235,8 +234,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
         plt.ylim(0, maxy*2) #set_maxy/3+0.1 )
 
         frame1 = plt.gca()
-
     else:
+        st.write("max x",maxx)
         plt.xlim(0, maxx+0.3 )
         plt.ylim(0, maxy*2+0.1 )
     frame1.axes.get_xaxis().set_visible(False)
