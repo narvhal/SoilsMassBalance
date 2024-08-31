@@ -165,7 +165,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         DR = (x1, y0)
         UR = (x1, y1)
         st.write(f"Make area from points: {(x1-x0) *(y1-y0)}")
-            st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round((x1-x0) *(y1-y0)), colval)) )
+        st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round((x1-x0) *(y1-y0)), colval)) )
 
         list_of_tuplelists.append([DL] + [UL] + [UR]+[DR] +[DL])
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
