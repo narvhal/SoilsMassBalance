@@ -214,16 +214,17 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # st.write("npp Points:",npp[1])
 
             if (points[3][0] - points[0][0])<=.8:
-                st.write("narrow box")
-
+                st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
                 plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
                 if (points[3][0] - points[0][0])>=.6:
                     plt.annotate(''+ft[i], npn, va = 'center')
                 flag_tilt_label = True
             else: # LABEL boxes in middle
-                st.write("wide box")
+                st.write("wide box, " +ft[i])
                 st.write(npn)
                 # st.write(points[0])
+                st.write()
+
                 plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                 plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center', ha = 'center')
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
