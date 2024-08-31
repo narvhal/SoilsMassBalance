@@ -210,7 +210,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
             npn = (npp[0][0]+0.2, midy )  # Find x and y-midpoint
             st.write(npp)
-            st.write(f"Area {ft[i]}: {(npp[1][1]-npp[1][0])* (npp[1][0]-npp[2][0])}")
+            st.write(f"Area {ft[i]}: {(npp[1][1]-npp[1][0])* (npp[2][0]-npp[1][0])}")
             st.write(f"Orig: {fst[i]}" )
             # st.write("npp Points:",npp[1])
 
