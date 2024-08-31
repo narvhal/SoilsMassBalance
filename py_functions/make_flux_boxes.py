@@ -111,7 +111,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
     H = []  # Vertical
     L = []  # Horiz
     XY = []
-    csum = 0
+    csum = 0.5
     fst = []
     Fbr_L = df[fmcols[0]].to_numpy()[0]   # BR value
 
