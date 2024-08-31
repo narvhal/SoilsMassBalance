@@ -123,9 +123,10 @@ if plot_type == "boxflux":
                 st.write(mt)
                 ks = list(tempd.keys())
                 st.write(tempd)
-
+                st.write(dc)
                 st.write(f"mt in dict keys: {mt in ks}")
-                return dc[str(mt)]
+                st.write(f"mt in dict keys: {mt in list(dc.keys())}")
+                return dc[mt]
             with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                 # st.write(k, list(vlist[:]))
