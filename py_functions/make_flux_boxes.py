@@ -214,6 +214,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             st.write("npp Points:",npp[1])
 
             if (points[3][0] - points[0][0])<=.8:
+                st.write("narrow box")
+
                 plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
                 if (points[3][0] - points[0][0])>=.6:
                     plt.annotate(''+ft[i], npn, va = 'center')
