@@ -130,6 +130,12 @@ if plot_type == "boxflux":
                 # st.write(df_default[k])   index = def_ix,
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
+                if k == "D":
+                    # Add note defining DAz etc556495.6872
+
+                    st.write("$D_{AZ} = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+                    st.write("$D_{SP} = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+
                 keystr = str(k) + "_radioval"
                 val = st.sidebar.radio(f"{varnames_dict[k]}: ", vlist, format_func = varvalsfmt,
                     key = keystr, on_change=proc, args = (keystr,))
