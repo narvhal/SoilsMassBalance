@@ -204,13 +204,14 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
         else:
             midy = np.max(H)/2
             adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
-            y = [midy + points[p][1] for p in np.arange(len(points))]
+            y = [points[p][1] for p in np.arange(len(points))]
             npp = list(zip(adjx, y))
             ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
-            npn = (npp[0][0]+(npp[2][0]-npp[1][0])/2, midy )  # Find x and y-midpoint
-
-            st.write(f"Area {ft[i]}: {(npp[1][1]-npp[1][0])* (npp[1][0]-npp[2][0])} \n \t Orig: {fst[i]}" )
+            npn = (npp[0][0]+0.2, midy )  # Find x and y-midpoint
+            st.write(npp)
+            st.write(f"Area {ft[i]}: {(npp[1][1]-npp[1][0])* (npp[1][0]-npp[2][0])}")
+            st.write(f"Orig: {fst[i]}" )
             # st.write("npp Points:",npp[1])
 
             if (points[3][0] - points[0][0])<=.8:
