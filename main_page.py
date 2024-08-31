@@ -134,7 +134,7 @@ if plot_type == "boxflux":
         for six, samp in enumerate(si):
             dft = df[df['sample_id']== samp].copy()
             st.write(dft.columns.to_list())
-            with st.expander(f"Sample {samp}", key = "expander_"+ str(six)):
+            with st.expander(f"Sample {samp}"):
                 st.write()
                 for k, vlist in vars_dict.items():
                     vld = []
@@ -183,7 +183,7 @@ if plot_type == "boxflux":
 
                 def sliderrange(start, step, num):
                     return start + np.arange(num)*step
-                with st.popover(f"Plot dimension options", key = "popover_"+ str(rix)):
+                with st.popover(f"Plot dimension options"):
 
                     # st.write(sliderrange(5, 2, 12))
                     hh = sliderrange(5, 2, 12)
