@@ -141,8 +141,6 @@ if plot_type == "boxflux":
                         return dc[mt]
 
 
-                        for rix, row in dft:
-
                     with colll[count]:
                         # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                         # st.write(k, list(vlist[:]))
