@@ -31,7 +31,7 @@ df_default =  pd.read_excel(fn)
 st.title("Interactive Soil Mass Balance Plots")
 st.header("Flux boxes")
 
-
+# g/m2/yr?
 
 st.sidebar.text("Change the variables and \nsee how the fluxes \nchange!")
 
@@ -115,7 +115,7 @@ if plot_type == "boxflux":
             # vars_itemfmt_dict[k] = {}
             tempd = {}
             for k, sv in enumerate(vlist):
-                valid_list = varvalues_dict[sc]
+                valid_list = varvalues_dict[k]
                 tempd[sv] = valid_list[k]
             # vars_itemfmt_dict[sc]= tempd
             # vld.append(tempd)
