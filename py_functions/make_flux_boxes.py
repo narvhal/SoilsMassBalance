@@ -208,7 +208,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             npp = list(zip(adjx, y))
             ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
-            npn = (npp[0][0]+(npp[1][0]-npp[0][0])/2, (npp[0][1]-npp[0][0])/2 )  # Find x and y-midpoint
+            npn = (npp[0][0]+(npp[1][0]-npp[0][0])/2, midy )  # Find x and y-midpoint
 
             # st.write("Points:",points)
             # st.write("npp Points:",npp[1])
