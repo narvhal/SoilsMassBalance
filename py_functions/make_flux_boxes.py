@@ -194,6 +194,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
         bxc = ['grey','burlywood', 'rosybrown', 'indianred', 'lightcyan', 'burlywood']
     flag_tilt_label = False
 
+    mxx = []
     # if flag_annot!= True:
     for i, points in enumerate(list_of_tuplelist):
         adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
@@ -226,10 +227,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
                 plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
                 if i == 2:
                     equals_locx = npp[1][0]-spacex
-        # st.write("xy: ", maxy, adjx)
-    maxx2 = maxx+adjx
-        # maxy = np.max(xy)
-
+        mxx.append(adjx)
+    maxx2 = np.max(np.array(mxx))
     frame1 = plt.gca()
     if set_maxy !=None:
         maxx = set_maxy
@@ -239,7 +238,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XY, fst,add_conc = 'auto',  he
         frame1 = plt.gca()
     else:
         st.write("TWO max x",maxx)
-        plt.xlim(0, mxo*2+0.3 )
+        plt.xlim(0, maxx2*2+0.3 )
         plt.ylim(0, maxy*2+0.1 )
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
