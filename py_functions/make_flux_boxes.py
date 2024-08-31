@@ -208,10 +208,10 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             npp = list(zip(adjx, y))
             ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
-            npn = ( (npp[0][1]+npp[1][1])/2 ,  midy)  # Find x and y-midpoint
+            npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[0][0]+npp[0][1])/2)  # Find x and y-midpoint
 
             # st.write("Points:",points)
-            st.write("npp Points:",npp[1])
+            # st.write("npp Points:",npp[1])
 
             if (points[3][0] - points[0][0])<=.8:
                 st.write("narrow box")
@@ -223,7 +223,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             else: # LABEL boxes in middle
                 st.write("wide box")
                 st.write(npn)
-                st.write(points[0][0])
+                # st.write(points[0])
                 plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15, ha = 'middle')
                 plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center', ha = 'middle')
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
