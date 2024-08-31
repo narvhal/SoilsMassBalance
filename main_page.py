@@ -143,7 +143,6 @@ if plot_type == "boxflux":
             return start + np.arange(num)*step
 
         with st.popover("More figure dimension options"):
-            slrange = 5 + np.arange(4)*
             selval_dict['figwidth'] = st.slider("Scale figure width: ", sliderrange(5, 2, 12), index = 1,
                 key = "figwidth_radio", on_change = proc, args = ("figwidth_radio",), horizontal = True) # width
             selval_dict['figheight']  = st.slider("Scale figure height: ",  sliderrange(1, 1,7), index = 1,
