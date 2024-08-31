@@ -35,14 +35,37 @@ st.header("Flux boxes")
 
 st.sidebar.text("Change the variables and \nsee how the fluxes \nchange!")
 
+varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
+                "D":"Atoms $^{10}$Be$_{met}$/cm$^2$/yr \n\t$D_{AZ}$: \n\t",
+                "DF":"Dissolution Factor",
+                "p_re": "Soil Density",
+                "br_E_rate": "Bedrock Erosion Rate (mm/ky)",
+                "coarse_mass": "Coarse Fraction ($F_c$) Mass (kg)",
+                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time (kyr)"
+                }
+
+                #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
+                #  SP_D_graly*0.5,SP_D_graly*1, SP_D_graly*1.5, SP_D_graly*4]
+varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
+                "D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
+                "DF":[7.5, 15, 22.5],
+                "p_re": [0.7, 1.4, 2.1],
+                "br_E_rate": [7.5, 15, 22.5],
+                "coarse_mass": [.75, 1.5, 2.25],
+                "max_coarse_residence_time":[5.5, 11., 16.5]
+                }
+
+
 siu = df.sample_id.unique()
 selcolu = df.select_col.unique()
 vars_dict = {}
+vars_itemfmt_dict = {}
 for i, sc in enumerate(selcolu):
     dft = df[df['select_col'] == sc].copy()
     vars_dict[sc]= dft.select_col_val.unique()
+    for k, sv in enumerate(vars_dict[sc]):
+        vars_itemfmt_dict[sc][varvalues_dict[sc][k]] = sv
 
-varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface","D":"$^{10}$Be$_{met}$"}
 plot_type = "boxflux" #"stackedbarfluxes"
 
 
@@ -112,20 +135,25 @@ if plot_type == "boxflux":
 
         # width = st.sidebar.slider("plot width", 1, 20, 3)
         # height = st.sidebar.slider("plot height", 1, 14, 3)
+
+        def sliderrange(start, step, num):
+            return start + np.arange(num)*step
+
         with st.popover("More figure dimension options"):
-            selval_dict['figwidth'] = st.radio("Scale figure width: ", [5, 7, 9 , 11, 13], index = 1,
+            slrange = 5 + np.arange(4)*
+            selval_dict['figwidth'] = st.slider("Scale figure width: ", sliderrange(5, 2, 12), index = 1,
                 key = "figwidth_radio", on_change = proc, args = ("figwidth_radio",), horizontal = True) # width
-            selval_dict['figheight']  = st.radio("Scale figure height: ", [1,2, 3,4, 5], index = 1,
+            selval_dict['figheight']  = st.slider("Scale figure height: ",  sliderrange(1, 1,7), index = 1,
                 key = "figheight_radio", on_change = proc, args = ("figheight_radio",), horizontal = True) # width
             # height
-            selval_dict["pixelwidth"] = st.radio("Scale width of plot in pixels: ", [500, 550, 600, 650, 700, 750], index = 3,
+            selval_dict["pixelwidth"] = st.slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), index = 3,
                 key = "pixelwidth_radio", on_change = proc, args = ("pixelwidth_radio",), horizontal = True) # width
              # Width in px of image produced...
-            selval_dict["boxscale"] = st.radio("Scale boxes within plot: ", [0.8, 0.9, 1, 1.1, 1.2, 1.3, 2], index = 2,
+            selval_dict["boxscale"] = st.slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), index = 1,
                 key = "boxscale_radio", on_change = proc, args = ("boxscale_radio",), horizontal = True) # width
 
-            selval_dict["shape_buffer"] =st.radio("Scale space between boxes within plot: ", [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1],
-                 index = 5, key = "shape_buffer_radio", on_change = proc, args = ("shape_buffer_radio",), horizontal = True) # width
+            selval_dict["shape_buffer"] =st.slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
+                 index = 2, key = "shape_buffer_radio", on_change = proc, args = ("shape_buffer_radio",), horizontal = True) # width
 
 
         fig = wrap_flux_box_streamlit(dft, selval_dict)
