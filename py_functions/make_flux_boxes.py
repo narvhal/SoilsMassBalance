@@ -223,7 +223,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             else: # LABEL boxes in middle
                 st.write("wide box")
                 st.write(npn)
-                st.write(points[p][0])
+                st.write(points[0][0])
                 plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15, ha = 'middle')
                 plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center', ha = 'middle')
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
