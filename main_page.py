@@ -55,7 +55,8 @@ if plot_type == "boxflux":
     with lc:
         default_ix = list(siu).index("NQT0")
         keystr = "sample_id_selbox"
-        si = st.selectbox("Choose sample: ", siu, index = default_ix, key = keystr, on_change=proc, args = (keystr,))
+        si = st.selectbox("Choose sample: ", siu, index = default_ix,
+            key = keystr, on_change=proc, args = (keystr,))
     selval_dict['sample_id'] = si
     dft = df[df['sample_id'] == si].copy()
 
@@ -67,7 +68,8 @@ if plot_type == "boxflux":
     #       or with dust  (Dissolution constrained by calcite mass balance) )
     with mc:
         keystr = "model_type_radio"
-        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr, on_change=proc, args = (keystr,))
+        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
+            on_change=proc, args = (keystr,))
 
     selval_dict['model_type'] = model_type
 
@@ -75,7 +77,8 @@ if plot_type == "boxflux":
     # Select box model shape:
         keystr = "model_shape_radio"
 
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.], key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.],
+            key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     selval_dict['model_shape'] = model_shape
 
     colll = [lc, mc, rc, lc, mc, rc, lc, mc, rc]
@@ -110,11 +113,20 @@ if plot_type == "boxflux":
         # width = st.sidebar.slider("plot width", 1, 20, 3)
         # height = st.sidebar.slider("plot height", 1, 14, 3)
         with st.popover("More figure dimension options"):
-            selval_dict['figwidth'] = 7 # width
-            selval_dict['figheight'] = 3 # height
-            selval_dict["pixelwidth"] = 650 # Width in px of image produced...
-            selval_dict["boxscale"] = 1
-            selval_dict["shape_buffer"] = 1
+            selval_dict['figwidth'] = st.radio("Scale figure width: ", [5, 7, 9 , 11, 13], index = 1,
+                key = "figwidth_radio", on_change = proc, args = ("figwidth_radio",), horizontal = True) # width
+            selval_dict['figheight']  = st.radio("Scale figure height: ", [1,2, 3,4, 5], index = 1,
+                key = "figheight_radio", on_change = proc, args = ("figheight_radio",), horizontal = True) # width
+            # height
+            selval_dict["pixelwidth"] = st.radio("Scale width of plot in pixels: ", [500, 550, 600, 650, 700, 750], index = 3,
+                key = "pixelwidth_radio", on_change = proc, args = ("pixelwidth_radio",), horizontal = True) # width
+             # Width in px of image produced...
+            selval_dict["boxscale"] = st.radio("Scale boxes within plot: ", [0.8, 0.9, 1, 1.1, 1.2, 1.3, 2], index = 2,
+                key = "boxscale_radio", on_change = proc, args = ("boxscale_radio",), horizontal = True) # width
+
+            selval_dict["shape_buffer"] =st.radio("Scale space between boxes within plot: ", [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1],
+                 index = 5, key = "shape_buffer_radio", on_change = proc, args = ("shape_buffer_radio",), horizontal = True) # width
+
 
         fig = wrap_flux_box_streamlit(dft, selval_dict)
 

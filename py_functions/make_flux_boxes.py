@@ -77,13 +77,13 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
     height = selval_dict['model_shape']
     flag_model = selval_dict['model_type']
-    list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, flag_model = flag_model, height = height)
+    list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, flag_model = flag_model, height = height, scale = selval_dict["boxscale"] , shape_buffer = selval_dict["shape_buffer"])
     maxynot, eqlocx = plot_patches(list_of_tuplelists, dft, ft, L, H, XY,YC, fst, height = height,
         flag_model =flag_model, newfig = False,flag_annot = False)
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
-    st.image(buf, width = 600)
+    st.image(buf, width = selval_dict["pixelwidth"])
     return fig
 
 
@@ -94,7 +94,7 @@ def deal_w_ustring(val):
         numstr = val
     return numstr
 
-def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
+def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto', scale = 1, shape_buffer = .75):
     if flag_model == 'simple':
         fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
             'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
@@ -107,7 +107,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
              'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
         ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
         spacerloc = 1
-    shape_buffer = .75
+
 
     H = []  # Vertical
     L = []  # Horiz
@@ -122,21 +122,21 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         colval = deal_w_ustring(colval)
         if colval > 0:
             if height == 'Uniform height':  # About half of sqrt (FBr_L)
-                htt = 0.5 * (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
-                L1 = colval/htt
+                htt = 0.3 * (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
+                L1 = colval/htt*scale
             elif isinstance(height, float):
                 htt = height
-                L1 = colval/htt
+                L1 = colval/htt*scale
             else:  # squares
-                L1 = colval**(0.5)
+                L1 = (colval*scale)**(0.5)
                 htt = L1
         else:
             L1 = 0
 
         if i == spacerloc:
             csum = csum + shape_buffer
-        st.write("Make area L1xH: {:.1f}x {:.1f} = {:.1f}".format(float(L1), float(htt), float(L1)*float(htt)))
-        st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round(float(L1)*float(htt), 1) ), colval))
+        # st.write("Make area L1xH: {:.1f}x {:.1f} = {:.1f}".format(float(L1), float(htt), float(L1)*float(htt)))
+        # st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round(float(L1)*float(htt), 1) ), colval))
         L.append(L1)
         fst.append(colval)
         H.append(htt)
@@ -164,10 +164,10 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         UL = (x0, y1)
         DR = (x1, y0)
         UR = (x1, y1)
-        st.write("Make area from points: {:.1f}x {:.1f} = {:.1f}".format(float(x1-x0), float(y1-y0), float((x1-x0) *(y1-y0))))
-        st.write("Make area from x y : {:.1f}x {:.1f} = {:.1f}".format(float(x1-x0), float(y1-y0),float(x*y)))
-        colval = df[fmcols[i]].to_numpy()[0]
-        st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round(x*y, 1) ), colval))
+        # st.write("Make area from points: {:.1f}x {:.1f} = {:.1f}".format(float(x1-x0), float(y1-y0), float((x1-x0) *(y1-y0))))
+        # st.write("Make area from x y : {:.1f}x {:.1f} = {:.1f}".format(float(x1-x0), float(y1-y0),float(x*y)))
+        # colval = df[fmcols[i]].to_numpy()[0]
+        # st.write(" {:s}   Orig Area: {:.1f}".format(str(np.round(colval, 1) ==np.round(x*y, 1) ), colval))
 
         list_of_tuplelists.append([DL] + [UL] + [UR]+[DR] +[DL])
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
@@ -220,7 +220,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # st.write("npp Points:",npp[1])
 
             if (points[3][0] - points[0][0])<=.8:
-                st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
+                # st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
                 plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
                 if (points[3][0] - points[0][0])>=.6:
                     plt.annotate(''+ft[i], npn, va = 'center')
@@ -275,28 +275,5 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     plt.annotate('(g/m$^2$/yr)', (0, maxy/3+0.1 -3.5 ) )#npp[1][1]+3.5))
     plt.annotate(df.sample_region.iloc[0], (0, maxy/3+0.1 -2.4) ) #npp[1][1]+1.5))
 
-    # x = maxy+.4
-    # if flag_tilt_label:
-    #     y = maxy/2+1.1
-    # else:
-    #     y = maxy/2+0.1
-
-    # if height == 'auto':
-    #     fig.set_size_inches(x,y)
-    # else:
-    #     fig.set_size_inches(maxy*2+5, height)
-
-    # elif flag_annot:
-    #     frame1 = plt.gca()
-
-    #     plt.annotate(df.sample_id.iloc[0], (0, 1)) #(0, npp[1][1]+4.5))
-    #     plt.annotate('(g/m$^2$/yr)', (0, .1) )#npp[1][1]+3.5))
-    #     plt.annotate(df.sample_region.iloc[0], (0, .5) ) #npp[1][1]+1.5))
-
-
     frame1.axis('off')
     return maxy, equals_locx
-#     hch = ['x', '', '', '']
-#     hch = ['x','', '', '', '', '']
-#     bxc = ['grey', 'rosybrown', 'indianred', 'lightcyan']
-#     bxc = ['grey','burlywood', 'rosybrown', 'indianred', 'lightcyan', 'burlywood']
