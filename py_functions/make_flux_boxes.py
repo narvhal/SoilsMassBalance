@@ -126,7 +126,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
                 L1 = colval/htt
             elif isinstance(height, float):
                 htt = height
-                L1 = colval/height
+                L1 = colval/htt
             else:  # squares
                 L1 = colval**(0.5)
                 htt = L1
@@ -135,7 +135,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
 
         if i == spacerloc:
             csum = csum + shape_buffer
-        st.write(f"Make area L1xH: {L1*htt}")
+        st.write(f"Make area L1xH: {L1}x {htt}")
         st.write(f"    Orig Area: {colval}")
         L.append(L1)
         fst.append(colval)
