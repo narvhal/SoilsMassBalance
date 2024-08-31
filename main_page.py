@@ -124,7 +124,7 @@ if plot_type == "boxflux":
             key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     selval_dict['model_shape'] = model_shape
 
-    colll = [lc, mc, rc, lc, mc, rc, lc, mc, rc]
+    colll = [lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc,lc,  rc, lc, rc, lc, rc]
     if st.checkbox("Continue?"):
         # Scenario and values:
         baseline_dict = {}
@@ -161,7 +161,7 @@ if plot_type == "boxflux":
                             st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
                         keystr = str(k) + "_radioval_"+ str(rix)
-                        val = st.sidebar.radio(f"{varnames_dict[k]}: ", vlist, format_func = varvalsfmt,
+                        val = st.radio(f"{varnames_dict[k]}: ", vlist, format_func = varvalsfmt,
                             key = keystr, on_change=proc, args = (keystr,), horizontal = True)
                         vix = list(vlist).index(val)
                         selval_dict[k] = val
