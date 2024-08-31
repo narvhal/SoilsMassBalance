@@ -226,8 +226,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                 # st.write(points[0])
                 st.write()
 
-                plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15, ha = 'left')
-                plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center', ha = 'left')
+                plt.annotate(' '+ft[i], npn, va = 'bottom', fontsize = 15, ha = 'left')
+                plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'bottom', ha = 'left')
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
             if i>0:
