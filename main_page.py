@@ -46,8 +46,10 @@ varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
 
                 #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
                 #  SP_D_graly*0.5,SP_D_graly*1, SP_D_graly*1.5, SP_D_graly*4]
+                #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
+                #
 varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-                "D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
+                "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
                 "DF":[7.5, 15, 22.5],
                 "p_re": [0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5],
@@ -151,7 +153,7 @@ if plot_type == "boxflux":
             return start + np.arange(num)*step
 
         with st.popover("More figure dimension options"):
-            st.write(sliderrange(5, 2, 12))
+            # st.write(sliderrange(5, 2, 12))
             hh = sliderrange(5, 2, 12)
             selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = "figwidth_radio", on_change = proc, args = ("figwidth_radio",))#, horizontal = True) # width
             selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
