@@ -75,7 +75,6 @@ plot_type = "boxflux" #"stackedbarfluxes"
 if plot_type == "boxflux":
     selval_dict = {}
 
-    lc, mc, rc = st.columns([0.3, 0.3, 0.3])
     # Select Sample Name
     # with lc:
     default_ix = list(siu).index("NQT0")
@@ -84,14 +83,18 @@ if plot_type == "boxflux":
         # key = keystr, on_change=proc, args = (keystr,))
     st.write("Choose samples: ")
     si = []
+    c1, c2,c3, c4, c5 = st.columns([0.2, 0.2, 0.2, 0.2, 0.2])
+    colll = [c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5]
+    count = 0
     for ixsi, samp in enumerate(siu):
         tfsamp = False
 
         if samp == "NQT0": tfsamp = True
         if samp == "MT120": tfsamp = True
         keystr = "sample_id_selbox_" + samp
-
-        sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
+        with colll[count]:
+            sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
+            count +=1
         if sitemp:
             si.append(samp)
     selval_dict['sample_id'] = si
@@ -104,7 +107,9 @@ if plot_type == "boxflux":
     # default_dict = {c:dfdsi[c] for c in default_cols}
     # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
     #       or with dust  (Dissolution constrained by calcite mass balance) )
-    with mc:
+
+    lc, rc = st.columns([0.6, 0.3])
+    with lc:
         keystr = "model_type_radio"
         model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
             on_change=proc, args = (keystr,))
@@ -127,6 +132,7 @@ if plot_type == "boxflux":
         count = 0
 
         for rix, row in dft.iterrows():
+            st.write(row.columns.to_list())
             with st.expander(f"Sample {row[sample_id]}", key = "expander_"+ str(rix)):
                 for k, vlist in vars_dict.items():
                     vld = []
