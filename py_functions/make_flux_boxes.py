@@ -258,7 +258,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
         # st.write("TWO max Y",maxy)
         xl = maxx2*1.1+0.3
         yl = maxy*2+0.1
-        st.write(f"xy lims: {xl}, {yl} )
+        st.write(f"xy lims: {xl}, {yl}" )
         plt.xlim(0, xl)
         plt.ylim(0, yl )
     frame1.axes.get_xaxis().set_visible(False)
