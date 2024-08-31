@@ -198,37 +198,43 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, fst,add_conc = 'auto',  he
     mxx = []
     # if flag_annot!= True:
     for i, points in enumerate(list_of_tuplelist):
-        adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
-        y = [points[p][1] for p in np.arange(len(points))]
-        npp = list(zip(adjx, y))
-        ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
-        npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
+        flag_along_baseline = False
+        if flag_along_baseline: pass
+        else:
+            adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
+            y = [points[p][1] for p in np.arange(len(points))]
+            npp = list(zip(adjx, y))
+            ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
+            npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
 
-        if (points[3][0] - points[0][0])<=.8:
-            plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
-            if (points[3][0] - points[0][0])>=.6:
-                plt.annotate(''+ft[i], npn, va = 'center')
-            flag_tilt_label = True
-        else: # LABEL boxes in middle
-            plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15)
-            plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center')
-        # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
-        # Add equation stuff to nearby box
-        if i>0:
-            spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
-            if flag_model == 'simple':
-#                 print(i, points)
-                syms = [' ', '=', '+', '+', ' ']
-                sy = syms[i]
-                plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
-                if i == 1:
-                    equals_locx = npp[1][0]-spacex
-            else:
-                syms = [' ','+', '=', '+', '+','+', ' ']
-                sy = syms[i]
-                plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
-                if i == 2:
-                    equals_locx = npp[1][0]-spacex
+            st.write("Points:",points)
+            st.write("X Points:",npp)
+
+            if (points[3][0] - points[0][0])<=.8:
+                plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
+                if (points[3][0] - points[0][0])>=.6:
+                    plt.annotate(''+ft[i], npn, va = 'center')
+                flag_tilt_label = True
+            else: # LABEL boxes in middle
+                plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15)
+                plt.annotate('\n \n \n  {:0.1f}'.format(fst[i]), npn, va = 'center')
+            # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
+            # Add equation stuff to nearby box
+            if i>0:
+                spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
+                if flag_model == 'simple':
+    #                 print(i, points)
+                    syms = [' ', '=', '+', '+', ' ']
+                    sy = syms[i]
+                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
+                    if i == 1:
+                        equals_locx = npp[1][0]-spacex
+                else:
+                    syms = [' ','+', '=', '+', '+','+', ' ']
+                    sy = syms[i]
+                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
+                    if i == 2:
+                        equals_locx = npp[1][0]-spacex
         mxx.append(adjx)
     maxx2 = np.max(np.array(mxx))
     frame1 = plt.gca()
