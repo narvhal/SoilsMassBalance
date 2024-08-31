@@ -73,6 +73,7 @@ def mtfmt(mt):   # functions to provide vals for 'model_type'
     'wdust':  "Solve for dust flux (dissolved flux constrained by calcite mass balance)" }
     return mtd[mt]
 
+
 def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
     height = selval_dict['model_shape']

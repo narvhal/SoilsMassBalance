@@ -67,8 +67,11 @@ for i, sc in enumerate(selcolu):
         vars_itemfmt_dict[sc][varvalues_dict[sc][k]] = sv
 
 plot_type = "boxflux" #"stackedbarfluxes"
+st.write(vars_itemfmt_dict)
 
 
+def varvalsfmt(mt, dc = vars_itemfmt_dict):   # functions to provide vals for 'model_type'
+    return vars_itemfmt_dict[mt]
 
 if plot_type == "boxflux":
     selval_dict = {}
@@ -119,7 +122,7 @@ if plot_type == "boxflux":
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                 keystr = str(k) + "_radioval"
-                val = st.sidebar.radio(f"{k}: ", vlist,  key = keystr, on_change=proc, args = (keystr,))
+                val = st.sidebar.radio(f"{varnames_dict[k]}: ", vlist, format_func = varvalsfmt, key = keystr, on_change=proc, args = (keystr,))
                 vix = list(vlist).index(val)
                 selval_dict[k] = val
                 # Filter df outside of func...
