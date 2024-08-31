@@ -77,23 +77,23 @@ if plot_type == "boxflux":
 
     lc, mc, rc = st.columns([0.3, 0.3, 0.3])
     # Select Sample Name
-    with lc:
-        default_ix = list(siu).index("NQT0")
+    # with lc:
+    default_ix = list(siu).index("NQT0")
 
-        # si = st.selectbox("Choose sample: ", siu, index = default_ix,
-            # key = keystr, on_change=proc, args = (keystr,))
-        st.write("Choose samples: ")
-        si = []
-        for ixsi, samp in enumerate(siu):
-            tfsamp = False
+    # si = st.selectbox("Choose sample: ", siu, index = default_ix,
+        # key = keystr, on_change=proc, args = (keystr,))
+    st.write("Choose samples: ")
+    si = []
+    for ixsi, samp in enumerate(siu):
+        tfsamp = False
 
-            if samp == "NQT0": tfsamp = True
-            if samp == "MT120": tfsamp = True
-            keystr = "sample_id_selbox_" + samp
+        if samp == "NQT0": tfsamp = True
+        if samp == "MT120": tfsamp = True
+        keystr = "sample_id_selbox_" + samp
 
-            sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
-            if sitemp:
-                si.append(samp)
+        sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
+        if sitemp:
+            si.append(samp)
     selval_dict['sample_id'] = si
     # dft = df[df['sample_id'] == si].copy()
     dft = df[df['sample_id'].isin(si)].copy()
@@ -126,7 +126,7 @@ if plot_type == "boxflux":
         # units_dict = {}  #
         count = 0
 
-        for rix, row in dft:
+        for rix, row in dft.iterrows()::
             with st.expander(f"Sample {row[sample_id]}", key = "expander_"+ str(rix)):
                 for k, vlist in vars_dict.items():
                     vld = []
