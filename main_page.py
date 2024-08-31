@@ -63,8 +63,12 @@ vars_itemfmt_dict = {}
 for i, sc in enumerate(selcolu):
     dft = df[df['select_col'] == sc].copy()
     vars_dict[sc]= dft.select_col_val.unique()
+    vars_itemfmt_dict[sc] = {}
+    tempd = {}
     for k, sv in enumerate(vars_dict[sc]):
-        vars_itemfmt_dict[sc][varvalues_dict[sc][k]] = sv
+        valid_list = varvalues_dict[sc]
+        tempd[valid_list[k]] = sv
+    vars_itemfmt_dict[sc]= tempd
 
 plot_type = "boxflux" #"stackedbarfluxes"
 st.write(vars_itemfmt_dict)
