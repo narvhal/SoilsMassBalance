@@ -111,10 +111,10 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
 
     H = []  # Vertical
     L = []  # Horiz
-    XC = []
     csum = shape_buffer
     fst = []
     Fbr_L = df[fmcols[0]].to_numpy()[0]   # BR value
+    XC = [csum]
 
 
     for i, col in enumerate(fmcols[0:]):
@@ -157,7 +157,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto' ):
         else: # along centerline
             midy = np.max(H)/2
             x0 = XC[i]
-            x1 = XC[i]   # x0 + x
+            x1 =  x0 + x
             newxy = [(x0,midy-(y/2))]
             UL = (x0, midy+(y/2))
     #         print(y, H[i])
