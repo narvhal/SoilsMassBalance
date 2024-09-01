@@ -179,7 +179,11 @@ if plot_type == "boxflux":
                 keystr = str(selcolkey) + "_radioval_"+ str(six)
                 st.write(filtselcol)
                 st.write(vars_dict[selcolkey])
-                val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
+
+                # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
+                #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+
+                val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
                     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
                 vix = list( vars_dict[selcolkey]).index(val)
                 # selval_dict[filtselcol] = val
