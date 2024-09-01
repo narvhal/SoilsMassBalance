@@ -293,66 +293,66 @@ with mc:
                     count +=1
 
 
-elif plot_type == "stackedbarfluxes":
+    elif plot_type == "stackedbarfluxes":
 
 
-    fig, ax = plt.subplots(nrows = 2, ncols = 2)
-    # K = 10, K = 10 & Dx4
-    fns =  [ r'\vars_w_K_10\df_all_Tables.xlsx', r'\vars_w_both_K_10_Dx4\df_all_Tables.xlsx']
-    # rows: D change (change table dir)
-    # cols: coarse sediment % 0 , 25
-    # samples in line:
-    si = ['NQT0', 'NQCV2', 'MT120', 'MT130']
-    fluxn_dust = ['F_br_normbr_val','F_coarse_normbr_val','F_fines_from_br_normbr_val', 'F_dust_normbr_val', 'F_dissolved_normbr_val', 'F_dissolved_simple_normbr_val']
-    fluxn_fines_undifferentiated=['F_br_normbr_val','F_coarse_normbr_val', 'F_fines_boxmodel_normbr_val', 'F_dissolved_normbr_val', 'F_dissolved_simple_normbr_val']
-    fluxn_all=['F_br_normbr_val','F_coarse_normbr_val', 'F_fines_boxmodel_normbr_val','F_fines_from_br_normbr_val', 'F_dust_normbr_val', 'F_dissolved_normbr_val', 'F_dissolved_simple_normbr_val']
-    fluxcd = {'F_br_normbr_val': 'dimgrey', 'F_coarse_normbr_val': 'grey',
-              'F_fines_from_br_normbr_val':'indianred',
-              'F_fines_boxmodel_normbr_val':'rosybrown',
-              'F_dust_normbr_val':'burlywood',
-              'F_dissolved_normbr_val': 'lightcyan',
-              'F_dissolved_simple_normbr_val':'steelblue'}
-    dl = {'F_br_normbr_val': 'Bedrock',
-          'F_coarse_normbr_val': 'Coarse Sediment',
-              'F_fines_from_br_normbr_val':'Fine Sediment \nFrom Bedrock',
-              'F_fines_boxmodel_normbr_val':'Fine Sediment',
-              'F_dust_normbr_val':'Dust',
-              'F_dissolved_normbr_val': 'Dissolved',
-              'F_dissolved_simple_normbr_val':'Dissolved \n(Simple MB)'}
-    for i, aax in enumerate([0,1]):
-        dfall = pd.read_excel(saveloc +fns[i])
-        dfall = dfall[dfall.sample_id.isin(si)].copy()
-        for j, aaxx in enumerate([0,1]):
-            # get df needed ---
-            axt = ax[i,j]
-            plt.sca(axt)
+        fig, ax = plt.subplots(nrows = 2, ncols = 2)
+        # K = 10, K = 10 & Dx4
+        fns =  [ r'\vars_w_K_10\df_all_Tables.xlsx', r'\vars_w_both_K_10_Dx4\df_all_Tables.xlsx']
+        # rows: D change (change table dir)
+        # cols: coarse sediment % 0 , 25
+        # samples in line:
+        si = ['NQT0', 'NQCV2', 'MT120', 'MT130']
+        fluxn_dust = ['F_br_normbr_val','F_coarse_normbr_val','F_fines_from_br_normbr_val', 'F_dust_normbr_val', 'F_dissolved_normbr_val', 'F_dissolved_simple_normbr_val']
+        fluxn_fines_undifferentiated=['F_br_normbr_val','F_coarse_normbr_val', 'F_fines_boxmodel_normbr_val', 'F_dissolved_normbr_val', 'F_dissolved_simple_normbr_val']
+        fluxn_all=['F_br_normbr_val','F_coarse_normbr_val', 'F_fines_boxmodel_normbr_val','F_fines_from_br_normbr_val', 'F_dust_normbr_val', 'F_dissolved_normbr_val', 'F_dissolved_simple_normbr_val']
+        fluxcd = {'F_br_normbr_val': 'dimgrey', 'F_coarse_normbr_val': 'grey',
+                  'F_fines_from_br_normbr_val':'indianred',
+                  'F_fines_boxmodel_normbr_val':'rosybrown',
+                  'F_dust_normbr_val':'burlywood',
+                  'F_dissolved_normbr_val': 'lightcyan',
+                  'F_dissolved_simple_normbr_val':'steelblue'}
+        dl = {'F_br_normbr_val': 'Bedrock',
+              'F_coarse_normbr_val': 'Coarse Sediment',
+                  'F_fines_from_br_normbr_val':'Fine Sediment \nFrom Bedrock',
+                  'F_fines_boxmodel_normbr_val':'Fine Sediment',
+                  'F_dust_normbr_val':'Dust',
+                  'F_dissolved_normbr_val': 'Dissolved',
+                  'F_dissolved_simple_normbr_val':'Dissolved \n(Simple MB)'}
+        for i, aax in enumerate([0,1]):
+            dfall = pd.read_excel(saveloc +fns[i])
+            dfall = dfall[dfall.sample_id.isin(si)].copy()
+            for j, aaxx in enumerate([0,1]):
+                # get df needed ---
+                axt = ax[i,j]
+                plt.sca(axt)
 
-            dft = dfall[dfall.select_col == 'Coarse_seds_subsurface'].copy()
-            dftt = dft[dft.select_col_val == dft.select_col_val.unique()[j]].copy()
-            dftt['F_dissolved_simple_normbr_val'] = dftt['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_val']/dftt['F_br_val']
-            dftt['F_br_normbr_val'] = dftt['F_br_val']/dftt['F_br_val']
-            dftt.plot(ax = axt, x = 'sample_id',y = fluxn_dust,  kind = 'bar', stacked = True,  color=fluxcd, rot = 0)
-            plt.xlabel('')
-            print(dftt[['sample_id', 'D_val', 'F_dissolved_simple_normbr_val', 'select_col_val']])
-            if j == 0:
-                axt.get_legend().remove()
-            else:
-                handles, labels = axt.get_legend_handles_labels()
-                labeld = [dl[d] for d in labels]
-                axt.legend(handles=handles, labels=labeld, title = 'Fluxes Normalized to Bedrock Flux',loc = 2,
-                           bbox_to_anchor = (1.02, 1), frameon = False)
-    fig.set_size_inches(8.5, 5)
-    # plt.annotate(prefix + strf + suffix, xy, xycoords = 'axes fraction', ha = ha, fontsize = 9)
+                dft = dfall[dfall.select_col == 'Coarse_seds_subsurface'].copy()
+                dftt = dft[dft.select_col_val == dft.select_col_val.unique()[j]].copy()
+                dftt['F_dissolved_simple_normbr_val'] = dftt['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_val']/dftt['F_br_val']
+                dftt['F_br_normbr_val'] = dftt['F_br_val']/dftt['F_br_val']
+                dftt.plot(ax = axt, x = 'sample_id',y = fluxn_dust,  kind = 'bar', stacked = True,  color=fluxcd, rot = 0)
+                plt.xlabel('')
+                print(dftt[['sample_id', 'D_val', 'F_dissolved_simple_normbr_val', 'select_col_val']])
+                if j == 0:
+                    axt.get_legend().remove()
+                else:
+                    handles, labels = axt.get_legend_handles_labels()
+                    labeld = [dl[d] for d in labels]
+                    axt.legend(handles=handles, labels=labeld, title = 'Fluxes Normalized to Bedrock Flux',loc = 2,
+                               bbox_to_anchor = (1.02, 1), frameon = False)
+        fig.set_size_inches(8.5, 5)
+        # plt.annotate(prefix + strf + suffix, xy, xycoords = 'axes fraction', ha = ha, fontsize = 9)
 
-    plt.tight_layout()
+        plt.tight_layout()
 
 
-    filenametag = '_rows_D_dft_x4_cols_coarse_seds_subs_0_25'
+        filenametag = '_rows_D_dft_x4_cols_coarse_seds_subs_0_25'
 
-    savefig(filenametag,
-                saveloc,
-                [],
-                [],
-                (8.5, 5),
-                w_legend=False,
-                prefixtag='stacked_norm_vals')
+        savefig(filenametag,
+                    saveloc,
+                    [],
+                    [],
+                    (8.5, 5),
+                    w_legend=False,
+                    prefixtag='stacked_norm_vals')
