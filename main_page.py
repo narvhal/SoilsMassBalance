@@ -249,7 +249,7 @@ if plot_type == "boxflux":
                 # st.write(dftt.columns.to_list())
                 # st.write(dftt[ft])
                 for i in range(len(ft)):
-                    st.write(f"{ft[i]}: {np.round(dftt[ft[i]], 1)}"])
+                    st.write(f"{ft[i]}: {np.round(dftt[ft[i]], 1)}")
                 # st.dataframe(dftt[ ft])
 
 
