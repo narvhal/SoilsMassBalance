@@ -42,6 +42,14 @@ varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                 "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
                 }
+varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
+                "DF":"Dissolution Factor",
+                "p_re": "Soil Density",
+                "br_E_rate": "Bedrock Erosion Rate",
+                "coarse_mass": "Coarse Fraction ($F_c$) Mass",
+                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
+                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
+                }
 varunits_dict = {"Coarse_seds_subsurface":"(\%)",
                 "DF":"(Solid products/Dissolved products)",
                 "p_re": "(g/cm$^3$)",
@@ -157,7 +165,7 @@ if plot_type == "boxflux":
                     # vld.append(tempd)
                     def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                         return dc[mt]
-                filtselcol = st.selectbox("Select Input Variable to Explore:", [varnames_dict[s] for s in selcolu], key = "select_filter_col_"+ samp)
+                filtselcol = st.selectbox("Select Input Variable to Explore:", [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
                 # st.write(varnames_dict)
                 # st.write(filtselcol)
                 vixfs = list(varnames_dict.values()).index(filtselcol)
@@ -249,7 +257,7 @@ if plot_type == "boxflux":
                 # st.write(dftt.columns.to_list())
                 # st.write(dftt[ft])
                 for i in range(len(ft)):
-                    st.write(f"{ft[i]}: {np.round(dftt[ft[i]], 1)}")
+                    st.write(f"{ft[i]}: {np.round(dftt[ft[i]].to_numpy()[0], 1)}")
                 # st.dataframe(dftt[ ft])
 
 
