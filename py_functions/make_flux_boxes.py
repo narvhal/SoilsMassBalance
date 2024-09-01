@@ -272,9 +272,9 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
 
-    plt.annotate(df.sample_id.iloc[0], (0, maxy/3+0.1 -1.5)) #(0, npp[1][1]+4.5))
-    plt.annotate('(g/m$^2$/yr)', (0, maxy/3+0.1 -3.5 ) )#npp[1][1]+3.5))
-    plt.annotate(df.sample_region.iloc[0], (0, maxy/3+0.1 -2.4) ) #npp[1][1]+1.5))
+    plt.annotate(df.sample_id.iloc[0], (maxx/7, maxy- maxy/5)) #(0, npp[1][1]+4.5))
+    plt.annotate('(g/m$^2$/yr)', (maxx/7, maxy- 3*maxy/5))#npp[1][1]+3.5))
+    plt.annotate(df.sample_region.iloc[0], (maxx/7, maxy- 2*maxy/5)) #npp[1][1]+1.5))
 
     frame1.axis('off')
     return maxy, equals_locx
