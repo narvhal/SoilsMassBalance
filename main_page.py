@@ -26,136 +26,147 @@ df_default =  pd.read_excel(fn)
 
 
 # toc = stoc()
-
 # Title
-st.title("Interactive Soil Mass Balance Plots")
-st.header("Flux boxes")
 
-# g/m2/yr?
+lc, mc, rc = st.columns([0.2, 0.6, 0.2])
 
+with mc:
+    st.title("Interactive Soil Mass Balance Plots")
 
-varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
-                "DF":"Dissolution Factor",
-                "p_re": "Soil Density",
-                "br_E_rate": "Bedrock Erosion Rate",
-                "coarse_mass": "Coarse Fraction ($F_c$) Mass",
-                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
-                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
-                }
-varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
-                "DF":"Dissolution Factor",
-                "p_re": "Soil Density",
-                "br_E_rate": "Bedrock Erosion Rate",
-                "coarse_mass": "Coarse Fraction ($F_c$) Mass",
-                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
-                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
-                }
-varunits_dict = {"Coarse_seds_subsurface":"(\%)",
-                "DF":"(Solid products/Dissolved products)",
-                "p_re": "(g/cm$^3$)",
-                "br_E_rate": "(mm/ky)",
-                "coarse_mass": "(kg)",
-                "max_coarse_residence_time":"(kyr)",
-                "D":"Atoms/cm$^2$/yr"
-                }
+    st.header("Flux boxes")
 
-                #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
-                #  SP_D_graly*0.5,SP_D_graly*1, SP_D_graly*1.5, SP_D_graly*4]
-                #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
-                #
-varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-                "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_{AZ}$", "1.5$\cdot$ $D_{AZ}$", "0.5 $\cdot$ $D_{Sp}$", "$D_{Sp}$", "1.5 $\cdot$ $D_{Sp}$", "4$\cdot$ $D_{Sp}$"],
-                "DF":[7.5, 15, 22.5],
-                "p_re": [0.7, 1.4, 2.1],
-                "br_E_rate": [7.5, 15, 22.5],
-                "coarse_mass": [.75, 1.5, 2.25],
-                "max_coarse_residence_time":[5.5, 11., 16.5]
-                }
+    # g/m2/yr?
 
 
-siu = df.sample_id.unique()
-selcolu = list(varnames_dict.keys()) # df.select_col.unique()
-vars_dict = {}
-# vars_itemfmt_dict = {}
-for i, sc in enumerate(selcolu):
-    dft = df[df['select_col'] == sc].copy()
-    vars_dict[sc]= dft.select_col_val.unique()
+    varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
+                    "DF":"Dissolution Factor",
+                    "p_re": "Soil Density",
+                    "br_E_rate": "Bedrock Erosion Rate",
+                    "coarse_mass": "Coarse Fraction ($F_c$) Mass",
+                    "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
+                    "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
+                    }
+    varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
+                    "DF":"Dissolution Factor",
+                    "p_re": "Soil Density",
+                    "br_E_rate": "Bedrock Erosion Rate",
+                    "coarse_mass": "Coarse Fraction ($F_c$) Mass",
+                    "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
+                    "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
+                    }
+    varunits_dict = {"Coarse_seds_subsurface":"(\%)",
+                    "DF":"(Solid products/Dissolved products)",
+                    "p_re": "(g/cm$^3$)",
+                    "br_E_rate": "(mm/ky)",
+                    "coarse_mass": "(kg)",
+                    "max_coarse_residence_time":"(kyr)",
+                    "D":"Atoms/cm$^2$/yr"
+                    }
+
+                    #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
+                    #  SP_D_graly*0.5,SP_D_graly*1, SP_D_graly*1.5, SP_D_graly*4]
+                    #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
+                    #
+    varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
+                    "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_{AZ}$", "1.5$\cdot$ $D_{AZ}$", "0.5 $\cdot$ $D_{Sp}$", "$D_{Sp}$", "1.5 $\cdot$ $D_{Sp}$", "4$\cdot$ $D_{Sp}$"],
+                    "DF":[7.5, 15, 22.5],
+                    "p_re": [0.7, 1.4, 2.1],
+                    "br_E_rate": [7.5, 15, 22.5],
+                    "coarse_mass": [.75, 1.5, 2.25],
+                    "max_coarse_residence_time":[5.5, 11., 16.5]
+                    }
 
 
-plot_type = "boxflux" #"stackedbarfluxes"
-# st.write(vars_itemfmt_dict)
+    siu = df.sample_id.unique()
+    selcolu = list(varnames_dict.keys()) # df.select_col.unique()
+    vars_dict = {}
+    # vars_itemfmt_dict = {}
+    for i, sc in enumerate(selcolu):
+        dft = df[df['select_col'] == sc].copy()
+        vars_dict[sc]= dft.select_col_val.unique()
+
+
+    plot_type = "boxflux" #"stackedbarfluxes"
+    # st.write(vars_itemfmt_dict)
 
 
 
-if plot_type == "boxflux":
-    selval_dict = {}
+    if plot_type == "boxflux":
+        selval_dict = {}
 
-    # Select Sample Name
-    # with lc:
-    default_ix = list(siu).index("NQT0")
+        # Select Sample Name
+        # with lc:
+        default_ix = list(siu).index("NQT0")
 
-    # si = st.selectbox("Choose sample: ", siu, index = default_ix,
-        # key = keystr, on_change=proc, args = (keystr,))
-    st.write("Choose samples: ")
+        # si = st.selectbox("Choose sample: ", siu, index = default_ix,
+            # key = keystr, on_change=proc, args = (keystr,))
+        st.write("Choose samples: ")
 
 
-    flag_choose_samples_checkbox = False
-    si = []
-    if flag_choose_samples_checkbox:
-        c1, c2,c3, c4, c5 = st.columns([0.2, 0.2, 0.2, 0.2, 0.2])
-        colll = [c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5]
-        count = 0
-        for ixsi, samp in enumerate(siu):
-            tfsamp = False
+        flag_choose_samples_checkbox = False
+        si = []
+        if flag_choose_samples_checkbox:
+            c1, c2,c3, c4, c5 = st.columns([0.2, 0.2, 0.2, 0.2, 0.2])
+            colll = [c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5]
+            count = 0
+            for ixsi, samp in enumerate(siu):
+                tfsamp = False
 
-            if samp == "NQT0": tfsamp = True
-            if samp == "MT120": tfsamp = True
-            keystr = "sample_id_selbox_" + samp
-            with colll[count]:
-                sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
-                count +=1
-            if sitemp:
-                si.append(samp)
-    else:
-        keystr = "sample_id_selbox"
+                if samp == "NQT0": tfsamp = True
+                if samp == "MT120": tfsamp = True
+                keystr = "sample_id_selbox_" + samp
+                with colll[count]:
+                    sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
+                    count +=1
+                if sitemp:
+                    si.append(samp)
+        else:
+            keystr = "sample_id_selbox"
 
-        si = st.multiselect(" ", siu, default = ["NQT0", "MT120"], key = keystr, on_change=proc, args = (keystr,))
+            si = st.multiselect(" ", siu, default = ["NQT0", "MT120"], key = keystr, on_change=proc, args = (keystr,))
 
-    selval_dict['sample_id'] = si
-    # dft = df[df['sample_id'] == si].copy()
-    # dft = df[df['sample_id'].isin(si)].copy()
+        selval_dict['sample_id'] = si
+        # dft = df[df['sample_id'] == si].copy()
+        # dft = df[df['sample_id'].isin(si)].copy()
 
-    # dfdsi = df_default[df_default['sample_id']== si].copy()
-    # default_cols = dfdsi.columns.to_list()
+        # dfdsi = df_default[df_default['sample_id']== si].copy()
+        # default_cols = dfdsi.columns.to_list()
 
-    # default_dict = {c:dfdsi[c] for c in default_cols}
-    # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
-    #       or with dust  (Dissolution constrained by calcite mass balance) )
+        # default_dict = {c:dfdsi[c] for c in default_cols}
+        # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
+        #       or with dust  (Dissolution constrained by calcite mass balance) )
 
-    lc, rc = st.columns([0.6, 0.3])
-    with lc:
-        keystr = "model_type_radio"
-        model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
-            on_change=proc, args = (keystr,))
+        lc, rc = st.columns([0.6, 0.3])
+        with lc:
+            keystr = "model_type_radio"
+            model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
+                on_change=proc, args = (keystr,))
 
-    selval_dict['model_type'] = model_type
+        selval_dict['model_type'] = model_type
 
-    with rc:
-    # Select box model shape:
-        keystr = "model_shape_radio"
+        with rc:
+        # Select box model shape:
+            keystr = "model_shape_radio"
 
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.],
-            key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-    selval_dict['model_shape'] = model_shape
+            model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.],
+                key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+        selval_dict['model_shape'] = model_shape
 
     if st.checkbox("Continue?"):
         # Scenario and values:
         baseline_dict = {}
         # units_dict = {}  #
         count = 0
-        coL, coM, coR = st.columns([0.33, 0.33, 0.33])
+        if len(si) == 3:
+            coL, coM, coR = st.columns([0.33, 0.33, 0.33])
+            colll = [ coL, coM, coR,  coL, coM, coR]
+        elif len(si) == 2:
+            coL, coR = st.columns([0.5,  0.5])
+            colll = [ coL,  coR,  coL, coR, coL,  coR,  coL, coR]
+        elif len(si) == 1:
+            coL = st.container()
+            colll = [ coL]
 
-        colll = [ coL, coM, coR,  coL, coM, coR]
         count = 0
         for six, samp in enumerate(si):
             dft = df[df['sample_id']== samp].copy()
