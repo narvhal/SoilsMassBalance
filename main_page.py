@@ -191,11 +191,11 @@ if plot_type == "boxflux":
                 # Filter df outside of func...
                 # Filter df
                 # if len(dft)>1:
-                if filtselcol == "Coarse_seds_subsurface":
-                    dftt = dft[dft["select_col"]==selcolkey].copy()
-                    dftt = dftt[dftt["select_col_val"]==val].copy()
-                else:
-                    dftt = dft[dft[selcolkey] == dft[selcolkey].unique()[vix]].copy()
+                # if filtselcol == "Coarse_seds_subsurface":
+                dftt = dft[dft["select_col"]==selcolkey].copy()
+                dftt = dftt[dftt["select_col_val"]==val].copy()
+                # else:
+                    # dftt = dft[dft[selcolkey] == dft[selcolkey].unique()[vix]].copy()
                 # st.write("Length of df: ", len(dft))
                 # count+=1
                 # with mc:
