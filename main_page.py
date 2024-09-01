@@ -39,8 +39,8 @@ varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
                 "p_re": "Soil Density",
                 "br_E_rate": "Bedrock Erosion Rate (mm/ky)",
                 "coarse_mass": "Coarse Fraction ($F_c$) Mass (kg)",
-                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time (kyr)"
-                "D":"Atoms $^{10}$Be$_{met}$/cm$^2$/yr \n\t$D_{AZ}$: \n\t",
+                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time (kyr)",
+                "D":"Atoms $^{10}$Be$_{met}$/cm$^2$/yr \n\t$D_{AZ}$: \n\t"
                 }
 
                 #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
