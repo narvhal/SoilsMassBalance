@@ -131,8 +131,9 @@ if plot_type == "boxflux":
 
         for six, samp in enumerate(si):
             dft = df[df['sample_id']== samp].copy()
+
             with st.expander(f"Sample {samp}"):
-                st.text("Change the variables and \nsee how the fluxes \nchange!")
+                st.text("Changes to the input variables will be incorporated to the plots.")
 
                 lc, rc = st.columns([0.5, 0.5])
                 colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
