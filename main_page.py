@@ -37,10 +37,18 @@ st.header("Flux boxes")
 varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
                 "DF":"Dissolution Factor",
                 "p_re": "Soil Density",
-                "br_E_rate": "Bedrock Erosion Rate (mm/ky)",
-                "coarse_mass": "Coarse Fraction ($F_c$) Mass (kg)",
-                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time (kyr)",
-                "D":"Atoms $^{10}$Be$_{met}$/cm$^2$/yr \n\t$D_{AZ}$: \n\t"
+                "br_E_rate": "Bedrock Erosion Rate",
+                "coarse_mass": "Coarse Fraction ($F_c$) Mass",
+                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
+                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
+                }
+varunits_dict = {"Coarse_seds_subsurface":"(\%)",
+                "DF":"(Solid products/Dissolved products)",
+                "p_re": "(g/cm$^3$)",
+                "br_E_rate": "(mm/ky)",
+                "coarse_mass": "(kg)",
+                "max_coarse_residence_time":"(kyr)",
+                "D":"Atoms/cm$^2$/yr"
                 }
 
                 #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
@@ -149,8 +157,8 @@ if plot_type == "boxflux":
                     # vld.append(tempd)
                     def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                         return dc[mt]
-                filtselcol = st.selectbox("Select Input Variable to Explore:", selcolu, key = "select_filter_col_"+ samp)
-
+                filtselcol = st.selectbox("Select Input Variable to Explore:", [varnames_dict[s] for s in selcolu], key = "select_filter_col_"+ samp)
+                vixfs = list(varnames_dict.keys()).index(filtselcol)
                     # with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                 # st.write(k, list(vlist[:]))
@@ -169,7 +177,7 @@ if plot_type == "boxflux":
                     val = st.radio(f"{varnames_dict[filtselcol]}: ", vars_dict[filtselcol], format_func = varvalsfmt,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
                     vix = list( vars_dict[filtselcol]).index(val)
-                    selval_dict[filtselcol] = val
+                    # selval_dict[filtselcol] = val
                     # Filter df outside of func...
                     # Filter df
                     # if len(dft)>1:
