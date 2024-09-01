@@ -203,7 +203,6 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     flag_tilt_label = False
 
     mxx = []
-    # if flag_annot!= True:
     for i, points in enumerate(list_of_tuplelist):
         flag_along_baseline = False
         if flag_along_baseline: pass
@@ -220,21 +219,27 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # st.write(f"Orig: {fst[i]}" )
             # st.write("npp Points:",npp[1])
 
-            if (points[3][0] - points[0][0])<=maxx/20:
-                # st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
-                plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
-                # if (points[3][0] - points[0][0])>=.6:
-                    # plt.annotate(''+ft[i], npn, va = 'center')
-                flag_tilt_label = True
-            else: # LABEL boxes in middle
-                # st.write("wide box, " +ft[i])
-                # st.write(npn)
-                # st.write(npp[0])
-                # st.write(points[0])
-                # st.write()
+            if flag_annot:
+                if (points[3][0] - points[0][0])<=maxx/20:
+                    # st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
+                    plt.annotate(' '+ft[i]+' : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
+                    # if (points[3][0] - points[0][0])>=.6:
+                        # plt.annotate(''+ft[i], npn, va = 'center')
+                    flag_tilt_label = True
+                else: # LABEL boxes in middle
+                    # st.write("wide box, " +ft[i])
+                    # st.write(npn)
+                    # st.write(npp[0])
+                    # st.write(points[0])
+                    # st.write()
 
-                plt.annotate(' '+ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
-                plt.annotate('\n {:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
+                    plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
+                    plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
+            else:
+                npn = (npn[0], npn[1]+ midy*1.3)
+                plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
+                plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
+
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
             if i>0:
