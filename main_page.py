@@ -133,9 +133,7 @@ if plot_type == "boxflux":
 
         for six, samp in enumerate(si):
             dft = df[df['sample_id']== samp].copy()
-            st.write(dft.columns.to_list())
             with st.expander(f"Sample {samp}"):
-                st.write()
                 for k, vlist in vars_dict.items():
                     vld = []
                     # vars_itemfmt_dict[k] = {}
@@ -148,6 +146,8 @@ if plot_type == "boxflux":
                     def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                         return dc[mt]
 
+                    lc, rc = st.columns([0.5, 0.5])
+                    colll = [lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
                     with colll[count]:
                         # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
