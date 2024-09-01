@@ -220,7 +220,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # st.write(f"Orig: {fst[i]}" )
             # st.write("npp Points:",npp[1])
 
-            if (points[3][0] - points[0][0])<=.8:
+            if (points[3][0] - points[0][0])<=maxx/20:
                 # st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
                 plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
                 # if (points[3][0] - points[0][0])>=.6:
@@ -272,9 +272,9 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
 
-    plt.annotate(df.sample_id.iloc[0], (maxx/7, maxy- maxy/5)) #(0, npp[1][1]+4.5))
-    plt.annotate('(g/m$^2$/yr)', (maxx/7, maxy- 3*maxy/5))#npp[1][1]+3.5))
-    plt.annotate(df.sample_region.iloc[0], (maxx/7, maxy- 2*maxy/5)) #npp[1][1]+1.5))
+    plt.annotate(df.sample_id.iloc[0], (maxx/7, maxy- maxy/15)) #(0, npp[1][1]+4.5))
+    plt.annotate('(g/m$^2$/yr)', (maxx/7, maxy- 3*maxy/15))#npp[1][1]+3.5))
+    plt.annotate(df.sample_region.iloc[0], (maxx/7, maxy- 2*maxy/15)) #npp[1][1]+1.5))
 
     frame1.axis('off')
     return maxy, equals_locx
