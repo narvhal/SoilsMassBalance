@@ -244,8 +244,9 @@ if plot_type == "boxflux":
                 ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
 
             for i, f in enumerate(fmcols):
-                dft[ft[i]] = dft[f].copy()
-            st.dataframe(dftt[['sample_id']+ ft])
+                dftt[ft[i]] = dftt[f].copy()
+            dftt['Sample ID'] = dftt['sample_id']
+            st.dataframe(dftt[ ft + ['Sample ID']])
 
 
 elif plot_type == "stackedbarfluxes":
