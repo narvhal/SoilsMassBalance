@@ -161,6 +161,7 @@ if plot_type == "boxflux":
                 st.write(varnames_dict)
                 st.write(filtselcol)
                 vixfs = list(varnames_dict.values()).index(filtselcol)
+                selcolkey = list(varnames_dict.keys())[vixfs]
                     # with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                 # st.write(k, list(vlist[:]))
@@ -168,60 +169,60 @@ if plot_type == "boxflux":
                 # st.write(df_default[k])   index = def_ix,
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
-                if filtselcol in selcolu:
-                    if filtselcol == "D":
-                        # Add note defining DAz etc556495.6872
-                        st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
-                        st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-                        st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+                # if filtselcol in selcolu:
+                if filtselcol == varnames_dict["D"]:
+                    # Add note defining DAz etc556495.6872
+                    st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
+                    st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+                    st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
-                    keystr = str(filtselcol) + "_radioval_"+ str(six)
-                    val = st.radio(f"{varnames_dict[filtselcol]}: ", vars_dict[filtselcol], format_func = varvalsfmt,
-                        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                    vix = list( vars_dict[filtselcol]).index(val)
-                    # selval_dict[filtselcol] = val
-                    # Filter df outside of func...
-                    # Filter df
-                    # if len(dft)>1:
-                    if filtselcol == "Coarse_seds_subsurface":
-                        dftt = dft[dft["select_col"]==filtselcol].copy()
-                        dftt = dftt[dftt["select_col_val"]==val].copy()
-                    else:
-                        dftt = dft[dft[filtselcol] == dft[filtselcol].unique()[vix]].copy()
-                    # st.write("Length of df: ", len(dft))
-                    # count+=1
-                    # with mc:
+                keystr = str(selcolkey) + "_radioval_"+ str(six)
+                val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
+                    key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                vix = list( vars_dict[selcolkey]).index(val)
+                # selval_dict[filtselcol] = val
+                # Filter df outside of func...
+                # Filter df
+                # if len(dft)>1:
+                if filtselcol == "Coarse_seds_subsurface":
+                    dftt = dft[dft["select_col"]==selcolkey].copy()
+                    dftt = dftt[dftt["select_col_val"]==val].copy()
+                else:
+                    dftt = dft[dft[selcolkey] == dft[selcolkey].unique()[vix]].copy()
+                # st.write("Length of df: ", len(dft))
+                # count+=1
+                # with mc:
 
-                    # width = st.sidebar.slider("plot width", 1, 20, 3)
-                    # height = st.sidebar.slider("plot height", 1, 14, 3)
+                # width = st.sidebar.slider("plot width", 1, 20, 3)
+                # height = st.sidebar.slider("plot height", 1, 14, 3)
 
-                    def sliderrange(start, step, num):
-                        return start + np.arange(num)*step
-                    with st.popover(f"Plot dimension options"):
+                def sliderrange(start, step, num):
+                    return start + np.arange(num)*step
+                with st.popover(f"Plot dimension options"):
 
-                        # st.write(sliderrange(5, 2, 12))
-                        hh = sliderrange(5, 2, 12)
-                        keystr = "figwidth_radio" + str(samp)
-                        selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                        keystr = "figheight_radio"+ str(samp)
-                        selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-                            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                        # height
-                        keystr = "pixelwidth_radio"+ str(samp)
+                    # st.write(sliderrange(5, 2, 12))
+                    hh = sliderrange(5, 2, 12)
+                    keystr = "figwidth_radio" + str(samp)
+                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                    keystr = "figheight_radio"+ str(samp)
+                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                    # height
+                    keystr = "pixelwidth_radio"+ str(samp)
 
-                        selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
-                            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                         # Width in px of image produced...
-                        keystr = "boxscale_radio"+ str(samp)
+                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
+                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                     # Width in px of image produced...
+                    keystr = "boxscale_radio"+ str(samp)
 
-                        selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
-                            key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-                        keystr = "shape_buffer_radio"+ str(samp)
+                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
+                        key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    keystr = "shape_buffer_radio"+ str(samp)
 
-                        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
-                             value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
+                         value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                    fig = wrap_flux_box_streamlit(dft, selval_dict)
+                fig = wrap_flux_box_streamlit(dft, selval_dict)
 
 
         if model_type == 'simple':
