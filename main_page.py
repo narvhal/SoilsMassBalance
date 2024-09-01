@@ -158,7 +158,7 @@ if plot_type == "boxflux":
                 # st.write(df_default[k])   index = def_ix,
                 # vll = list(vlist[:])
                 # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
-                if filtselcol.isin(selcolu):
+                if filtselcol in selcolu:
                     if filtselcol == "D":
                         # Add note defining DAz etc556495.6872
                         st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
