@@ -232,23 +232,21 @@ if plot_type == "boxflux":
                 fig = wrap_flux_box_streamlit(dft, selval_dict)
 
 
-        if model_type == 'simple':
-            fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
-                'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
-            ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
-        else:
-            fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
-                 'F_coarse_g_m2_yr' ,
-                 'F_fines_from_br_g_m2_yr' ,
-                 'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-            ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
+            if model_type == 'simple':
+                fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
+                    'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
+                ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
+            else:
+                fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
+                     'F_coarse_g_m2_yr' ,
+                     'F_fines_from_br_g_m2_yr' ,
+                     'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
+                ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
 
-        # st.pyplot(fig, use_container_width = False)
-            # st.pyplot(fig)
-        for i, f in enumerate(fmcols):
-            dft[ft[i]] = dft[f].copy()
+            for i, f in enumerate(fmcols):
+                dft[ft[i]] = dft[f].copy()
+            st.dataframe(dftt[['sample_id']+ ft])
 
-        st.dataframe(dft[['sample_id']+ ft])
 
 elif plot_type == "stackedbarfluxes":
 
