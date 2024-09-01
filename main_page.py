@@ -246,6 +246,8 @@ if plot_type == "boxflux":
             for i, f in enumerate(fmcols):
                 dftt[ft[i]] = dftt[f].copy()
             # dftt['Sample ID'] = dftt['sample_id']
+            st.write(dftt.columns.to_list())
+            st.write(dftt[ft])
             st.dataframe(dftt[ ft])
 
 
