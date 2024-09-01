@@ -158,6 +158,8 @@ if plot_type == "boxflux":
                     def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                         return dc[mt]
                 filtselcol = st.selectbox("Select Input Variable to Explore:", [varnames_dict[s] for s in selcolu], key = "select_filter_col_"+ samp)
+                st.write(varnames_dict)
+                st.write(filtselcol)
                 vixfs = list(varnames_dict.values()).index(filtselcol)
                     # with colll[count]:
                 # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
