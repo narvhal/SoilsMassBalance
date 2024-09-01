@@ -248,7 +248,7 @@ if plot_type == "boxflux":
         for i, f in enumerate(fmcols):
             dft[ft[i]] = dft[f].copy()
 
-        st.dataframe(dft[ft])
+        st.dataframe(dft[['sample_id']+ ft])
 
 elif plot_type == "stackedbarfluxes":
 
