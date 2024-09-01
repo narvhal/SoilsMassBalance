@@ -119,9 +119,8 @@ if plot_type == "boxflux":
     else:
         keystr = "sample_id_selbox"
 
-        sitemp = st.multiselect(" ", siu, default = ["NQT0", "MT120"], key = keystr, on_change=proc, args = (keystr,))
-        if sitemp:
-            si.append(samp)
+        si = st.multiselect(" ", siu, default = ["NQT0", "MT120"], key = keystr, on_change=proc, args = (keystr,))
+
     selval_dict['sample_id'] = si
     # dft = df[df['sample_id'] == si].copy()
     # dft = df[df['sample_id'].isin(si)].copy()
