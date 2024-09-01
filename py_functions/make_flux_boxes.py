@@ -236,7 +236,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                     plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
             else:
-                npn = (npn[0], npn[1]+ midy*1.3)
+                npn = (npn[0], npn[1]+ midy*1.7)
                 plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                 plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
 

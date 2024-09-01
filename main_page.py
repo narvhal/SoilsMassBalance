@@ -97,19 +97,29 @@ if plot_type == "boxflux":
     # si = st.selectbox("Choose sample: ", siu, index = default_ix,
         # key = keystr, on_change=proc, args = (keystr,))
     st.write("Choose samples: ")
-    si = []
-    c1, c2,c3, c4, c5 = st.columns([0.2, 0.2, 0.2, 0.2, 0.2])
-    colll = [c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5]
-    count = 0
-    for ixsi, samp in enumerate(siu):
-        tfsamp = False
 
-        if samp == "NQT0": tfsamp = True
-        if samp == "MT120": tfsamp = True
-        keystr = "sample_id_selbox_" + samp
-        with colll[count]:
-            sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
-            count +=1
+
+    flag_choose_samples_checkbox = False
+    si = []
+    if flag_choose_samples_checkbox:
+        c1, c2,c3, c4, c5 = st.columns([0.2, 0.2, 0.2, 0.2, 0.2])
+        colll = [c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5]
+        count = 0
+        for ixsi, samp in enumerate(siu):
+            tfsamp = False
+
+            if samp == "NQT0": tfsamp = True
+            if samp == "MT120": tfsamp = True
+            keystr = "sample_id_selbox_" + samp
+            with colll[count]:
+                sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
+                count +=1
+            if sitemp:
+                si.append(samp)
+    else:
+        keystr = "sample_id_selbox"
+
+        sitemp = st.multiselect(" ", siu, default = ["NQT0", "MT120"], key = keystr, on_change=proc, args = (keystr,))
         if sitemp:
             si.append(samp)
     selval_dict['sample_id'] = si
@@ -165,6 +175,8 @@ if plot_type == "boxflux":
                     # vld.append(tempd)
                     def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                         return dc[mt]
+                st.write(' ')
+
                 filtselcol = st.selectbox("Select Input Variable to Explore:", [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
                 # st.write(varnames_dict)
                 # st.write(filtselcol)
@@ -211,6 +223,7 @@ if plot_type == "boxflux":
 
                 # width = st.sidebar.slider("plot width", 1, 20, 3)
                 # height = st.sidebar.slider("plot height", 1, 14, 3)
+                st.write(' ')
 
                 def sliderrange(start, step, num):
                     return start + np.arange(num)*step
