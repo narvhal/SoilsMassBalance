@@ -146,7 +146,7 @@ if plot_type == "boxflux":
     # Select box model shape:
         keystr = "model_shape_radio"
 
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.],
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.], index = 1,
             key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     selval_dict['model_shape'] = model_shape
 
