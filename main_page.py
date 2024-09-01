@@ -229,7 +229,7 @@ if plot_type == "boxflux":
                     selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                          value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                fig = wrap_flux_box_streamlit(dft, selval_dict)
+                fig = wrap_flux_box_streamlit(dftt, selval_dict)
 
 
             if model_type == 'simple':
