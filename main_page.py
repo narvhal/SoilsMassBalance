@@ -246,9 +246,10 @@ if plot_type == "boxflux":
             for i, f in enumerate(fmcols):
                 dftt[ft[i]] = dftt[f].copy()
             # dftt['Sample ID'] = dftt['sample_id']
-            st.write(dftt.columns.to_list())
-            st.write(dftt[ft])
-            st.dataframe(dftt[ ft])
+            # st.write(dftt.columns.to_list())
+            # st.write(dftt[ft])
+            st.write([f"{ft[i]}: {dftt[ft[i]]}" for i in range(len(ft))])
+            # st.dataframe(dftt[ ft])
 
 
 elif plot_type == "stackedbarfluxes":
