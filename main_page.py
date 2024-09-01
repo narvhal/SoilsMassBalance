@@ -273,7 +273,7 @@ if plot_type == "boxflux":
                 # st.write(dftt.columns.to_list())
                 # st.write(dftt[ft])
                 for i in range(len(ft)):
-                    st.write(f"{ftexp[i]} \t {ft[i]}: {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+                    st.write(f"{ftexp[i]} Flux               {ft[i]}: {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
                 # st.dataframe(dftt[ ft])
 
 
