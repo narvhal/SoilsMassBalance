@@ -177,9 +177,9 @@ if plot_type == "boxflux":
                     st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
                 keystr = str(selcolkey) + "_radioval_"+ str(six)
-                st.write(filtselcol)
-                st.write(vars_dict[selcolkey])
-                st.write(selcolkey)
+                st.write("filtselcol: ", filtselcol)
+                st.write("selcolkey", selcolkey)
+                st.write("vars_dict[selcolkey]",vars_dict[selcolkey])
 
                 # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
                 #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
