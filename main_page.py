@@ -33,15 +33,14 @@ st.header("Flux boxes")
 
 # g/m2/yr?
 
-st.sidebar.text("Change the variables and \nsee how the fluxes \nchange!")
 
 varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
-                "D":"Atoms $^{10}$Be$_{met}$/cm$^2$/yr \n\t$D_{AZ}$: \n\t",
                 "DF":"Dissolution Factor",
                 "p_re": "Soil Density",
                 "br_E_rate": "Bedrock Erosion Rate (mm/ky)",
                 "coarse_mass": "Coarse Fraction ($F_c$) Mass (kg)",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time (kyr)"
+                "D":"Atoms $^{10}$Be$_{met}$/cm$^2$/yr \n\t$D_{AZ}$: \n\t",
                 }
 
                 #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
@@ -59,7 +58,7 @@ varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
 
 
 siu = df.sample_id.unique()
-selcolu = df.select_col.unique()
+selcolu = list(varnames_dict.keys()) # df.select_col.unique()
 vars_dict = {}
 # vars_itemfmt_dict = {}
 for i, sc in enumerate(selcolu):
@@ -124,7 +123,6 @@ if plot_type == "boxflux":
             key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     selval_dict['model_shape'] = model_shape
 
-    colll = [lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc,lc,  rc, lc, rc, lc, rc]
     if st.checkbox("Continue?"):
         # Scenario and values:
         baseline_dict = {}
@@ -134,6 +132,11 @@ if plot_type == "boxflux":
         for six, samp in enumerate(si):
             dft = df[df['sample_id']== samp].copy()
             with st.expander(f"Sample {samp}"):
+                st.text("Change the variables and \nsee how the fluxes \nchange!")
+
+                lc, rc = st.columns([0.5, 0.5])
+                colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
+
                 for k, vlist in vars_dict.items():
                     vld = []
                     # vars_itemfmt_dict[k] = {}
@@ -145,9 +148,6 @@ if plot_type == "boxflux":
                     # vld.append(tempd)
                     def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                         return dc[mt]
-
-                    lc, rc = st.columns([0.5, 0.5])
-                    colll = [lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc, lc,  rc, lc, rc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
                     with colll[count]:
                         # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
