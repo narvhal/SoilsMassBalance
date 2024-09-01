@@ -146,9 +146,14 @@ if plot_type == "boxflux":
     # Select box model shape:
         keystr = "model_shape_radio"
 
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1., 2., 5.], index = 1,
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
             key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     selval_dict['model_shape'] = model_shape
+
+
+
+    # Instructions & EXplanations:
+
 
     if st.checkbox("Continue?"):
         # Scenario and values:
@@ -286,11 +291,17 @@ if plot_type == "boxflux":
                     # st.write(dftt.columns.to_list())
                     # st.write(dftt[ft])
                     for i in range(len(ft)):
-                        strrr = "                "
-                        st.write(f"{ftexp[i]} Flux {strrr} {ft[i]}: {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+                        st.write(f'''{ftexp[i]} Flux''')
+                        st.write(f"{ft[i]}: ,   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
                     # st.dataframe(dftt[ ft])
                     count +=1
 
+
+    # # Add default values
+    st.dataframe(df_default)
+    # df_defaultcols = df_default.columns.to_list()
+    # for i in range(len(df_default)):
+    #     st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
 
 elif plot_type == "stackedbarfluxes":
 

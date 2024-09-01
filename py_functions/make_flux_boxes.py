@@ -248,13 +248,13 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     #                 print(i, points)
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
-                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
+                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
                     if i == 1:
                         equals_locx = npp[1][0]-spacex
                 else:
                     syms = [' ','+', '=', '+', '+','+', ' ']
                     sy = syms[i]
-                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center')
+                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
                     if i == 2:
                         equals_locx = npp[1][0]-spacex
         mxx.append(adjx)
@@ -277,9 +277,9 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
 
-    plt.annotate(df.sample_id.iloc[0], (0, maxy+ 3*maxy/5), fontsize = 15) #(0, npp[1][1]+4.5))
-    plt.annotate('(g/m$^2$/yr)', (0, maxy+ maxy/5), fontsize = 10)#npp[1][1]+3.5))
-    plt.annotate(df.sample_region.iloc[0], (0, maxy+ 2*maxy/5), fontsize = 15) #npp[1][1]+1.5))
+    plt.annotate(df.sample_id.iloc[0], (0, maxy+ 4*maxy/5), fontsize = 15) #(0, npp[1][1]+4.5))
+    plt.annotate('(g/m$^2$/yr)', (0, maxy+ 2*maxy/5), fontsize = 10)#npp[1][1]+3.5))
+    plt.annotate(df.sample_region.iloc[0], (0, maxy+ 3*maxy/5), fontsize = 15) #npp[1][1]+1.5))
 
     frame1.axis('off')
     return maxy, equals_locx
