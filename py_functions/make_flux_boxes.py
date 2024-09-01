@@ -223,8 +223,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             if (points[3][0] - points[0][0])<=.8:
                 # st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
                 plt.annotate(' '+ft[i]+'   : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
-                if (points[3][0] - points[0][0])>=.6:
-                    plt.annotate(''+ft[i], npn, va = 'center')
+                # if (points[3][0] - points[0][0])>=.6:
+                    # plt.annotate(''+ft[i], npn, va = 'center')
                 flag_tilt_label = True
             else: # LABEL boxes in middle
                 # st.write("wide box, " +ft[i])

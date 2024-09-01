@@ -192,7 +192,8 @@ if plot_type == "boxflux":
                 # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
                 #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
-                val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
+                # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
+                val = st.radio(" ", vars_dict[selcolkey],
                     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
                 vix = list( vars_dict[selcolkey]).index(val)
                 # selval_dict[filtselcol] = val
@@ -244,12 +245,15 @@ if plot_type == "boxflux":
                     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
                         'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
                     ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
+                    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
+
                 else:
                     fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
                          'F_coarse_g_m2_yr' ,
                          'F_fines_from_br_g_m2_yr' ,
                          'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
                     ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
+                    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
 
                 for i, f in enumerate(fmcols):
                     dftt[ft[i]] = dftt[f].copy()
@@ -257,7 +261,7 @@ if plot_type == "boxflux":
                 # st.write(dftt.columns.to_list())
                 # st.write(dftt[ft])
                 for i in range(len(ft)):
-                    st.write(f"{ft[i]}: {np.round(dftt[ft[i]].to_numpy()[0], 1)}")
+                    st.write(f"{ftexp[i]} \t {ft[i]}: {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
                 # st.dataframe(dftt[ ft])
 
 
