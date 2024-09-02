@@ -106,7 +106,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto', scale = 
              'F_coarse_g_m2_yr' ,
              'F_fines_from_br_g_m2_yr' ,
              'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-        ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
+        ft = ['F$_{\scriptstyle b}$','F$_{\scriptstyle dust}$', 'F$_{\scriptstyle c}$', 'F$_{\scriptstyle f,br}$', 'F$_{\scriptstyle dis}$', 'F$_{\scriptstyle dust}$']
         spacerloc = 1
 
 
