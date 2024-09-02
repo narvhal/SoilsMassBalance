@@ -201,15 +201,15 @@ if st.checkbox("Continue?"):
                 lc, rc = st.columns([0.5, 0.5])
                 # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
-                for k, vlist in vars_dict.items():
-                    vld = []
-                    # vars_itemfmt_dict[k] = {}
-                    tempd = {}
-                    for j, sv in enumerate(vlist):
-                        valid_list = varvalues_dict[k]
-                        tempd[sv] = valid_list[j]
-                    vars_itemfmt_dict[sc]= tempd
-                    vld.append(tempd)
+                # for k, vlist in vars_dict.items():
+                #     vld = []
+                #     # vars_itemfmt_dict[k] = {}
+                #     tempd = {}
+                #     for j, sv in enumerate(vlist):
+                #         valid_list = varvalues_dict[k]
+                #         tempd[sv] = valid_list[j]
+                #     vars_itemfmt_dict[sc]= tempd
+                #     vld.append(tempd)
 
                 st.write(' ')
 
