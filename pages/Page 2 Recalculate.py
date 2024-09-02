@@ -257,50 +257,11 @@ if st.checkbox("Continue?"):
                 dft['z'] =zl
                 dft['coarse_mass'] = coarse_mass
 
-
-
-                ufcols = ['p_re','p_br', 'br_E_rate', 'coarse_mass', 'coarse_area', 'max_coarse_residence_time', 'z', 'D', 'DF']
-                for i, ucol in enumerate(ufcols):#isinstance(uf, uncertainties.core.Variable) | isinstance(uf, uncertainties.core.AffineScalarFunc)\
-                #         if ucol == 'coarse_mass':
-                #             print('before coarsemass: ', dft[ucol].iloc[0])
-                    if isinstance(dft[ucol].iloc[0], uncertainties.core.Variable): # already done, don't do anything
-                #             print('TRUE: isinstance(dft[ucol].iloc[0], uncertainties.core.Variable)')
-                        pass
-                    elif isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc):
-                #                print('TRUE: isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc)')
-                        dft[ucol] = redef_uf(dft[ucol])
-                    else: # if any of those ufcols isn't already ufloat, then we need to change it and assume the unc col is there else 0
-                #             print('TRUE: else, i.e. not a affine scalar func or variable')
-                        uncol = ucol + '_unc'
-                        if uncol not in dft.columns.to_list():
-                #                 print('uncol: ', uncol)
-                            dft[uncol] = 0
-                        tarr = []
-                        for j, uval in enumerate(dft[ucol]): # redef uf doesn't need to loop through each row but ufloat does
-                             tarr.append(ufloat(uval, dft[uncol].iloc[j], ucol))
-                        dft[ucol] = tarr
-                #         if ucol == 'coarse_mass':
-                #             print('after ufloate coarsemass: ', dft[ucol].iloc[0])
-
                # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
-                if flag_coarse_subsurface != False:
-                    if isinstance(flag_coarse_subsurface, float) | isinstance(flag_coarse_subsurface, int):  #flag_coarse_subsurface = percent_subsurface_by_vol_is_coarse
-                        # print(flag_coarse_subsurface, 'flag coarse subsurface is a float or int')
-                        SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
-                #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
-                        zl = []
-                        dft['z_old'] = dft['z'].copy()
-                        dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-                #         print(dft['coarse_mass_old'])
-                        for j, vz in enumerate(dft['z']):
-                            zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
-                        dft['z'] =zl
-                        dft['coarse_mass'] = coarse_mass
 
                 dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
-                for pd, pdz in enumerate(dft['Inv']):
-                    zt = dft['z'].iloc[pd]
+
                 Inv = dft['Inv']
 
                 dft,res_t = solve_rt(dft)
