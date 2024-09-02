@@ -270,15 +270,15 @@ if st.checkbox("Continue?"):
                         SD =  dft['z'].copy()
                         coarse_mass = dft['coarse_mass'].iloc[0]
 
-#                     zl = []
-#                     dft['z_old'] = dft['z'].copy()
-#                     dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-#             #         print(dft['coarse_mass_old'])
-#                     for j, vz in enumerate(dft['z']):
-#                         vz = float(vz)
-#                         zl.append(vz - vz*flag_coarse_subsurface/100)
-#                     dft['z'] =zl
-#                     dft['coarse_mass'] = coarse_mass
+                    zl = []
+                    dft['z_old'] = dft['z'].copy()
+                    dft['coarse_mass_old'] = dft['coarse_mass'].copy()
+            #         print(dft['coarse_mass_old'])
+                    for j, vz in enumerate(dft['z']):
+                        vz = float(vz)
+                        zl.append(vz - vz*flag_coarse_subsurface/100)
+                    dft['z'] =zl
+                    dft['coarse_mass'] = coarse_mass
 
 #                    # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
 
