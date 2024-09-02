@@ -259,16 +259,16 @@ if st.checkbox("Continue?"):
                     selval_dict[selcolkey] = v2vdt[val]
                     dft[selcolkey] = v2vdt[val]
 
-#                     #### Recalc
+                    #### Recalc
 
-#                     # dff = write_defaults_to_df2(df)
-#                     # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
-#                     flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
-#                     if flag_coarse_subsurface>0:
-#                         SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
-#                     else:
-#                         SD =  dft['z'].copy()
-#                         coarse_mass = dft['coarse_mass'].iloc[0]
+                    # dff = write_defaults_to_df2(df)
+                    # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
+                    flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
+                    if flag_coarse_subsurface>0:
+                        SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
+                    else:
+                        SD =  dft['z'].copy()
+                        coarse_mass = dft['coarse_mass'].iloc[0]
 
 #                     zl = []
 #                     dft['z_old'] = dft['z'].copy()
