@@ -218,7 +218,11 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # st.write(f"Area {ft[i]}: {(npp[1][1]-npp[1][0])* (npp[2][0]-npp[1][0])}")
             # st.write(f"Orig: {fst[i]}" )
             # st.write("npp Points:",npp[1])
-
+            if flag_model == 'simple':
+                pct_denom = fst[0]  # just bedrock flux
+            else:
+                pct_denom = fst[0] + fst[1] # bedrock + dust flux
+            fst_as_pct = np.round(fst[i]/pct_denom*100, 1)
             if flag_annot:
                 if (points[3][0] - points[0][0])<=maxx/20:
                     # st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
@@ -235,10 +239,12 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
 
                     plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                     plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
+                    plt.annotate('\n\n{:0.1f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
             else:
-                npn = (npn[0], npn[1]+ midy*1.7)
+                npn = (npn[0], npn[1]+ midy*1.9)
                 plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                 plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
+                plt.annotate('\n\n{:0.1f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
 
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
