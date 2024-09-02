@@ -160,7 +160,7 @@ def sliderrange(start, step, num):
 # Instructions & EXplanations:
 def varvalsfmt(mt):   # functions to provide vals for 'model_type'
     varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-        "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_{AZ}$", "1.5$\cdot$ $D_{AZ}$", "0.5 $\cdot$ $D_{Sp}$", "$D_{Sp}$", "1.5 $\cdot$ $D_{Sp}$", "4$\cdot$ $D_{Sp}$"],
+        "D": ["0.5 x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
         "DF":[7.5, 15, 22.5],
         "p_re": [0.7, 1.4, 2.1],
         "br_E_rate": [7.5, 15, 22.5],
@@ -220,15 +220,15 @@ if st.checkbox("Continue?"):
                 #     vars_itemfmt_dict[sc]= tempd
                 #     vld.append(tempd)
 
-                st.write(' ')
+                # st.write(' ')
 
                 selval_dict = {}
                 for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
                     #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
                     filtselcol = varnames_dict2[selcolkey]
-                    st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
-                    st.write(f'Vars dict {vars_dict[selcolkey]}')
+                    # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
+                    # st.write(f'Vars dict {vars_dict[selcolkey]}')
                     # selcolkey = list(varnames_dict2.keys())[fix]
                         # with colll[count]:
                     # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
@@ -251,8 +251,8 @@ if st.checkbox("Continue?"):
 
 
                     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
-                    st.write("v2vdt: ", v2vdt)
-                    st.write("val: ", val)
+                    # st.write("v2vdt: ", v2vdt)
+                    # st.write("val: ", val)
                     selval_dict[selcolkey] = v2vdt[val]
                     dft[selcolkey] = v2vdt[val]
 
@@ -360,7 +360,7 @@ if st.checkbox("Continue?"):
                 selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                      value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-            fig = wrap_flux_box_streamlit(dftt, selval_dict)
+            # fig = wrap_flux_box_streamlit(dftt, selval_dict)
 
 
             if model_type == 'simple':
