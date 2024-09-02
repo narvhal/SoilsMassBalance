@@ -269,7 +269,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
                 # Also write between F labels
                 if not flag_annot:
-                    npn2 = (npp[1][0]-spacex,,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
+                    npn2 = (npp[1][0]-spacex,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
                     plt.annotate(sy, npn2,ha='center', va = 'center')
 
         mxx.append(adjx)
