@@ -450,14 +450,15 @@ def get_nomval(uf):
         return unumpy.nominal_values(uf), unumpy.std_devs(uf)
 
 def redef_uf(uf):
-    # returns val, stdev
-    if isinstance(uf, uncertainties.core.Variable) | isinstance(uf, uncertainties.core.AffineScalarFunc):
-        return ufloat(uf.nominal_value, uf.std_dev)
-    else:  # not a single number....
-        ufa = []
-        for i, ufv in enumerate(uf):
-            ufa.append(ufloat(unumpy.nominal_values(ufv), unumpy.std_devs(ufv)))
-        return np.array(ufa) # ufloat(unumpy.nominal_values(uf), unumpy.std_devs(uf))
+    return uf
+    # # returns val, stdev
+    # if isinstance(uf, uncertainties.core.Variable) | isinstance(uf, uncertainties.core.AffineScalarFunc):
+    #     return ufloat(uf.nominal_value, uf.std_dev)
+    # else:  # not a single number....
+    #     ufa = []
+    #     for i, ufv in enumerate(uf):
+    #         ufa.append(ufloat(unumpy.nominal_values(ufv), unumpy.std_devs(ufv)))
+    #     return np.array(ufa) # ufloat(unumpy.nominal_values(uf), unumpy.std_devs(uf))
 
 def get_vals_uf(uf):
     # returns val, stdev
