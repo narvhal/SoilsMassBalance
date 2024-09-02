@@ -529,7 +529,7 @@ def solve_rt(dft, flag_pde = False, ltl = 5.1e-7):
 
     return dft, res_t
 
-def solve_E_fines(dft):
+def solve_E_fines(dft, ltl = 5.1e-7):
     #     dft, E_fines = solve_E_fines(dft)
     Et = []
     for r, ro in enumerate(dft['z']):
