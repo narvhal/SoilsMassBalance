@@ -243,14 +243,16 @@ if st.checkbox("Continue?"):
                 flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
                 if flag_coarse_subsurface>0:
                     SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
-        #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
+                else:
+                    SD =  dft['z'].copy()
+                    coarse_mass = dft['coarse_mass'].iloc[0]
+
                 zl = []
                 dft['z_old'] = dft['z'].copy()
                 dft['coarse_mass_old'] = dft['coarse_mass'].copy()
         #         print(dft['coarse_mass_old'])
                 for j, vz in enumerate(dft['z']):
                     vz = float(vz)
-                    # zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
                     zl.append(vz - vz*flag_coarse_subsurface/100)
                 dft['z'] =zl
                 dft['coarse_mass'] = coarse_mass
