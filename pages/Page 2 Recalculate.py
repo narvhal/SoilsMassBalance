@@ -306,6 +306,7 @@ if st.checkbox("Continue?"):
                     if isinstance(fv, uncertainties.core.AffineScalarFunc) | isinstance(fv, uncertainties.core.Variable):
                 #             print('Line 96:' , col, dft[col].iloc[0],'\n', dft[col])
                         dft = dft.copy()
+                        st.write("last loop ", col, dft[col])
                         dft[col] = redef_uf(dft[col])
 
                         dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
