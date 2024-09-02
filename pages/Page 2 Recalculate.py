@@ -317,7 +317,7 @@ if st.checkbox("Continue?"):
                 #         dft = dft.copy()
 
                 #             print(col, dft[col].iloc[1])
-                    else: pass
+                    # else: pass
                 dftt = dft.copy()
 
                 st.write(' ')
