@@ -236,7 +236,7 @@ if st.checkbox("Continue?"):
 
                     #### Recalc
 
-                    dff = write_defaults_to_df(df)
+                    dff = write_defaults_to_df2(df)
                     dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
 
                     ufcols = ['p_re','p_br', 'br_E_rate', 'coarse_mass', 'coarse_area', 'max_coarse_residence_time', 'z', 'D', 'DF']
