@@ -242,12 +242,14 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
             else:
                 # npn = (npn[0], npn[1]+ midy*1.9)
-                npn = (npp[0][0] , npn[1]+ midy*1.9)
-                plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'left')
+                npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
+
+                # npn = (npp[0][0] , npn[1]+ midy*1.9)
+                plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                 if i == 0:
-                    plt.annotate('\n {:0.1f}\n g/m$^2$/yr'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'left')
+                    plt.annotate('\n {:0.1f}\n g/m$^2$/yr'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'center')
                 else:
-                    plt.annotate('\n {:0.1f}'.format(fst[i]), npn,fontsize = 10, va = 'top', ha = 'left')
+                    plt.annotate('\n {:0.1f}'.format(fst[i]), npn,fontsize = 10, va = 'top', ha = 'center')
 
                 npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  (npp[0][1]+npp[1][1])/2 ) # Find x and y-midpoint
                 plt.annotate('{:0.0f}%'.format(fst_as_pct), npn, va = 'center', ha = 'center', fontsize = 8, fontweight = "bold")
