@@ -79,7 +79,7 @@ vars_dict = {}
 # vars_itemfmt_dict = {}
 for i, sc in enumerate(selcolu):
     dft = df[df['select_col'] == sc].copy()
-    vars_dict[sc]= dft.select_col_val.unique()
+    vars_dict[sc]= list(dft.select_col_val.unique())
 
 
 
