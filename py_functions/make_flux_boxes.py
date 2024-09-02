@@ -1031,30 +1031,34 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
 # dirn = dirn
 
 
-def wrap_newdf2(dfto,K = 14.6, print_df_short = False, summary_val_name = 'none',  col_overwrite = 'none', Dcol_overwrite = 'none', dcol_dict_val = [], vals_arr = 0,dff_overwrite = 'none', dff_val = [], flag_br_equiv = False, flag_coarse_subsurface = False, flag_pde = False, tn = 'TableName',saveloc = 'F:\Ch4_Soils\Tables', dirn = '\\24_26_01', dict_of_fmt = None):
-    if summary_val_name != 'none':
-        col = summary_val_name
-        # print('col is summary_val_name')
-    else:
-        col = col_overwrite[0]
+# def wrap_newdf2(dfto,K = 14.6, print_df_short = False, summary_val_name = 'none',
+#     col_overwrite = 'none', Dcol_overwrite = 'none', dcol_dict_val = [],
+#     vals_arr = 0,dff_overwrite = 'none', dff_val = [], flag_br_equiv = False,
+#     flag_coarse_subsurface = False, flag_pde = False, tn = 'TableName',
+#     saveloc = 'F:\Ch4_Soils\Tables', dirn = '\\24_26_01', dict_of_fmt = None):
+#     if summary_val_name != 'none':
+#         col = summary_val_name
+#         # print('col is summary_val_name')
+#     else:
+#         col = col_overwrite[0]
 
-    dff = write_defaults_to_df2(dfto,col_overwrite= dff_overwrite, dict_val_overwrite =dff_val, Dcol_overwrite = Dcol_overwrite, dcol_dict_val = dcol_dict_val)
-    #     print('Default df cols: ', dff.columns.to_list())
-    #     print('L4: dff[\'coarse_mass\'].iloc[0]', dff['coarse_mass'].iloc[0])
-    #     print('L4: dff[\'coarse_area\'].iloc[0]', dff['coarse_area'].iloc[0])
-    if isinstance(dff_overwrite, list):  # Then we wanna calculate non-default vals
-        for i, ovrc in enumerate(dff_overwrite):
-            ovrval = dff_val[i] # Will write uniform value for all samples
-            if ovrc not in dff.columns.to_list():
-                print('whoops column to overwrite isnt in the default df, adding col anyways: ', ovrc )
-            dff[ovrc] = ovrval
+#     dff = write_defaults_to_df2(dfto,col_overwrite= dff_overwrite, dict_val_overwrite =dff_val, Dcol_overwrite = Dcol_overwrite, dcol_dict_val = dcol_dict_val)
+#     #     print('Default df cols: ', dff.columns.to_list())
+#     #     print('L4: dff[\'coarse_mass\'].iloc[0]', dff['coarse_mass'].iloc[0])
+#     #     print('L4: dff[\'coarse_area\'].iloc[0]', dff['coarse_area'].iloc[0])
+#     if isinstance(dff_overwrite, list):  # Then we wanna calculate non-default vals
+#         for i, ovrc in enumerate(dff_overwrite):
+#             ovrval = dff_val[i] # Will write uniform value for all samples
+#             if ovrc not in dff.columns.to_list():
+#                 print('whoops column to overwrite isnt in the default df, adding col anyways: ', ovrc )
+#             dff[ovrc] = ovrval
 
-    dff.drop(['sample_region', 'sample_id'], axis = 1, inplace = True)
+#     dff.drop(['sample_region', 'sample_id'], axis = 1, inplace = True)
 
-    dft = get_new_df_results_w_unc2(dfto,dff, col_overwrite = col_overwrite,
-        val_overwrite = [val],
-        flag_br_equiv = flag_br_equiv,
-        flag_coarse_subsurface = flag_coarse_subsurface,
-        flag_pde = flag_pde)
+#     dft = get_new_df_results_w_unc2(dfto,dff, col_overwrite = col_overwrite,
+#         val_overwrite = [val],
+#         flag_br_equiv = flag_br_equiv,
+#         flag_coarse_subsurface = flag_coarse_subsurface,
+#         flag_pde = flag_pde)
 
-    return dfn
+#     return dfn
