@@ -106,7 +106,7 @@ def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto', scale = 
              'F_coarse_g_m2_yr' ,
              'F_fines_from_br_g_m2_yr' ,
              'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-        ft = ['F$_{\scriptstyle b}$','F$_{\scriptstyle dust}$', 'F$_{\scriptstyle c}$', 'F$_{\scriptstyle f,br}$', 'F$_{\scriptstyle dis}$', 'F$_{\scriptstyle dust}$']
+        ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
         spacerloc = 1
 
 
@@ -237,7 +237,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     # st.write(points[0])
                     # st.write()
 
-                    plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
+                    plt.annotate(ft[i], npn, va = 'center', fontsize = 13, ha = 'center')
                     plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
                     plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
             else:
