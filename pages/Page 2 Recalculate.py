@@ -196,6 +196,7 @@ if st.checkbox("Continue?"):
         dft['p_re'] = dft['p_re_val'].copy()
         dft['N'] = dft['N_val'].copy()
         dft['coarse_mass'] = dft['coarse_mass_val'].copy()
+        dft['coarse_area'] = dft['coarse_area_val'].copy()
 
         AZ_D_graly = D_graly(400, 31.2)
         SP_D_graly = D_graly(510, 39.1)
