@@ -218,7 +218,8 @@ if st.checkbox("Continue?"):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
                     #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
                     filtselcol = varnames_dict2[selcolkey]
-                    st.write(f'{filtselcol}')
+                    st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
+                    st.write(f'Vars dict {vars_dict[selcolkey]}')
                     # selcolkey = list(varnames_dict2.keys())[fix]
                         # with colll[count]:
                     # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
