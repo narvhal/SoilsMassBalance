@@ -674,10 +674,6 @@ def get_new_df_results_w_unc2(df,dff, col_overwrite = False, val_overwrite = 0, 
     #         if ucol == 'coarse_mass':
     #             print('after ufloate coarsemass: ', dft[ucol].iloc[0])
 
-   # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
-    if flag_coarse_subsurface != False:
-        if isinstance(flag_coarse_subsurface, float) | isinstance(flag_coarse_subsurface, int):  #flag_coarse_subsurface = percent_subsurface_by_vol_is_coarse
-            # print(flag_coarse_subsurface, 'flag coarse subsurface is a float or int')
 
 
     dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
