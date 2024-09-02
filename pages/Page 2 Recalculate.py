@@ -238,7 +238,7 @@ if st.checkbox("Continue?"):
 
                 # dff = write_defaults_to_df2(df)
                 # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
-                flag_coarse_subsurface = selval_dict['Coarse_seds_subsurface']
+                flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
                 if flag_coarse_subsurface>0:
                     SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
         #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
@@ -247,7 +247,9 @@ if st.checkbox("Continue?"):
                 dft['coarse_mass_old'] = dft['coarse_mass'].copy()
         #         print(dft['coarse_mass_old'])
                 for j, vz in enumerate(dft['z']):
-                    zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
+                    vz = float(vz)
+                    # zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
+                    zl.append(vz - vz*flag_coarse_subsurface/100)
                 dft['z'] =zl
                 dft['coarse_mass'] = coarse_mass
 
