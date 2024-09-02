@@ -239,12 +239,13 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
 
                     plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                     plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
-                    plt.annotate('\n\n {:0.1f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
+                    plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
             else:
-                npn = (npn[0], npn[1]+ midy*1.9)
+                # npn = (npn[0], npn[1]+ midy*1.9)
+                npn = (npp[0][0] , npn[1]+ midy*1.9)
                 plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'left')
                 plt.annotate('\n {:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'left')
-                plt.annotate('\n\n {:0.1f}%'.format(fst_as_pct), npn, va = 'top', ha = 'left')
+                plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'top', ha = 'left')
 
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
@@ -283,9 +284,9 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
 
-    plt.annotate(df.sample_id.iloc[0], (0, maxy+ 4*maxy/5), fontsize = 15) #(0, npp[1][1]+4.5))
-    plt.annotate('(g/m$^2$/yr)', (0, maxy+ 2*maxy/5), fontsize = 10)#npp[1][1]+3.5))
-    plt.annotate(df.sample_region.iloc[0], (0, maxy+ 3*maxy/5), fontsize = 15) #npp[1][1]+1.5))
+    plt.annotate(df.sample_id.iloc[0], (0, maxy+ maxy), fontsize = 15) #(0, npp[1][1]+4.5))
+    plt.annotate(df.sample_region.iloc[0], (0, maxy+ 6*maxy/7), fontsize = 15) #npp[1][1]+1.5))
+    plt.annotate('(g/m$^2$/yr)', (0, maxy+ 5*maxy/7), fontsize = 10)#npp[1][1]+3.5))
 
     frame1.axis('off')
     return maxy, equals_locx
