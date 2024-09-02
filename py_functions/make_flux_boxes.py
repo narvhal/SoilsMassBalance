@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 from io import BytesIO
+import matplotlib
+
+
 
 def fltr(df, scenario, selcol, selcolval, sample_id = None):
     dft = df[(df.default_scenario == scenario) & (df.select_col == selcol) & (df.select_col_val == selcolval)  ].copy()
@@ -201,6 +204,9 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
         hch = ['x','', '', '', '', '']
         bxc = ['grey','burlywood', 'rosybrown', 'indianred', 'lightcyan', 'burlywood']
     flag_tilt_label = False
+
+    ## Make subscripts smaller??
+    matplotlib._mathtext.SHRINK_FACTOR = 0.5
 
     mxx = []
     for i, points in enumerate(list_of_tuplelist):
