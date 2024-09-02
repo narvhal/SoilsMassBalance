@@ -254,10 +254,10 @@ if st.checkbox("Continue?"):
 
 
                     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
-#                         # st.write("v2vdt: ", v2vdt)
-#                         # st.write("val: ", val)
-#                         selval_dict[selcolkey] = v2vdt[val]
-#                         dft[selcolkey] = v2vdt[val]
+                    # st.write("v2vdt: ", v2vdt)
+                    # st.write("val: ", val)
+                    selval_dict[selcolkey] = v2vdt[val]
+                    dft[selcolkey] = v2vdt[val]
 
 #                     #### Recalc
 
