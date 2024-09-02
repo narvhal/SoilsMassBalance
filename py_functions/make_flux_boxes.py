@@ -247,7 +247,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                 plt.annotate('\n {:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'left')
                 npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  (npp[0][1]+npp[1][1])/2 ) # Find x and y-midpoint
                 plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'center', ha = 'center', fontsize = 10, fontweight = "bold")
-
+                st.write(npn)
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
             if i>0:
@@ -257,6 +257,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
+                    st.write( (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ))
+
                     if i == 1:
                         equals_locx = npp[1][0]-spacex
                 else:
