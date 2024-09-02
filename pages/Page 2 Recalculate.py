@@ -175,6 +175,8 @@ if st.checkbox("Continue?"):
         dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
         dft = dft[dft["select_col_val"]==0].copy()
         dft['Coarse_seds_subsurface'] = 0
+        dft['z'] = dft['z_val'].copy()
+
 
         AZ_D_graly = D_graly(400, 31.2)
         SP_D_graly = D_graly(510, 39.1)
