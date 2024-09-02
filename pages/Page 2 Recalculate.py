@@ -72,6 +72,14 @@ varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "max_coarse_residence_time":[5.5, 11., 16.5]
                 }
 
+D = 1.8e6 # at/cm2/yr
+p_re = 1.4 # g/cm3
+lamba = 5.1e-7 # 1/yr
+atom10Bemass = 1.6634e-23 #g/at
+AZ_D_graly = D_graly(400, 31.2)
+SP_D_graly = D_graly(510, 39.1) # used to be 450 mm/yr precip...
+#lambda
+ltl = 5.1e-7 # , 7.20e-7]  #1/yr lambda [Nishiizumi et al., 2007], Korschinek et al. (2010)
 
 siu = df.sample_id.unique()
 selcolu = list(varnames_dict.keys()) # df.select_col.unique()
