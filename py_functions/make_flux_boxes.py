@@ -258,7 +258,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     plt.annotate('\n {:0.1f}'.format(fst[i]), npn,fontsize = 10, va = 'top', ha = 'center')
 
                 npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  (npp[0][1]+npp[1][1])/2 ) # Find x and y-midpoint
-                plt.annotate('{:0.0f}%'.format(fst_as_pct), npn, va = 'center', ha = 'center', fontsize = 8, fontweight = "bold")
+                plt.annotate('{:0.0f}%'.format(fst_as_pct), npn, va = 'center', ha = 'center', fontsize = 8 ) # , fontweight = "bold")
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
             if i>0:
