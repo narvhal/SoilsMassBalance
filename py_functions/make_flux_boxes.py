@@ -262,6 +262,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
+                    # Also write between F labels
 
                     if i == 1:
                         equals_locx = npp[1][0]-spacex
@@ -272,6 +273,11 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
 
                     if i == 2:
                         equals_locx = npp[1][0]-spacex
+
+                if not flag_annot:
+                    npn2 = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
+                    plt.annotate(sy, npn2,ha='center', va = 'center')
+
         mxx.append(adjx)
     maxx2 = np.max(np.array(mxx))
     frame1 = plt.gca()
