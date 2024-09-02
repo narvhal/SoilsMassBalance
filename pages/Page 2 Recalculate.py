@@ -190,16 +190,16 @@ if st.checkbox("Continue?"):
         dft = df[df['sample_id']== samp].copy()
         # FIND DEFAULT ROW:
         # Get values from dft, overwrite later
-        # dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
-        # dft = dft[dft["select_col_val"]==0].copy()
+        dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
+        dft = dft[dft["select_col_val"]==0].copy()
         dft['Coarse_seds_subsurface'] = 0
-        # dft['z'] = dft['z_val'].copy()
-        # dft['p_re'] = dft['p_re_val'].copy()
-        # dft['p_br'] = dft['p_br_val'].copy()
-        # dft['N'] = dft['N_val'].copy()
-        # dft['coarse_mass'] = dft['coarse_mass_val'].copy()
-        # dft['coarse_area'] = dft['coarse_area_val'].copy()
-        # dft['br_E_rate'] = dft['br_E_rate_val'].copy()
+        dft['z'] = dft['z_val'].copy()
+        dft['p_re'] = dft['p_re_val'].copy()
+        dft['p_br'] = dft['p_br_val'].copy()
+        dft['N'] = dft['N_val'].copy()
+        dft['coarse_mass'] = dft['coarse_mass_val'].copy()
+        dft['coarse_area'] = dft['coarse_area_val'].copy()
+        dft['br_E_rate'] = dft['br_E_rate_val'].copy()
 
 
 
