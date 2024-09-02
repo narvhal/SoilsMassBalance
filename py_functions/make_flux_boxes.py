@@ -1030,7 +1030,15 @@ def prep_initial_df(df):
 
 
 
-
+def D_graly(P,L, flag_P_is_mm_per_yr = True):
+    # Graly 2010a
+    # latitude = L
+    # P = precip in cm/yr
+    # flux in 10^4 at/cm3  but elsewhere in the paper it's written at/cm2/yr....
+    if flag_P_is_mm_per_yr:
+        P = P/10
+    flux = P*(1.44/(1+np.exp((30.7-L)/4.36))+0.63)*10**4
+    return flux
 
 
 # D = 1.8e6 # at/cm2/yr
