@@ -241,7 +241,7 @@ if st.checkbox("Continue?"):
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
 
-                    v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in varvalues_dict[selcolkey]}
+                    v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
 
                     selval_dict[selcolkey] = v2vdt[val]
                     dft[selcolkey] = v2vdt[val]
