@@ -245,6 +245,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                 npn = (npp[0][0] , npn[1]+ midy*1.9)
                 plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'left')
                 plt.annotate('\n {:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'left')
+                npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2, midy )  # Find x and y-midpoint
                 plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'top', ha = 'left')
 
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
@@ -284,7 +285,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
 
-    plt.annotate(df.sample_id.iloc[0] +"\n" + df.sample_region.iloc[0], (0, maxy+ maxy), fontsize = 15) #(0, npp[1][1]+4.5))
+    plt.annotate(df.sample_id.iloc[0] +"\n" + df.sample_region.iloc[0], (0, maxy+ 13/14*maxy), fontsize = 15) #(0, npp[1][1]+4.5))
     plt.annotate('(g/m$^2$/yr)', (0, maxy+ 5*maxy/7), fontsize = 10)#npp[1][1]+3.5))
 
     frame1.axis('off')
