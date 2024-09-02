@@ -237,7 +237,7 @@ if st.checkbox("Continue?"):
                         st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
                         st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
-                    val = st.radio(f"{varnames_dict2[selcolkey]}", selcolkey, format_func = varvalsfmt,
+                    val = st.radio(f"{varnames_dict2[selcolkey]}", varvalues_dict[selcolkey],
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
 
