@@ -150,7 +150,16 @@ selval_dict['model_shape'] = model_shape
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
 # Instructions & EXplanations:
-
+def varvalsfmt(mt):   # functions to provide vals for 'model_type'
+    varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
+        "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_{AZ}$", "1.5$\cdot$ $D_{AZ}$", "0.5 $\cdot$ $D_{Sp}$", "$D_{Sp}$", "1.5 $\cdot$ $D_{Sp}$", "4$\cdot$ $D_{Sp}$"],
+        "DF":[7.5, 15, 22.5],
+        "p_re": [0.7, 1.4, 2.1],
+        "br_E_rate": [7.5, 15, 22.5],
+        "coarse_mass": [.75, 1.5, 2.25],
+        "max_coarse_residence_time":[5.5, 11., 16.5]
+        }
+    return varvalues_dict[mt]
 
 if st.checkbox("Continue?"):
     # Scenario and values:
@@ -183,6 +192,8 @@ if st.checkbox("Continue?"):
         AZ_D_graly = D_graly(400, 31.2)
         SP_D_graly = D_graly(510, 39.1)
 
+
+
         with colll[count]:
             with st.expander(f"Sample {samp}", expanded = True):
                 st.text("Changes to the input variables will be incorporated to the plots.")
@@ -190,17 +201,16 @@ if st.checkbox("Continue?"):
                 lc, rc = st.columns([0.5, 0.5])
                 # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
-                for k, vlist in vars_dict.items():
-                    vld = []
-                    # vars_itemfmt_dict[k] = {}
-                    tempd = {}
-                    for j, sv in enumerate(vlist):
-                        valid_list = varvalues_dict[k]
-                        tempd[sv] = valid_list[j]
+                # for k, vlist in vars_dict.items():
+                #     vld = []
+                #     # vars_itemfmt_dict[k] = {}
+                #     tempd = {}
+                    # for j, sv in enumerate(vlist):
+                    #     valid_list = varvalues_dict[k]
+                    #     tempd[sv] = valid_list[j]
                     # vars_itemfmt_dict[sc]= tempd
                     # vld.append(tempd)
-                    def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
-                        return dc[mt]
+
                 st.write(' ')
 
                 selval_dict = {}
@@ -218,23 +228,17 @@ if st.checkbox("Continue?"):
                     # vll = list(vlist[:])
                     # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                     # if filtselcol in selcolu:
+                    keystr = str(selcolkey) + "_radioval_"+ str(six)
+
                     if filtselcol == varnames_dict["D"]:
                         # Add note defining DAz etc556495.6872
                         st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
                         st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
                         st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-
-                    keystr = str(selcolkey) + "_radioval_"+ str(six)
-                    # st.write("filtselcol: ", filtselcol)
-                    # st.write("selcolkey", selcolkey)
-                    # st.write("vars_dict[selcolkey]",vars_dict[selcolkey])
-
-                    # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
-                    #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-
-                    # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
-                    val = st.radio(" ", vars_dict[selcolkey],
+                    val = st.radio(f"{varnames_dict2[selcolkey]}", selcolkey, format_func = varvalsfmt,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+
+
                     selval_dict[selcolkey] = val
                     dft[selcolkey] = val
 
@@ -303,14 +307,14 @@ if st.checkbox("Continue?"):
                     dft = dft.copy()
                 # Actually I think remaking all ufloats will improve those horribly long decimals        if isinstance(fv, uncertainties.core.Variable):
                 #             dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-                    if isinstance(fv, uncertainties.core.AffineScalarFunc) | isinstance(fv, uncertainties.core.Variable):
-                #             print('Line 96:' , col, dft[col].iloc[0],'\n', dft[col])
-                        dft = dft.copy()
-                        st.write("last loop ", col, dft[col])
-                        dft[col] = redef_uf(dft[col])
+                #     if isinstance(fv, uncertainties.core.AffineScalarFunc) | isinstance(fv, uncertainties.core.Variable):
+                # #             print('Line 96:' , col, dft[col].iloc[0],'\n', dft[col])
+                #         dft = dft.copy()
+                #         st.write("last loop ", col, dft[col])
+                #         dft[col] = redef_uf(dft[col])
 
-                        dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-                        dft = dft.copy()
+                #         dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
+                #         dft = dft.copy()
 
                 #             print(col, dft[col].iloc[1])
                     else: pass
