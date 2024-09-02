@@ -16,7 +16,7 @@ from io import BytesIO
 st.set_page_config(layout="wide" )
 
 
-fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_all_Tables_vars_baseline.xlsx"
+fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
 df = pd.read_excel(fn)
 df = df[df['select_col'] != "zcol"].copy()  # not useful
 
@@ -161,7 +161,7 @@ def sliderrange(start, step, num):
 # Instructions & EXplanations:
 def varvalsfmt(mt):   # functions to provide vals for 'model_type'
     varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-        "D": ["0.5 x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
+        "D": [r"0.5 x $D_{AZ}$", r"$D_{AZ}$", r"1.5x $D_{AZ}$", r"0.5x $D_{Sp}$", r"$D_{Sp}$", r"1.5x $D_{Sp}$", r"4x $D_{Sp}$"],
         "DF":[7.5, 15, 22.5],
         "p_re": [0.7, 1.4, 2.1],
         "br_E_rate": [7.5, 15, 22.5],
@@ -190,8 +190,8 @@ if st.checkbox("Continue?"):
         dft = df[df['sample_id']== samp].copy()
         # FIND DEFAULT ROW:
         # Get values from dft, overwrite later
-        dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
-        dft = dft[dft["select_col_val"]==0].copy()
+        # dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
+        # dft = dft[dft["select_col_val"]==0].copy()
         dft['Coarse_seds_subsurface'] = 0
         dft['z'] = dft['z_val'].copy()
         dft['p_re'] = dft['p_re_val'].copy()
@@ -202,192 +202,173 @@ if st.checkbox("Continue?"):
         dft['br_E_rate'] = dft['br_E_rate_val'].copy()
 
 
+        troubleshoot = True
+        if not troubleshoot:
+
+            with colll[count]:
+                with st.expander(f"Sample {samp}", expanded = True):
+                    st.text("Changes to the input variables will be incorporated to the plots.")
+
+                    lc, rc = st.columns([0.5, 0.5])
+                    # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
+
+                    # for k, vlist in vars_dict.items():
+                    #     vld = []
+                    #     # vars_itemfmt_dict[k] = {}
+                    #     tempd = {}
+                    #     for j, sv in enumerate(vlist):
+                    #         valid_list = varvalues_dict[k]
+                    #         tempd[sv] = valid_list[j]
+                    #     vars_itemfmt_dict[sc]= tempd
+                    #     vld.append(tempd)
+
+                    # st.write(' ')
+
+                    selval_dict = {}
+                    for fix, selcolkey in enumerate(selcolu):
+                        # filtselcol = st.selectbox("Select Input Variable to Explore:",
+                        #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
+                        filtselcol = varnames_dict2[selcolkey]
+                        # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
+                        # st.write(f'Vars dict {vars_dict[selcolkey]}')
+                        # selcolkey = list(varnames_dict2.keys())[fix]
+                            # with colll[count]:
+                        # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
+                        # st.write(k, list(vlist[:]))
+                        # st.write(k in df_default.columns.to_list())
+                        # st.write(df_default[k])   index = def_ix,
+                        # vll = list(vlist[:])
+                        # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
+                        # if filtselcol in selcolu:
+                        keystr = str(selcolkey) + "_radioval_"+ str(six)
+
+                        if filtselcol == varnames_dict["D"]:
+                            # Add note defining DAz etc556495.6872
+                            st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
+                            st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+                            st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+
+                        val = st.radio(f"{varnames_dict2[selcolkey]}", varvalues_dict[selcolkey],
+                            key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
 
-        with colll[count]:
-            with st.expander(f"Sample {samp}", expanded = True):
-                st.text("Changes to the input variables will be incorporated to the plots.")
+                        v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
+                        # st.write("v2vdt: ", v2vdt)
+                        # st.write("val: ", val)
+                        selval_dict[selcolkey] = v2vdt[val]
+                        dft[selcolkey] = v2vdt[val]
 
-                lc, rc = st.columns([0.5, 0.5])
-                # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
+                    #### Recalc
 
-                # for k, vlist in vars_dict.items():
-                #     vld = []
-                #     # vars_itemfmt_dict[k] = {}
-                #     tempd = {}
-                #     for j, sv in enumerate(vlist):
-                #         valid_list = varvalues_dict[k]
-                #         tempd[sv] = valid_list[j]
-                #     vars_itemfmt_dict[sc]= tempd
-                #     vld.append(tempd)
+                    # dff = write_defaults_to_df2(df)
+                    # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
+                    flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
+                    if flag_coarse_subsurface>0:
+                        SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
+                    else:
+                        SD =  dft['z'].copy()
+                        coarse_mass = dft['coarse_mass'].iloc[0]
 
-                # st.write(' ')
+                    zl = []
+                    dft['z_old'] = dft['z'].copy()
+                    dft['coarse_mass_old'] = dft['coarse_mass'].copy()
+            #         print(dft['coarse_mass_old'])
+                    for j, vz in enumerate(dft['z']):
+                        vz = float(vz)
+                        zl.append(vz - vz*flag_coarse_subsurface/100)
+                    dft['z'] =zl
+                    dft['coarse_mass'] = coarse_mass
 
-                selval_dict = {}
-                for fix, selcolkey in enumerate(selcolu):
-                    # filtselcol = st.selectbox("Select Input Variable to Explore:",
-                    #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
-                    filtselcol = varnames_dict2[selcolkey]
-                    # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
-                    # st.write(f'Vars dict {vars_dict[selcolkey]}')
-                    # selcolkey = list(varnames_dict2.keys())[fix]
-                        # with colll[count]:
-                    # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
-                    # st.write(k, list(vlist[:]))
-                    # st.write(k in df_default.columns.to_list())
-                    # st.write(df_default[k])   index = def_ix,
-                    # vll = list(vlist[:])
-                    # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
-                    # if filtselcol in selcolu:
-                    keystr = str(selcolkey) + "_radioval_"+ str(six)
+                   # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
 
-                    if filtselcol == varnames_dict["D"]:
-                        # Add note defining DAz etc556495.6872
-                        st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
-                        st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-                        st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-
-                    val = st.radio(f"{varnames_dict2[selcolkey]}", varvalues_dict[selcolkey],
-                        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                    dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
 
-                    v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
-                    # st.write("v2vdt: ", v2vdt)
-                    # st.write("val: ", val)
-                    selval_dict[selcolkey] = v2vdt[val]
-                    dft[selcolkey] = v2vdt[val]
+                    Inv = dft['Inv']
 
-                #### Recalc
+                    dft,res_t = solve_rt(dft)
+                    dft, E_fines = solve_E_fines(dft)
+                    # in mm/kyr
+                    # need mass fluxes --> unc sensitive to res time
 
-                # dff = write_defaults_to_df2(df)
-                # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
-                flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
-                if flag_coarse_subsurface>0:
-                    SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
+                    dft, F_fines = solve_F_fines(dft)
+                    dft, F_coarse  = solve_F_coarse(dft)
+                    dft, F_br  = solve_F_br(dft)
+                    dft, F_dust  = solve_F_dust(dft)
+
+                    dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
+                    dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
+
+                    # These should be equivalent: LHS = RHS of mass balance
+                    dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
+                    dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
+
+                    DF = dft['DF']
+                    p_re = dft['p_re']
+
+                    to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
+                    # Change fluxes to m2
+                    # g/cm2/yr  * 100*100cm2/m2
+                    for c,cc in enumerate(to_m2_cols):
+                        dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
+
+                    dft['rt_ky'] = dft['rt'].copy() /1000 # ky
+
+                    dftt = dft.copy()
+
+                    st.write(' ')
+
+                with st.popover(f"Plot dimension options"):
+
+                    # st.write(sliderrange(5, 2, 12))
+                    hh = sliderrange(5, 2, 12)
+                    keystr = "figwidth_radio" + str(samp)
+                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                    keystr = "figheight_radio"+ str(samp)
+                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                    # height
+                    keystr = "pixelwidth_radio"+ str(samp)
+
+                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
+                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                     # Width in px of image produced...
+                    keystr = "boxscale_radio"+ str(samp)
+
+                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
+                        key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    keystr = "shape_buffer_radio"+ str(samp)
+
+                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
+                         value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
+                # fig = wrap_flux_box_streamlit(dftt, selval_dict)
+
+
+                if model_type == 'simple':
+                    fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
+                        'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
+                    ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
+                    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
+
                 else:
-                    SD =  dft['z'].copy()
-                    coarse_mass = dft['coarse_mass'].iloc[0]
+                    fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
+                         'F_coarse_g_m2_yr' ,
+                         'F_fines_from_br_g_m2_yr' ,
+                         'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
+                    ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
+                    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
 
-                zl = []
-                dft['z_old'] = dft['z'].copy()
-                dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-        #         print(dft['coarse_mass_old'])
-                for j, vz in enumerate(dft['z']):
-                    vz = float(vz)
-                    zl.append(vz - vz*flag_coarse_subsurface/100)
-                dft['z'] =zl
-                dft['coarse_mass'] = coarse_mass
-
-               # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
-
-                dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
-
-
-                Inv = dft['Inv']
-
-                dft,res_t = solve_rt(dft)
-                dft, E_fines = solve_E_fines(dft)
-                # in mm/kyr
-                # need mass fluxes --> unc sensitive to res time
-
-                dft, F_fines = solve_F_fines(dft)
-                dft, F_coarse  = solve_F_coarse(dft)
-                dft, F_br  = solve_F_br(dft)
-                dft, F_dust  = solve_F_dust(dft)
-
-                dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
-                dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
-
-                # These should be equivalent: LHS = RHS of mass balance
-                dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
-                dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
-
-                DF = dft['DF']
-                p_re = dft['p_re']
-
-                to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
-                # ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_br_solids_after_chem_wx','F_fines_from_br', 'F_dissolved', 'F_br_plus_F_dust','F_coarse_plus_F_fines_plus_F_dissolved','F_coarse_normbr', 'F_fines_from_br_normbr','F_fines_boxmodel_normbr', 'F_dust_normbr', 'F_dissolved_normbr', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']
-                dft = dft.copy()
-                # Change fluxes to m2
-                # g/cm2/yr  * 100*100cm2/m2
-                for c,cc in enumerate(to_m2_cols):
-                    dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
-                dft = dft.copy()
-
-                dft['rt_ky'] = dft['rt'].copy() /1000 # ky
-                dft = dft.copy()
-                # At very end, run through all columns and make sure none are Affine Scalar Function
-                for c, col in enumerate(dft.columns.to_list()):
-                    fv = dft[col].iloc[0]
-                    dft = dft.copy()
-                # Actually I think remaking all ufloats will improve those horribly long decimals        if isinstance(fv, uncertainties.core.Variable):
-                #             dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-                #     if isinstance(fv, uncertainties.core.AffineScalarFunc) | isinstance(fv, uncertainties.core.Variable):
-                # #             print('Line 96:' , col, dft[col].iloc[0],'\n', dft[col])
-                #         dft = dft.copy()
-                #         st.write("last loop ", col, dft[col])
-                #         dft[col] = redef_uf(dft[col])
-
-                #         dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-                #         dft = dft.copy()
-
-                #             print(col, dft[col].iloc[1])
-                    # else: pass
-                dftt = dft.copy()
-
-                st.write(' ')
-
-            with st.popover(f"Plot dimension options"):
-
-                # st.write(sliderrange(5, 2, 12))
-                hh = sliderrange(5, 2, 12)
-                keystr = "figwidth_radio" + str(samp)
-                selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                keystr = "figheight_radio"+ str(samp)
-                selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-                    key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                # height
-                keystr = "pixelwidth_radio"+ str(samp)
-
-                selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
-                    key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                 # Width in px of image produced...
-                keystr = "boxscale_radio"+ str(samp)
-
-                selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
-                    key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-                keystr = "shape_buffer_radio"+ str(samp)
-
-                selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
-                     value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-
-            # fig = wrap_flux_box_streamlit(dftt, selval_dict)
-
-
-            if model_type == 'simple':
-                fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
-                    'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
-                ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
-                ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
-
-            else:
-                fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
-                     'F_coarse_g_m2_yr' ,
-                     'F_fines_from_br_g_m2_yr' ,
-                     'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-                ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
-                ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
-
-            for i, f in enumerate(fmcols):
-                dftt[ft[i]] = dftt[f].copy()
-            # dftt['Sample ID'] = dftt['sample_id']
-            # st.write(dftt.columns.to_list())
-            # st.write(dftt[ft])
-            for i in range(len(ft)):
-                st.write(f'''{ftexp[i]} Flux''')
-                st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-            # st.dataframe(dftt[ ft])
-            count +=1
+                for i, f in enumerate(fmcols):
+                    dftt[ft[i]] = dftt[f].copy()
+                # dftt['Sample ID'] = dftt['sample_id']
+                # st.write(dftt.columns.to_list())
+                # st.write(dftt[ft])
+                for i in range(len(ft)):
+                    st.write(f'''{ftexp[i]} Flux''')
+                    st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+                # st.dataframe(dftt[ ft])
+                count +=1
 
 
 # # Add default values
