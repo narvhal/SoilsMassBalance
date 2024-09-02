@@ -610,52 +610,19 @@ def solve_F_dust(dft):  # dft, F_dust  = solve_F_dust(dft)
 
     return dft, F_dust
 
-def set_up_df_for_flux_results3(df,dff, Ncol = 'calc-10Be_at_g', N_unc_col = 'calc-uncert_10Be_at-g', I_desc = 'site'):
-    # Apply dflt values to df for each row (sample id)
-    # Flat values for all rows
+def set_up_df_for_flux_results3(df,Ncol = 'calc-10Be_at_g', N_unc_col = 'calc-uncert_10Be_at-g'):
+    # not updating z_unc
 
-    dd = {'N_col': Ncol,  'N_unc_col': N_unc_col, 'Inv_Desc': I_desc}
-    #, 'p_re': p_re, 'p_re_unc': p_re_unc,'p_br': p_br,  'D_Desc': D_Desc, 'D': D, 'D_unc': D_unc, 'DF': DF, 'DF_unc': DF_unc, 'br_E_rate':br_E_rate, 'br_E_rate_unc': br_E_rate_unc, 'coarse_mass':coarse_mass, 'coarse_mass_unc': coarse_mass_unc, 'coarse_area': coarse_area, 'coarse_area_unc': coarse_area_unc, 'max_coarse_residence_time': max_coarse_residence_time, 'max_coarse_residence_time_unc': max_coarse_residence_time_unc }
-    zcol = dff['zcol'].iloc[0]
-    if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
-        dft = df[['sample_region', 'sample_location', 'sample_position','sample_id','s_dx (cm)','s_dx (cm) upslope','inv_sum_flag','flow acc m2', Ncol,N_unc_col, zcol]].copy()
+    sitecols = []
+    dft['z_site'] = dft.groupby('inv_sum_flag')['z'].transform('sum')
+    dft['N_site'] = dft.groupby('inv_sum_flag')[Ncol].transform('mean')
+    dft['N_site_unc'] = dft.groupby('inv_sum_flag')[N_unc_col].transform('mean')
+    dft['N'] = dft.apply(lambda x: ufloat(x['N_site'], x['N_site_unc'], "N"), axis = 1)
+    N = dft['N']
+    dft['N_unc'] = dft['N_site_unc']
 
-    else:
-        dft = df[['sample_region', 'sample_location', 'sample_position','sample_id','s_dx (cm)','s_dx (cm) upslope','inv_sum_flag','flow acc m2', Ncol,N_unc_col]].copy()
+    dft['z'] = dft['z_site']
 
-    for i, di in enumerate(dd.keys()):
-        dft[di] = dd[di]
-
-    dft = dft.join(dff, on='sample_id', how='left')
-
-    if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
-        SD = dft[zcol]
-    else:
-        SD = zcol
-    dft['z'] = SD
-    if 'z_unc' not in dff.columns.to_list(): z_unc = 0
-    else: z_unc = dff['z_unc'].iloc[0]
-    dft['z_unc'] = z_unc
-
-    if I_desc == 'site':
-        sitecols = []
-        dft['z_site'] = dft.groupby('inv_sum_flag')['z'].transform('sum')
-        dft['N_site'] = dft.groupby('inv_sum_flag')[Ncol].transform('mean')
-        dft['N_site_unc'] = dft.groupby('inv_sum_flag')[N_unc_col].transform('mean')
-        dft['N'] = dft.apply(lambda x: ufloat(x['N_site'], x['N_site_unc'], "N"), axis = 1)
-        N = dft['N']
-        dft['N_unc'] = dft['N_site_unc']
-
-        dft['z'] = dft['z_site']
-
-    else:
-        dft['N'] = dft.apply(lambda x: ufloat(x[Ncol], x[N_unc_col], "N"), axis = 1)
-        N = dft['N']
-
-    zl = []
-    for r, ro in enumerate(dft['z']):
-        zl.append(ufloat(ro, dft['z_unc'].iloc[r]))
-    dft['z'] = zl
 
     return dft, SD, N
 
@@ -711,22 +678,10 @@ def get_new_df_results_w_unc2(df,dff, col_overwrite = False, val_overwrite = 0, 
     if flag_coarse_subsurface != False:
         if isinstance(flag_coarse_subsurface, float) | isinstance(flag_coarse_subsurface, int):  #flag_coarse_subsurface = percent_subsurface_by_vol_is_coarse
             # print(flag_coarse_subsurface, 'flag coarse subsurface is a float or int')
-            SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
-    #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
-            zl = []
-            dft['z_old'] = dft['z'].copy()
-            dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-    #         print(dft['coarse_mass_old'])
-            for j, vz in enumerate(dft['z']):
-                zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
-            dft['z'] =zl
-            dft['coarse_mass'] = coarse_mass
+
 
     dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
-    for pd, pdz in enumerate(dft['Inv']):
-        zt = dft['z'].iloc[pd]
-    Inv = dft['Inv']
 
     dft,res_t = solve_rt(dft)
     dft, E_fines = solve_E_fines(dft)
