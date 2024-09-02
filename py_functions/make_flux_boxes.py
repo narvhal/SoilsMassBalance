@@ -518,11 +518,10 @@ def set_up_df_for_flux_results(df, Ncol, N_unc_col, zcol, z_unc, I_desc, p_re, p
 def solve_rt(dft, flag_pde = False):
     rtruf = []
     for r, ro in enumerate(dft['Inv']):
-        v1 = redef_uf(dft['D'].iloc[r])
-        ro = redef_uf(ro)
-        rt_i = f_rest(ro, v1, ltl)
-        rt_redef =redef_uf(rt_i)
-        rtruf.append(rt_redef)
+        # v1 = redef_uf(dft['D'].iloc[r])
+        # ro = redef_uf(ro)
+        v1 =dft['D'].iloc[r]
+        rtruf.append(f_rest(ro, v1, ltl))
 
     dft['rt'] = rtruf
     res_t = dft['rt']
