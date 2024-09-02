@@ -243,11 +243,12 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             else:
                 # npn = (npn[0], npn[1]+ midy*1.9)
                 npn = (npp[0][0] , npn[1]+ midy*1.9)
-                plt.annotate(ft[i], npn, va = 'center', fontsize = 10, ha = 'left')
+                plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'left')
                 if i == 0:
-                    plt.annotate('\n {:0.1f} g/m$^2$/yr'.format(fst[i]), npn, fontsize = 10)
+                    plt.annotate('\n {:0.1f}\n g/m$^2$/yr'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'left')
                 else:
                     plt.annotate('\n {:0.1f}'.format(fst[i]), npn,fontsize = 10, va = 'top', ha = 'left')
+
                 npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  (npp[0][1]+npp[1][1])/2 ) # Find x and y-midpoint
                 plt.annotate('{:0.0f}%'.format(fst_as_pct), npn, va = 'center', ha = 'center', fontsize = 8, fontweight = "bold")
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
@@ -289,7 +290,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     frame1.axes.get_xaxis().set_visible(False)
     frame1.axes.get_yaxis().set_visible(False)
 
-    plt.annotate(df.sample_id.iloc[0] +"\n" + df.sample_region.iloc[0], (0, maxy+ 13/14*maxy), fontsize = 15) #(0, npp[1][1]+4.5))
+    plt.annotate(df.sample_id.iloc[0] +"\n" + df.sample_region.iloc[0], (0, maxy+ 13/14*maxy), fontsize = 13) #(0, npp[1][1]+4.5))
     #npp[1][1]+3.5))
 
     frame1.axis('off')
