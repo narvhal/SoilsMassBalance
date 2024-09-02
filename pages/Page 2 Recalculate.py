@@ -83,13 +83,14 @@ ltl = 5.1e-7 # , 7.20e-7]  #1/yr lambda [Nishiizumi et al., 2007], Korschinek et
 
 siu = df.sample_id.unique()
 selcolu = list(varnames_dict.keys()) # df.select_col.unique()
-vars_dict = {}
-# vars_itemfmt_dict = {}
-for i, sc in enumerate(selcolu):
-    dft = df[df['select_col'] == sc].copy()
-    vars_dict[sc]= list(dft.select_col_val.unique())
-
-
+vars_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
+                "D": [0.5*AZ_D_graly, AZ_D_graly, 1.5*AZ_D_graly, 0.5*SP_D_graly, SP_D_graly, 1.5* SP_D_graly, 4*SP_D_graly],
+                "DF":[7.5, 15, 22.5],
+                "p_re": [0.7, 1.4, 2.1],
+                "br_E_rate": [7.5, 15, 22.5],
+                "coarse_mass": [.75e3, 1.5e3, 2.25e3],
+                "max_coarse_residence_time":[5.5e3, 11.0e3, 16.5e3]
+                }
 
 selval_dict = {}
 
@@ -189,16 +190,16 @@ if st.checkbox("Continue?"):
         dft = df[df['sample_id']== samp].copy()
         # FIND DEFAULT ROW:
         # Get values from dft, overwrite later
-        dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
-        dft = dft[dft["select_col_val"]==0].copy()
+        # dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
+        # dft = dft[dft["select_col_val"]==0].copy()
         dft['Coarse_seds_subsurface'] = 0
-        dft['z'] = dft['z_val'].copy()
-        dft['p_re'] = dft['p_re_val'].copy()
-        dft['p_br'] = dft['p_br_val'].copy()
-        dft['N'] = dft['N_val'].copy()
-        dft['coarse_mass'] = dft['coarse_mass_val'].copy()
-        dft['coarse_area'] = dft['coarse_area_val'].copy()
-        dft['br_E_rate'] = dft['br_E_rate_val'].copy()
+        # dft['z'] = dft['z_val'].copy()
+        # dft['p_re'] = dft['p_re_val'].copy()
+        # dft['p_br'] = dft['p_br_val'].copy()
+        # dft['N'] = dft['N_val'].copy()
+        # dft['coarse_mass'] = dft['coarse_mass_val'].copy()
+        # dft['coarse_area'] = dft['coarse_area_val'].copy()
+        # dft['br_E_rate'] = dft['br_E_rate_val'].copy()
 
 
 
