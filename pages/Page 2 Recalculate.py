@@ -247,10 +247,10 @@ if st.checkbox("Continue?"):
                         st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
                         st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
-#                     if not troubleshoot:
+                    # if not troubleshoot:
 
-#                         val = st.radio(f"{varnames_dict2[selcolkey]}", varvalues_dict[selcolkey],
-#                             key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                    val = st.radio(f"{varnames_dict2[selcolkey]}", varvalues_dict[selcolkey],
+                        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
 
 #                         v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
