@@ -201,15 +201,15 @@ if st.checkbox("Continue?"):
                 lc, rc = st.columns([0.5, 0.5])
                 # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
-                # for k, vlist in vars_dict.items():
-                #     vld = []
-                #     # vars_itemfmt_dict[k] = {}
-                #     tempd = {}
-                    # for j, sv in enumerate(vlist):
-                    #     valid_list = varvalues_dict[k]
-                    #     tempd[sv] = valid_list[j]
-                    # vars_itemfmt_dict[sc]= tempd
-                    # vld.append(tempd)
+                for k, vlist in vars_dict.items():
+                    vld = []
+                    # vars_itemfmt_dict[k] = {}
+                    tempd = {}
+                    for j, sv in enumerate(vlist):
+                        valid_list = varvalues_dict[k]
+                        tempd[sv] = valid_list[j]
+                    vars_itemfmt_dict[sc]= tempd
+                    vld.append(tempd)
 
                 st.write(' ')
 
@@ -235,12 +235,15 @@ if st.checkbox("Continue?"):
                         st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
                         st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
                         st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+
                     val = st.radio(f"{varnames_dict2[selcolkey]}", selcolkey, format_func = varvalsfmt,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
 
-                    selval_dict[selcolkey] = val
-                    dft[selcolkey] = val
+                    v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in varvalues_dict[selcolkey]}
+
+                    selval_dict[selcolkey] = v2vdt[val]
+                    dft[selcolkey] = v2vdt[val]
 
                 #### Recalc
 
