@@ -34,7 +34,7 @@ st.header("Flux boxes")
 # g/m2/yr?
 
 
-varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment \% in subsurface",
+varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "DF":"Dissolution Factor",
                 "p_re": "Soil Density",
                 "br_E_rate": "Bedrock Erosion Rate",
@@ -50,7 +50,7 @@ varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                 "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
                 }
-varunits_dict = {"Coarse_seds_subsurface":"(\%)",
+varunits_dict = {"Coarse_seds_subsurface":"(%)",
                 "DF":"(Solid products/Dissolved products)",
                 "p_re": "(g/cm$^3$)",
                 "br_E_rate": "(mm/ky)",
@@ -64,7 +64,7 @@ varunits_dict = {"Coarse_seds_subsurface":"(\%)",
                 #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
                 #
 varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-                "D": ["0.5 $\cdot$ $D_{AZ}$", "$D_{AZ}$", "1.5$\cdot$ $D_{AZ}$", "0.5 $\cdot$ $D_{Sp}$", "$D_{Sp}$", "1.5 $\cdot$ $D_{Sp}$", "4$\cdot$ $D_{Sp}$"],
+                "D": ["0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
                 "DF":[7.5, 15, 22.5],
                 "p_re": [0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5],
