@@ -234,169 +234,169 @@ if st.checkbox("Continue?"):
                     selval_dict[selcolkey] = val
                     dft[selcolkey] = val
 
-                    #### Recalc
+                #### Recalc
 
-                    # dff = write_defaults_to_df2(df)
-                    # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
-                    SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
-            #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
-                    zl = []
-                    dft['z_old'] = dft['z'].copy()
-                    dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-            #         print(dft['coarse_mass_old'])
-                    for j, vz in enumerate(dft['z']):
-                        zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
-                    dft['z'] =zl
-                    dft['coarse_mass'] = coarse_mass
+                # dff = write_defaults_to_df2(df)
+                # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
+                SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, selval_dict['Coarse_seds_subsurface'])
+        #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
+                zl = []
+                dft['z_old'] = dft['z'].copy()
+                dft['coarse_mass_old'] = dft['coarse_mass'].copy()
+        #         print(dft['coarse_mass_old'])
+                for j, vz in enumerate(dft['z']):
+                    zl.append(redef_uf(vz - vz*selval_dict['Coarse_seds_subsurface'])/100))
+                dft['z'] =zl
+                dft['coarse_mass'] = coarse_mass
 
 
 
-                    ufcols = ['p_re','p_br', 'br_E_rate', 'coarse_mass', 'coarse_area', 'max_coarse_residence_time', 'z', 'D', 'DF']
-                    for i, ucol in enumerate(ufcols):#isinstance(uf, uncertainties.core.Variable) | isinstance(uf, uncertainties.core.AffineScalarFunc)\
-                    #         if ucol == 'coarse_mass':
-                    #             print('before coarsemass: ', dft[ucol].iloc[0])
-                        if isinstance(dft[ucol].iloc[0], uncertainties.core.Variable): # already done, don't do anything
-                    #             print('TRUE: isinstance(dft[ucol].iloc[0], uncertainties.core.Variable)')
-                            pass
-                        elif isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc):
-                    #                print('TRUE: isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc)')
-                            dft[ucol] = redef_uf(dft[ucol])
-                        else: # if any of those ufcols isn't already ufloat, then we need to change it and assume the unc col is there else 0
-                    #             print('TRUE: else, i.e. not a affine scalar func or variable')
-                            uncol = ucol + '_unc'
-                            if uncol not in dft.columns.to_list():
-                    #                 print('uncol: ', uncol)
-                                dft[uncol] = 0
-                            tarr = []
-                            for j, uval in enumerate(dft[ucol]): # redef uf doesn't need to loop through each row but ufloat does
-                                 tarr.append(ufloat(uval, dft[uncol].iloc[j], ucol))
-                            dft[ucol] = tarr
-                    #         if ucol == 'coarse_mass':
-                    #             print('after ufloate coarsemass: ', dft[ucol].iloc[0])
+                ufcols = ['p_re','p_br', 'br_E_rate', 'coarse_mass', 'coarse_area', 'max_coarse_residence_time', 'z', 'D', 'DF']
+                for i, ucol in enumerate(ufcols):#isinstance(uf, uncertainties.core.Variable) | isinstance(uf, uncertainties.core.AffineScalarFunc)\
+                #         if ucol == 'coarse_mass':
+                #             print('before coarsemass: ', dft[ucol].iloc[0])
+                    if isinstance(dft[ucol].iloc[0], uncertainties.core.Variable): # already done, don't do anything
+                #             print('TRUE: isinstance(dft[ucol].iloc[0], uncertainties.core.Variable)')
+                        pass
+                    elif isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc):
+                #                print('TRUE: isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc)')
+                        dft[ucol] = redef_uf(dft[ucol])
+                    else: # if any of those ufcols isn't already ufloat, then we need to change it and assume the unc col is there else 0
+                #             print('TRUE: else, i.e. not a affine scalar func or variable')
+                        uncol = ucol + '_unc'
+                        if uncol not in dft.columns.to_list():
+                #                 print('uncol: ', uncol)
+                            dft[uncol] = 0
+                        tarr = []
+                        for j, uval in enumerate(dft[ucol]): # redef uf doesn't need to loop through each row but ufloat does
+                             tarr.append(ufloat(uval, dft[uncol].iloc[j], ucol))
+                        dft[ucol] = tarr
+                #         if ucol == 'coarse_mass':
+                #             print('after ufloate coarsemass: ', dft[ucol].iloc[0])
 
-                   # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
-                    if flag_coarse_subsurface != False:
-                        if isinstance(flag_coarse_subsurface, float) | isinstance(flag_coarse_subsurface, int):  #flag_coarse_subsurface = percent_subsurface_by_vol_is_coarse
-                            # print(flag_coarse_subsurface, 'flag coarse subsurface is a float or int')
-                            SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
-                    #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
-                            zl = []
-                            dft['z_old'] = dft['z'].copy()
-                            dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-                    #         print(dft['coarse_mass_old'])
-                            for j, vz in enumerate(dft['z']):
-                                zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
-                            dft['z'] =zl
-                            dft['coarse_mass'] = coarse_mass
+               # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
+                if flag_coarse_subsurface != False:
+                    if isinstance(flag_coarse_subsurface, float) | isinstance(flag_coarse_subsurface, int):  #flag_coarse_subsurface = percent_subsurface_by_vol_is_coarse
+                        # print(flag_coarse_subsurface, 'flag coarse subsurface is a float or int')
+                        SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
+                #         print('get_new_df_results_w_unc:  coarse_mass: ', coarse_mass, '\nSD: ', SD)
+                        zl = []
+                        dft['z_old'] = dft['z'].copy()
+                        dft['coarse_mass_old'] = dft['coarse_mass'].copy()
+                #         print(dft['coarse_mass_old'])
+                        for j, vz in enumerate(dft['z']):
+                            zl.append(redef_uf(vz - vz*flag_coarse_subsurface/100))
+                        dft['z'] =zl
+                        dft['coarse_mass'] = coarse_mass
 
-                    dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
+                dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
-                    for pd, pdz in enumerate(dft['Inv']):
-                        zt = dft['z'].iloc[pd]
-                    Inv = dft['Inv']
+                for pd, pdz in enumerate(dft['Inv']):
+                    zt = dft['z'].iloc[pd]
+                Inv = dft['Inv']
 
-                    dft,res_t = solve_rt(dft)
-                    dft, E_fines = solve_E_fines(dft)
-                    # in mm/kyr
-                    # need mass fluxes --> unc sensitive to res time
+                dft,res_t = solve_rt(dft)
+                dft, E_fines = solve_E_fines(dft)
+                # in mm/kyr
+                # need mass fluxes --> unc sensitive to res time
 
-                    dft, F_fines = solve_F_fines(dft)
-                    dft, F_coarse  = solve_F_coarse(dft)
-                    dft, F_br  = solve_F_br(dft)
-                    dft, F_dust  = solve_F_dust(dft)
+                dft, F_fines = solve_F_fines(dft)
+                dft, F_coarse  = solve_F_coarse(dft)
+                dft, F_br  = solve_F_br(dft)
+                dft, F_dust  = solve_F_dust(dft)
 
-                    dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
-                    dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
+                dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
+                dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
 
-                    # These should be equivalent: LHS = RHS of mass balance
-                    dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
-                    dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
+                # These should be equivalent: LHS = RHS of mass balance
+                dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
+                dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
 
-                    DF = dft['DF']
-                    p_re = dft['p_re']
+                DF = dft['DF']
+                p_re = dft['p_re']
 
-                    to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
-                    # ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_br_solids_after_chem_wx','F_fines_from_br', 'F_dissolved', 'F_br_plus_F_dust','F_coarse_plus_F_fines_plus_F_dissolved','F_coarse_normbr', 'F_fines_from_br_normbr','F_fines_boxmodel_normbr', 'F_dust_normbr', 'F_dissolved_normbr', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']
+                to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
+                # ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_br_solids_after_chem_wx','F_fines_from_br', 'F_dissolved', 'F_br_plus_F_dust','F_coarse_plus_F_fines_plus_F_dissolved','F_coarse_normbr', 'F_fines_from_br_normbr','F_fines_boxmodel_normbr', 'F_dust_normbr', 'F_dissolved_normbr', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']
+                dft = dft.copy()
+                # Change fluxes to m2
+                # g/cm2/yr  * 100*100cm2/m2
+                for c,cc in enumerate(to_m2_cols):
+                    dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
+                dft = dft.copy()
+
+                dft['rt_ky'] = dft['rt'].copy() /1000 # ky
+                dft = dft.copy()
+                # At very end, run through all columns and make sure none are Affine Scalar Function
+                for c, col in enumerate(dft.columns.to_list()):
+                    fv = dft[col].iloc[0]
                     dft = dft.copy()
-                    # Change fluxes to m2
-                    # g/cm2/yr  * 100*100cm2/m2
-                    for c,cc in enumerate(to_m2_cols):
-                        dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
-                    dft = dft.copy()
-
-                    dft['rt_ky'] = dft['rt'].copy() /1000 # ky
-                    dft = dft.copy()
-                    # At very end, run through all columns and make sure none are Affine Scalar Function
-                    for c, col in enumerate(dft.columns.to_list()):
-                        fv = dft[col].iloc[0]
+                # Actually I think remaking all ufloats will improve those horribly long decimals        if isinstance(fv, uncertainties.core.Variable):
+                #             dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
+                    if isinstance(fv, uncertainties.core.AffineScalarFunc) | isinstance(fv, uncertainties.core.Variable):
+                #             print('Line 96:' , col, dft[col].iloc[0],'\n', dft[col])
                         dft = dft.copy()
-                    # Actually I think remaking all ufloats will improve those horribly long decimals        if isinstance(fv, uncertainties.core.Variable):
-                    #             dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-                        if isinstance(fv, uncertainties.core.AffineScalarFunc) | isinstance(fv, uncertainties.core.Variable):
-                    #             print('Line 96:' , col, dft[col].iloc[0],'\n', dft[col])
-                            dft = dft.copy()
-                            dft[col] = redef_uf(dft[col])
+                        dft[col] = redef_uf(dft[col])
 
-                            dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-                            dft = dft.copy()
+                        dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
+                        dft = dft.copy()
 
-                    #             print(col, dft[col].iloc[1])
-                        else: pass
-                    dftt = dft.copy()
+                #             print(col, dft[col].iloc[1])
+                    else: pass
+                dftt = dft.copy()
 
-                    st.write(' ')
+                st.write(' ')
 
-                with st.popover(f"Plot dimension options"):
+            with st.popover(f"Plot dimension options"):
 
-                    # st.write(sliderrange(5, 2, 12))
-                    hh = sliderrange(5, 2, 12)
-                    keystr = "figwidth_radio" + str(samp)
-                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                    keystr = "figheight_radio"+ str(samp)
-                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                    # height
-                    keystr = "pixelwidth_radio"+ str(samp)
+                # st.write(sliderrange(5, 2, 12))
+                hh = sliderrange(5, 2, 12)
+                keystr = "figwidth_radio" + str(samp)
+                selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                keystr = "figheight_radio"+ str(samp)
+                selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+                    key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                # height
+                keystr = "pixelwidth_radio"+ str(samp)
 
-                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
-                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                     # Width in px of image produced...
-                    keystr = "boxscale_radio"+ str(samp)
+                selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
+                    key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                 # Width in px of image produced...
+                keystr = "boxscale_radio"+ str(samp)
 
-                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
-                        key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-                    keystr = "shape_buffer_radio"+ str(samp)
+                selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
+                    key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                keystr = "shape_buffer_radio"+ str(samp)
 
-                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
-                         value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
+                     value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                fig = wrap_flux_box_streamlit(dftt, selval_dict)
+            fig = wrap_flux_box_streamlit(dftt, selval_dict)
 
 
-                if model_type == 'simple':
-                    fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
-                        'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
-                    ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
-                    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
+            if model_type == 'simple':
+                fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
+                    'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
+                ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
+                ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
 
-                else:
-                    fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
-                         'F_coarse_g_m2_yr' ,
-                         'F_fines_from_br_g_m2_yr' ,
-                         'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-                    ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
-                    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
+            else:
+                fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
+                     'F_coarse_g_m2_yr' ,
+                     'F_fines_from_br_g_m2_yr' ,
+                     'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
+                ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
+                ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
 
-                for i, f in enumerate(fmcols):
-                    dftt[ft[i]] = dftt[f].copy()
-                # dftt['Sample ID'] = dftt['sample_id']
-                # st.write(dftt.columns.to_list())
-                # st.write(dftt[ft])
-                for i in range(len(ft)):
-                    st.write(f'''{ftexp[i]} Flux''')
-                    st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-                # st.dataframe(dftt[ ft])
-                count +=1
+            for i, f in enumerate(fmcols):
+                dftt[ft[i]] = dftt[f].copy()
+            # dftt['Sample ID'] = dftt['sample_id']
+            # st.write(dftt.columns.to_list())
+            # st.write(dftt[ft])
+            for i in range(len(ft)):
+                st.write(f'''{ftexp[i]} Flux''')
+                st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+            # st.dataframe(dftt[ ft])
+            count +=1
 
 
 # # Add default values
