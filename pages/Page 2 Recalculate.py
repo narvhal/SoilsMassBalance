@@ -238,7 +238,7 @@ if st.checkbox("Continue?"):
                 #     vars_itemfmt_dict[sc]= tempd
                 #     vld.append(tempd)
 
-                # st.write(' ')
+                st.write("1   ", dft['br_E_rate'].iloc[0])
                 with lc:
                     selcolkey = "Coarse_seds_subsurface"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
@@ -257,6 +257,7 @@ if st.checkbox("Continue?"):
                     selcolkey = "max_coarse_residence_time"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
+                st.write("2   ", dft['br_E_rate'].iloc[0])
 
                 # for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
@@ -293,8 +294,6 @@ if st.checkbox("Continue?"):
 
                 dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
-                # st.write("6, ", dft['Inv'] ,dft['D'])
-                Inv = dft['Inv']
                 dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
                 v1 = dft['z']
                 v2 = dft['D']
@@ -322,6 +321,7 @@ if st.checkbox("Continue?"):
                 v3 = dft['F_br']
                 v4 = dft['DF']
                 dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
+                st.write("3   ", dft['br_E_rate'].iloc[0])
 
 
 # #                     dft, E_fines = solve_E_fines(dft)

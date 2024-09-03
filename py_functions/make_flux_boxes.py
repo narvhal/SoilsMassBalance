@@ -1101,8 +1101,6 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
     # st.write("v2vdt: ", v2vdt)
     # st.write("val: ", val)
     selval_dict[selcolkey] = v2vdt[val]
-    # st.write("4, ")
-    # st.dataframe( dft["D"])
 
     dft[selcolkey] = v2vdt[val]
     return dft, selval_dict
