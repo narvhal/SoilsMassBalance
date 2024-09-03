@@ -357,6 +357,9 @@ if st.checkbox("Continue?"):
 # # #                     p_re = dft['p_re']
 
                 to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
+                st.write(to_m2_cols)
+                to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_fines_from_br',
+                'F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved']
 #                 # Change fluxes to m2
 #                 # g/cm2/yr  * 100*100cm2/m2
                 for c,cc in enumerate(to_m2_cols):
