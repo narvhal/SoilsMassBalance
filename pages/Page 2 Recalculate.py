@@ -395,7 +395,7 @@ if st.checkbox("Continue?"):
                     selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                          value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                # fig = wrap_flux_box_streamlit(dftt, selval_dict)
+                fig = wrap_flux_box_streamlit(dft, selval_dict)
 
 
                 if model_type == 'simple':
@@ -413,13 +413,13 @@ if st.checkbox("Continue?"):
                     ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
 
                 for i, f in enumerate(fmcols):
-                    dftt[ft[i]] = dftt[f].copy()
+                    dft[ft[i]] = dft[f].copy()
                 # dftt['Sample ID'] = dftt['sample_id']
                 # st.write(dftt.columns.to_list())
                 # st.write(dftt[ft])
                 for i in range(len(ft)):
                     st.write(f'''{ftexp[i]} Flux''')
-                    st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+                    st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
                 # st.dataframe(dftt[ ft])
                 count +=1
 
