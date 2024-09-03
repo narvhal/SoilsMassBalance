@@ -161,12 +161,12 @@ with lc:
 
 selval_dict['model_type'] = model_type
 st.write("Model A: Simple Mass Balance Model")
-st.latex(r"$F_b = F_c + F_f + F_{dis}$")
+st.latex(r"F_b = F_c + F_f + F_{dis}")
 st.write(" ")
 st.write("Model B: Mass Balance Including Dust")
 st.write(" dissolved flux constrained by calcite mass balance.")
 
-st.latex(r"$F_b + F_d = F_c + F_{f,b} + F_{dis} + F_d$")
+st.latex(r"F_b + F_d = F_c + F_{f,b} + F_{dis} + F_d")
 
 
 if model_type == 'simple':
