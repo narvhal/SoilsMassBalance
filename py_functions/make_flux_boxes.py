@@ -1180,7 +1180,7 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
     dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
     # dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr']
     dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']  =dft['F_br']  - dft['F_coarse'] - dft['F_fines_boxmodel']
-    st.write(f"F (diss, simple) = Fbr - Fc - Ff, {dft['F_br']}  - {dft['F_coarse']} - {dft['F_fines_boxmodel']}")
+    st.write(f"F (diss, simple) = Fbr - Fc - Ff,{dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines'].iloc[0]} +  {dft['F_br'].iloc[0]}  - {dft['F_coarse'].iloc[0]} - {dft['F_fines_boxmodel'].iloc[0]}")
 # # #                     DF = dft['DF']
 # # #                     p_re = dft['p_re']
 
