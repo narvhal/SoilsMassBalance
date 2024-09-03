@@ -40,7 +40,8 @@ varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "br_E_rate": "Bedrock Erosion Rate",
                 "coarse_mass": "Coarse Fraction ($F_c$) Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
-                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
+                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface",
+                "z": "Soil Depth (fines)"
                 }
 varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "DF":"Dissolution Factor",
@@ -48,15 +49,17 @@ varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "br_E_rate": "Bedrock Erosion Rate",
                 "coarse_mass": "Coarse Fraction ($F_c$) Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
-                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
+                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface",
+                "z": "Soil Depth (fines)"
                 }
-varunits_dict = {"Coarse_seds_subsurface":"(%)",
-                "DF":"(Solid products/Dissolved products)",
-                "p_re": "(g/cm$^3$)",
-                "br_E_rate": "(mm/ky)",
-                "coarse_mass": "(kg)",
-                "max_coarse_residence_time":"(kyr)",
-                "D":"Atoms/cm$^2$/yr"
+varunits_dict = {"Coarse_seds_subsurface":"%",
+                "DF":"Solid products/Dissolved products",
+                "p_re": "g/cm$^3$",
+                "br_E_rate": "mm/ky",
+                "coarse_mass": "kg",
+                "max_coarse_residence_time":"kyr",
+                "D":"Atoms/cm$^2$/yr",
+                "z": "cm"
                 }
 
                 #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
@@ -69,7 +72,8 @@ varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "p_re": [0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5],
                 "coarse_mass": [.75, 1.5, 2.25],
-                "max_coarse_residence_time":[5.5, 11., 16.5]
+                "max_coarse_residence_time":[5.5, 11., 16.5],
+                "z": ["Site Measurement", 5, 10, 20, 50]
                 }
 
 D = 1.8e6 # at/cm2/yr
@@ -89,7 +93,8 @@ vars_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "p_re": [0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5],
                 "coarse_mass": [.75e3, 1.5e3, 2.25e3],
-                "max_coarse_residence_time":[5.5e3, 11.0e3, 16.5e3]
+                "max_coarse_residence_time":[5.5e3, 11.0e3, 16.5e3],
+                "z": ['default', 5, 10, 20, 50]
                 }
 
 selval_dict = {}
@@ -176,13 +181,14 @@ def sliderrange(start, step, num):
 # Instructions & EXplanations:
 def varvalsfmt(mt):   # functions to provide vals for 'model_type'
     varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-        "D": ["Regional Default", r"0.5 x $D_{AZ}$", r"$D_{AZ}$", r"1.5x $D_{AZ}$", r"0.5x $D_{Sp}$", r"$D_{Sp}$", r"1.5x $D_{Sp}$", r"4x $D_{Sp}$"],
-        "DF":[7.5, 15, 22.5],
-        "p_re": [0.7, 1.4, 2.1],
-        "br_E_rate": [7.5, 15, 22.5],
-        "coarse_mass": [.75, 1.5, 2.25],
-        "max_coarse_residence_time":[5.5, 11., 16.5]
-        }
+                "D": ["Regional Default", "0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
+                "DF":[7.5, 15, 22.5],
+                "p_re": [0.7, 1.4, 2.1],
+                "br_E_rate": [7.5, 15, 22.5],
+                "coarse_mass": [.75, 1.5, 2.25],
+                "max_coarse_residence_time":[5.5, 11., 16.5],
+                "z": ["Site Measurement", 5, 10, 20, 50]
+                }
     return varvalues_dict[mt]
 
 if st.checkbox("Continue?"):
@@ -249,6 +255,9 @@ if st.checkbox("Continue?"):
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
                 with rc:
+                    selcolkey = "z"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+
                     selcolkey = "p_re"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
                     selcolkey = "br_E_rate"
@@ -319,7 +328,7 @@ if st.checkbox("Continue?"):
                 for i in range(len(ft)):
                     st.write(f'''{ftexp[i]} Flux''')
                     st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-                st.dataframe(dft[ ft])
+                # st.dataframe(dft[ ft])
                 count +=1
 
 

@@ -1098,6 +1098,8 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
     if selcolkey =="D":
         v2vdt["Regional Default"] = dft["D"].iloc[0]
+    if selcolkey == "z":
+        v2vdt["Site Measurement"] = dft["z"].iloc[0]
     # st.write("v2vdt: ", v2vdt)
     # st.write("val: ", val)
     selval_dict[selcolkey] = v2vdt[val]
