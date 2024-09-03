@@ -115,7 +115,7 @@ default_ix = list(siu).index("NQT0")
 
 # si = st.selectbox("Choose sample: ", siu, index = default_ix,
     # key = keystr, on_change=proc, args = (keystr,))
-bc1, lc, rc, bc2 = st.columns([0.2, 0.3, 0.3, 0.2])
+bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
 
 with lc:
     st.write("Choose samples: ")
@@ -154,13 +154,13 @@ selval_dict['sample_id'] = si
 # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
 #       or with dust  (Dissolution constrained by calcite mass balance) )
 
-with lc:
+with rc:
     keystr = "model_type_radio"
     model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
         on_change=proc, args = (keystr,))
 
-selval_dict['model_type'] = model_type
-with rc:
+    selval_dict['model_type'] = model_type
+
     st.write("Model A: Simple Mass Balance Model")
     st.latex(r"F_b = F_c + F_f + F_{dis}")
     st.write(" ")
