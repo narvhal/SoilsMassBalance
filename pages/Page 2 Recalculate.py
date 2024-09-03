@@ -155,6 +155,20 @@ with rc:
 selval_dict['model_shape'] = model_shape
 
 
+if model_type == 'simple':
+    fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
+        'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
+    ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
+    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
+
+else:
+    fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
+         'F_coarse_g_m2_yr' ,
+         'F_fines_from_br_g_m2_yr' ,
+         'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
+    ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
+    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
+
 
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
@@ -368,22 +382,10 @@ if st.checkbox("Continue?"):
                     selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                          value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
+                st.write(dft[fmcols])
+                st.write(selval_dict)
                 fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-
-                if model_type == 'simple':
-                    fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
-                        'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
-                    ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
-                    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
-
-                else:
-                    fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
-                         'F_coarse_g_m2_yr' ,
-                         'F_fines_from_br_g_m2_yr' ,
-                         'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-                    ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
-                    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
 
                 for i, f in enumerate(fmcols):
                     dft[ft[i]] = dft[f].copy()
