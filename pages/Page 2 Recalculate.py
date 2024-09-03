@@ -169,7 +169,7 @@ else:
     ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
     ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)',
             'Dissolved Material', 'Dust (Fine sediment originating from dust)']
-# fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
+fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
 
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
