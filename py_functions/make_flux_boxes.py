@@ -1080,8 +1080,19 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
 
 
     vvd =varvalues_dict[selcolkey]
+    font_size = 15
 
-    val = st.radio(f"{varnames_dict2[selcolkey]}", vvd, index = index,
+    html_str = f"""
+        <style>
+        p.a {{
+          font: bold {font_size}px Courier;
+        }}
+        </style>
+        <p class="a">{varnames_dict2[selcolkey]}</p>
+        """
+
+    st.markdown(html_str, unsafe_allow_html=True)
+    val = st.radio(f" ", vvd, index = index,
         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     # st.write("3, ")
     # st.dataframe( dft["D"])
