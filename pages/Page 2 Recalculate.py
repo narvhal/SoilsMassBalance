@@ -160,14 +160,13 @@ with lc:
         on_change=proc, args = (keystr,))
 
 selval_dict['model_type'] = model_type
+st.write("Model A: Simple Mass Balance Model")
+st.latex(r"$F_b = F_c + F_f + F_{dis}$")
+st.write(" ")
+st.write("Model B: Mass Balance Including Dust")
+st.write(" dissolved flux constrained by calcite mass balance.")
 
-with rc:
-# Select box model shape:
-    keystr = "model_shape_radio"
-
-    model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
-        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-selval_dict['model_shape'] = model_shape
+st.latex(r"$F_b + F_d = F_c + F_{f,b} + F_{dis} + F_d$")
 
 
 if model_type == 'simple':
@@ -191,8 +190,7 @@ def sliderrange(start, step, num):
 # Instructions & EXplanations:
 
 
-with st.expander("Display Mass Balance Equations"):
-    display_massbalance_equations()
+
 
 
 if st.checkbox("Continue?"):
@@ -278,7 +276,7 @@ if st.checkbox("Continue?"):
                     selcolkey = "z"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                    if expb: st.write("Soil density is involved in fine sediment flux.")
+                    if expb: st.write("Dust is assumed to have the same density as soil.")
                     selcolkey = "p_re"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
@@ -313,6 +311,12 @@ if st.checkbox("Continue?"):
 
                 with st.popover(f"Plot dimension options"):
 
+                    # Select box model shape:
+                    keystr = "model_shape_radio"
+
+                    model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
+                        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                    selval_dict['model_shape'] = model_shape
                     # st.write(sliderrange(5, 2, 12))
                     hh = sliderrange(5, 2, 12)
                     keystr = "figwidth_radio" + str(samp)
@@ -353,7 +357,8 @@ if st.checkbox("Continue?"):
                 # st.dataframe(dft[ ft])
                 count +=1
 
-
+with st.expander("Display Mass Balance Equations for F$_b$, F$_d$, and F$_f$"):
+    display_massbalance_equations()
 # # Add default values
 st.dataframe(df_default)
 df_defaultcols = df_default.columns.to_list()
