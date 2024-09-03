@@ -257,12 +257,12 @@ if st.checkbox("Continue?"):
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
                     st.write("The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.")
                     selcolkey = "max_coarse_residence_time"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
 
 
-                    st.write("Dissolution Factor is in the denominator, and so only increments below 7 seem important.")
+                    st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
                     selcolkey = "DF"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
 
                 with rc:
                     st.write("What if the measured soil depth is an underestimate? Explore: ")
@@ -274,7 +274,7 @@ if st.checkbox("Continue?"):
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
                     st.write("Bedrock erosion rate and flux of bedrock are directly related by the density of the material.")
                     selcolkey = "br_E_rate"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
                     st.write("The mass of coarse sediment measured on the surface.")
 
                 # for fix, selcolkey in enumerate(selcolu):

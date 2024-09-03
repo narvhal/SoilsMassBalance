@@ -1059,7 +1059,7 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
 
 
 
-def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six):
+def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index = 0):
     filtselcol = varnames_dict2[selcolkey]
     # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
     # st.write(f'Vars dict {vars_dict[selcolkey]}')
@@ -1086,7 +1086,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
 
     vvd =varvalues_dict[selcolkey]
 
-    val = st.radio(f"{varnames_dict2[selcolkey]}", vvd,
+    val = st.radio(f"{varnames_dict2[selcolkey]}", vvd, index = ix,
         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     # st.write("3, ")
     # st.dataframe( dft["D"])
