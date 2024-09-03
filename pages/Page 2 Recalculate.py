@@ -191,6 +191,10 @@ def sliderrange(start, step, num):
 # Instructions & EXplanations:
 
 
+with st.expander("Display Mass Balance Equations"):
+    display_massbalance_equations()
+
+
 if st.checkbox("Continue?"):
     # Scenario and values:
     baseline_dict = {}
