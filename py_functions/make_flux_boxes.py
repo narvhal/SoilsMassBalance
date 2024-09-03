@@ -1084,10 +1084,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
         st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
         st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
-        vvd = ['Regional Default'] + varvalues_dict[selcolkey]
-    else:
-        vvd = varvalues_dict[selcolkey]
-    # if not troubleshoot:
+    vvd =varvalues_dict[selcolkey]
 
     val = st.radio(f"{varnames_dict2[selcolkey]}", vvd,
         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
