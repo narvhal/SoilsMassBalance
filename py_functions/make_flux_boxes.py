@@ -1138,9 +1138,9 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
     # st.write("rt:", v2)
     # st.write("z:", v1)
     # st.write("F_fines_boxmodel:", dft['F_fines_boxmodel'].iloc[0])
-    st.write(f"I = N*p_re*z")
-    st.write(f"rt = (-1/lambda)*log(1-(lambda*I/D))")
-    st.write(f"Ff = z*p_re/rt: {v1*v3/v2}" )
+    # st.write(f"I = N*p_re*z")
+    # st.write(f"rt = (-1/lambda)*log(1-(lambda*I/D))")
+    # st.write(f"Ff = z*p_re/rt: {v1*v3/v2}" )
 
 
     v1 = dft['coarse_mass']
@@ -1207,55 +1207,57 @@ def display_massbalance_equations():
     tx = r'''\begin{equation}
         DF = F_{dis} / F_{fb}
             \label{eq:dissolutionfactorbalance}
-        \end{equation}
-        Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:
-        \begin{equation} \label{eq:intermediate_derivation_mass_balance}
-            F_b = F_c + F_{fb}*(1+DF)
-        \end{equation}
-        Rearrange to isolate $F_{fb}$:
-        \begin{equation}
-           \label{eq:intermediate2_derivation_mass_balance}
-            -F_{fb} = \frac{F_c -F_b}{(1+DF)}
-        \end{equation}
-
-        Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:
-
-        \begin{equation} \label{eq:unknown_dust_both_sides}
-        F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}
-        \end{equation}
-
-        Note that we do not include the dissolution of dust in this model.
-
-        $F_f$ represents the total flux of fine sediment (<2mm) out of the control volume, which is the sum of fine sediments produced by bedrock and those deposited by dust:
-
-        \begin{equation} \label{eq:define_Ff}
-            F_f =   F_{d} + F_{fb}
-        \end{equation}
-
-        Then, substituting Equation \ref{eq:define_Ff} into the unknown dust flux in Equation \ref{eq:unknown_dust_both_sides} :
-
-        \begin{equation} \label{eq:fluxes_dust_isolated}
-             F_{d}  = F_f + \frac{F_c  -F_b}{(1+DF)}
-        \end{equation}
-
-
-        In Equation \ref{eq:fluxes_dust_isolated}, the measurable quantities are isolated on the right side. Equations \ref{eq:fluxes_balance_nodust} and \ref{eq:fluxes_dust_isolated} are represented in Figure \ref{fig:fluxes_balanced_boxes}. The fluxes of fine sediment, coarse sediment, and bedrock can be evaluated through a combination of techniques, briefly described below and in more detail in Sections \ref{sec:Ffo}, \ref{sec:Fb}, and \ref{sec:Fc}.
-
-
-        \begin{figure}[htbp!]
-            \centering
-            \includegraphics[width=0.75\linewidth]{src/texts_6_12/June_12_Ch4/Figures/ConceptFigs/Mass_balance_visual_Equations.png}
-            \caption[Conceptual Visualization of Mass Balance of Regolith]{Top: A visual representation of the mass balance between the fluxes in and out of the regolith control volume, Equation \ref{eq:fluxes_balance_nodust}. Lower: The addition of dust means that the proportion of fine sediments derived from bedrock ($F_{bf}$) to dissolved material decreases ($F_{dis}$).}
-            \label{fig:fluxes_balanced_boxes}
-        \end{figure}
-
-        The mass flux from bedrock is estimated from the \cosmoCl{} in bedrock.  Mass flux (g/cm$^2$/yr) is related to lowering rate of bedrock ($E_b$, L/T, mm/kyr) by the density (g/cm$^3$), and so the flux of material released by the bedrock as it erodes can be calculated.
-
-        \begin{equation}
-            F_b = E_b*\rho_b
-            \label{eq:F_br}
         \end{equation}'''
     st.latex(tx)
+
+
+# Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:
+#         \begin{equation} \label{eq:intermediate_derivation_mass_balance}
+#             F_b = F_c + F_{fb}*(1+DF)
+#         \end{equation}
+#         Rearrange to isolate $F_{fb}$:
+#         \begin{equation}
+#            \label{eq:intermediate2_derivation_mass_balance}
+#             -F_{fb} = \frac{F_c -F_b}{(1+DF)}
+#         \end{equation}
+
+#         Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:
+
+#         \begin{equation} \label{eq:unknown_dust_both_sides}
+#         F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}
+#         \end{equation}
+
+#         Note that we do not include the dissolution of dust in this model.
+
+#         $F_f$ represents the total flux of fine sediment (<2mm) out of the control volume, which is the sum of fine sediments produced by bedrock and those deposited by dust:
+
+#         \begin{equation} \label{eq:define_Ff}
+#             F_f =   F_{d} + F_{fb}
+#         \end{equation}
+
+#         Then, substituting Equation \ref{eq:define_Ff} into the unknown dust flux in Equation \ref{eq:unknown_dust_both_sides} :
+
+#         \begin{equation} \label{eq:fluxes_dust_isolated}
+#              F_{d}  = F_f + \frac{F_c  -F_b}{(1+DF)}
+#         \end{equation}
+
+
+#         In Equation \ref{eq:fluxes_dust_isolated}, the measurable quantities are isolated on the right side. Equations \ref{eq:fluxes_balance_nodust} and \ref{eq:fluxes_dust_isolated} are represented in Figure \ref{fig:fluxes_balanced_boxes}. The fluxes of fine sediment, coarse sediment, and bedrock can be evaluated through a combination of techniques, briefly described below and in more detail in Sections \ref{sec:Ffo}, \ref{sec:Fb}, and \ref{sec:Fc}.
+
+
+#         \begin{figure}[htbp!]
+#             \centering
+#             \includegraphics[width=0.75\linewidth]{src/texts_6_12/June_12_Ch4/Figures/ConceptFigs/Mass_balance_visual_Equations.png}
+#             \caption[Conceptual Visualization of Mass Balance of Regolith]{Top: A visual representation of the mass balance between the fluxes in and out of the regolith control volume, Equation \ref{eq:fluxes_balance_nodust}. Lower: The addition of dust means that the proportion of fine sediments derived from bedrock ($F_{bf}$) to dissolved material decreases ($F_{dis}$).}
+#             \label{fig:fluxes_balanced_boxes}
+#         \end{figure}
+
+#         The mass flux from bedrock is estimated from the \cosmoCl{} in bedrock.  Mass flux (g/cm$^2$/yr) is related to lowering rate of bedrock ($E_b$, L/T, mm/kyr) by the density (g/cm$^3$), and so the flux of material released by the bedrock as it erodes can be calculated.
+
+#         \begin{equation}
+#             F_b = E_b*\rho_b
+#             \label{eq:F_br}
+#         \end{equation}
 
 
     tx = '''Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:'''
@@ -1299,3 +1301,49 @@ def display_massbalance_equations():
 
     tx = r'''F_b = E_b*\rho_b'''
     st.latex(tx)
+
+    tx = r'''\begin{equation} \label{eq:West14_3_inventory}
+        I_{Be} = \int^z_{z_b} N \rho_{re} dz
+    \end{equation}'''
+    st.latex(tx)
+
+
+    tx = '''where I$_{Be}$ is the total inventory of \Be\ calculated for a given sample (at/cm$^2$), $z$ is the elevation of the surface, and $z_b$ is the elevation of the bedrock-soil interface. \textit{N} is the \Be\ concentration (at/g), $\rho_{re}$ is the depth-averaged regolith density of the sample (g/cm$^3$).
+
+        Residence times assume the soil depth is stable through time and describe how long that sample would need to be exposed to the delivery rate to be in secular equilibrium, given that \Be{} decays and the soil is eroding. Residence times are dependent on the inventory of \Be{}, which in turn is dependent on the soil depth.  Soil residence time is the duration of an average particle of soil  on the hillslope \autocites{Jungers_2009, west_regolith_2013}, and to elucidate the processes involved in moving soil on the hillslope. For example, \textcite{Jungers_2009} identifies the zone where hillslope transport transitions from creep into advective transport by ephemeral channels.
+        '''
+
+    st.write(tx)
+
+    tx = '''\begin{equation} \label{eq:West14_4_restime}
+        t=\left(\frac{-1}{\lambda}\right) ln\left(1-\frac{\lambda I_{{Be}}}{P_{^{10}Be}}\right)
+    \end{equation}'''
+    st.latex(tx)
+
+
+    tx = '''where $t$ is time in years, $\lambda$ is the radioactive decay constant for \Be{} (5.1 x 10$^{-7}$ yr$^{-1}$), $I_{Be}$ is the inventory of atoms of \Be{} in the soil at a site on a ridgetop (at/cm$^2$), and $P_{^{10}Be}$ is the delivery rate of \Be{} from the atmosphere (at/cm$^2$/yr).'''
+    tx = '''\begin{equation} \label{eq:West14_5_erate}
+        E=\frac{D-\lambda I_{Be}}{N_{surface}}    \end{equation}'''
+    st.latex(tx)
+
+
+    tx ='''where E is erosion rate (cm/yr), $N_{surface}$ is the \Be{} concentration of the eroding material, i.e. the surface soil (at/cm$^3$) \autocite{West_2014}.
+    '''
+
+    st.write(tx)
+
+    tx = '''This erosion rate is independent of the assumptions involved in calculating bedrock erosion rates from \cosmoCl.
+    '''
+    st.write(tx)
+
+    tx ='''\Be{} provides an estimate of the residence time ($t_f$) of the fine fraction of regolith, because the accumulation of \Be{} is primarily in the soil, and is eroded with the soil \autocite{Brown_1992}. Combined with observations of soil depth, a simple model of mass flux of fine sediments can be created:
+    \begin{equation}
+        F_f = h_f*\rho_f / t_f
+        \label{eq:F_fines}
+    \end{equation}'''
+    st.latex(tx)
+
+    tx = '''where $h_f$ represents the depth of fine sediment and pore space, measured in the field, $\rho_f$ is the density of the fine fraction of sediment, and $t_f$ is the residence time of the fine fraction.
+    '''
+
+    st.write(tx)
