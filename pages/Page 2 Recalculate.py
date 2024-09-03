@@ -263,10 +263,6 @@ if st.checkbox("Continue?"):
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
 
 
-                    st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
-                    selcolkey = "DF"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
-
                 with rc:
                     st.write("What if the measured soil depth is an underestimate? Explore: ")
                     selcolkey = "z"
@@ -279,6 +275,10 @@ if st.checkbox("Continue?"):
                     st.write("Bedrock erosion rate and flux of bedrock are directly related by the density of the material.")
                     selcolkey = "br_E_rate"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
+
+                    st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
+                    selcolkey = "DF"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =2)
 
                     st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
                     selcolkey = "DF"
