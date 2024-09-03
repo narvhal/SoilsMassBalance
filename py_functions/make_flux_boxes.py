@@ -1086,7 +1086,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
 
     vvd =varvalues_dict[selcolkey]
 
-    val = st.radio(f"{varnames_dict2[selcolkey]}", vvd, index = ix,
+    val = st.radio(f"{varnames_dict2[selcolkey]}", vvd, index = index,
         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     # st.write("3, ")
     # st.dataframe( dft["D"])
