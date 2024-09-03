@@ -306,7 +306,7 @@ if st.checkbox("Continue?"):
 
                 dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
-                st.write("6, ", dft['Inv'] ,dft['D'])
+                # st.write("6, ", dft['Inv'] ,dft['D'])
                 Inv = dft['Inv']
                 dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
                 v1 = dft['z']
@@ -346,7 +346,7 @@ if st.checkbox("Continue?"):
 # #                     dft, F_br  = solve_F_br(dft)
 # #                     dft, F_dust  = solve_F_dust(dft)
 
-                # dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
+                dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
                 # dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
 
 #                 # These should be equivalent: LHS = RHS of mass balance
