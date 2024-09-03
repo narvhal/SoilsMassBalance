@@ -260,7 +260,9 @@ if st.checkbox("Continue?"):
                     dft[selcolkey] = v2vdt[val]
 
                 #### Recalc
-                st.write('dft[D]',dft['D'])
+                st.write('dft[D]',dft['D'].iloc[0])
+                st.write('type dft[D]',type(dft['D'].iloc[0]))
+                st.write('dft[D]',dft['Inv'].iloc[0], type(dft['Inv'].iloc[0]))
                 # dff = write_defaults_to_df2(df)
                 # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
                 flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
