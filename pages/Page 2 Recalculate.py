@@ -350,13 +350,13 @@ if st.checkbox("Continue?"):
                 dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
 
 #                 # These should be equivalent: LHS = RHS of mass balance
-#                 dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
-#                 dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
+                dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
+                dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
 
 # # #                     DF = dft['DF']
 # # #                     p_re = dft['p_re']
 
-#                 to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
+                to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
 #                 # Change fluxes to m2
 #                 # g/cm2/yr  * 100*100cm2/m2
 #                 for c,cc in enumerate(to_m2_cols):
