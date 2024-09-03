@@ -115,8 +115,9 @@ default_ix = list(siu).index("NQT0")
 
 # si = st.selectbox("Choose sample: ", siu, index = default_ix,
     # key = keystr, on_change=proc, args = (keystr,))
-lc, mc, rc = st.columns([0.2, 0.6, 0.2])
-with mc:
+bc1, lc, rc, bc2 = st.columns([0.2, 0.3, 0.3, 0.2])
+
+with lc:
     st.write("Choose samples: ")
 
 
@@ -153,20 +154,20 @@ selval_dict['sample_id'] = si
 # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
 #       or with dust  (Dissolution constrained by calcite mass balance) )
 
-bc1, lc, rc, bc2 = st.columns([0.2, 0.3, 0.3, 0.2])
 with lc:
     keystr = "model_type_radio"
     model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
         on_change=proc, args = (keystr,))
 
 selval_dict['model_type'] = model_type
-st.write("Model A: Simple Mass Balance Model")
-st.latex(r"F_b = F_c + F_f + F_{dis}")
-st.write(" ")
-st.write("Model B: Mass Balance Including Dust")
-st.write(" dissolved flux constrained by calcite mass balance.")
+with rc:
+    st.write("Model A: Simple Mass Balance Model")
+    st.latex(r"F_b = F_c + F_f + F_{dis}")
+    st.write(" ")
+    st.write("Model B: Mass Balance Including Dust")
+    st.write(" dissolved flux constrained by calcite mass balance.")
 
-st.latex(r"F_b + F_d = F_c + F_{f,b} + F_{dis} + F_d")
+    st.latex(r"F_b + F_d = F_c + F_{f,b} + F_{dis} + F_d")
 
 
 if model_type == 'simple':
