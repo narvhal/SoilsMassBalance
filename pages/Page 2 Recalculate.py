@@ -244,39 +244,39 @@ if st.checkbox("Continue?"):
                 #         tempd[sv] = valid_list[j]
                 #     vars_itemfmt_dict[sc]= tempd
                 #     vld.append(tempd)
-
+                expb = st.checkbox("More Explanation", keystr = "explaincheckbox_" + str(samp))
                 # st.write("1   ", dft[fmtcols].iloc[0])
                 with lc:
-                    st.write("What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)")
+                    if expb: st.write("What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)")
                     selcolkey = "Coarse_seds_subsurface"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
                     selcolkey = "D"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                    st.write("The mass of coarse sediment measured on the surface.")
+                    if expb: st.write("The mass of coarse sediment measured on the surface.")
                     selcolkey = "coarse_mass"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                    st.write("The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.")
+                    if expb: st.write("The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.")
                     selcolkey = "max_coarse_residence_time"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
 
 
                 with rc:
-                    st.write("What if the measured soil depth is an underestimate? Explore: ")
+                    if expb: st.write("What if the measured soil depth is an underestimate? Explore: ")
                     selcolkey = "z"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                    st.write("Soil density is involved in fine sediment flux.")
+                    if expb: st.write("Soil density is involved in fine sediment flux.")
                     selcolkey = "p_re"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                    st.write("Bedrock erosion rate and flux of bedrock are directly related by the density of the material.")
+                    if expb: st.write("Bedrock erosion rate and flux of bedrock are directly related by the density of the material.")
                     selcolkey = "br_E_rate"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
 
-                    st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
+                    if expb: st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
                     selcolkey = "DF"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =2)
 
