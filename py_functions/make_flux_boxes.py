@@ -1189,7 +1189,8 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
 #                 # Change fluxes to m2
 #                 # g/cm2/yr  * 100*100cm2/m2
     for c,cc in enumerate(to_m2_cols):
-        dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
+        dft[cc + '_g_m2_yr_val'] = dft[cc].apply(lambda x: x*10000).copy()
+        # dft[cc + '_g_m2_yr_val'] = dft[cc].apply(lambda x: x*10000).copy()
 
     dft['rt_ky'] = dft['rt'].copy() /1000 # ky
     return dft, selval_dict
