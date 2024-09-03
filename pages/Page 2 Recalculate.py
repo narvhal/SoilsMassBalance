@@ -296,26 +296,26 @@ if st.checkbox("Continue?"):
                 v4 = dft['p_re']
                 dft['E_fines'] =f_erate(v1, v2, v3, ltl, v4)
 
-#                 v1 = dft['z']
-#                 v2 = dft['rt']# is this supposed to be in *yrs* or ky?
-#                 v3 = dft['p_re']
-#                 dft['F_fines_boxmodel'] =  flux_boxmodel(v1, v2, v3)
+                v1 = dft['z']
+                v2 = dft['rt']# is this supposed to be in *yrs* or ky?
+                v3 = dft['p_re']
+                dft['F_fines_boxmodel'] =  flux_boxmodel(v1, v2, v3)
 
-#                 v1 = dft['coarse_mass']
-#                 v2 = dft['coarse_area']
-#                 v3 = dft['max_coarse_residence_time']
+                v1 = dft['coarse_mass']
+                v2 = dft['coarse_area']
+                v3 = dft['max_coarse_residence_time']
 
-#                 dft['F_coarse'] = f_coarse_flux(v1, v2, v3)
+                dft['F_coarse'] = f_coarse_flux(v1, v2, v3)
 
-#                 v1 = dft['br_E_rate']
-#                 v2 = dft['p_br']
-#                 dft['F_br'] = f_br_flux(v1, v2)
+                v1 = dft['br_E_rate']
+                v2 = dft['p_br']
+                dft['F_br'] = f_br_flux(v1, v2)
 
-#                 v1 = dft['F_fines_boxmodel']
-#                 v2 = dft['F_coarse']
-#                 v3 = dft['F_br']
-#                 v4 = dft['DF']
-#                 dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
+                v1 = dft['F_fines_boxmodel']
+                v2 = dft['F_coarse']
+                v3 = dft['F_br']
+                v4 = dft['DF']
+                dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
 
 
 # #                     dft, E_fines = solve_E_fines(dft)
