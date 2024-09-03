@@ -49,7 +49,7 @@ varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "br_E_rate": "Bedrock Erosion Rate",
                 "coarse_mass": "Coarse Fraction Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
-                "D":"Atoms <sup>10<\sup>Be<sub>met<\sub> Delivered to Surface",
+                "D":"Atoms <sup>10</sup>Be<sub>met</sub> Delivered to Surface",
                 "z": "Soil Depth (fines)"
                 }
 varunits_dict = {"Coarse_seds_subsurface":"%",
