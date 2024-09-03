@@ -426,5 +426,5 @@ if st.checkbox("Continue?"):
 # # Add default values
 st.dataframe(df_default)
 df_defaultcols = df_default.columns.to_list()
-for i in range(len(df_default)):
-    st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
+# for i in range(len(df_default)):
+    # st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
