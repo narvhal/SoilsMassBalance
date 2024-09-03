@@ -203,7 +203,8 @@ if st.checkbox("Continue?"):
         dft['Inv'] = dft['Inv_val'].copy()
         dft['D'] = dft['D_val'].copy()
 
-        st.dataframe("1, ", dft["D"])
+        st.write("1, ")
+        st.dataframe( dft["D"])
         troubleshoot = True
 
         with colll[count]:
@@ -242,7 +243,10 @@ if st.checkbox("Continue?"):
                     # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                     # if filtselcol in selcolu:
                     keystr = str(selcolkey) + "_radioval_"+ str(six)
-                    st.dataframe("2, ", dft["D"])
+
+                    st.write("2, ")
+
+                    st.dataframe(dft["D"])
 
                     if selcolkey =="D":
                         # Add note defining DAz etc556495.6872
@@ -257,7 +261,8 @@ if st.checkbox("Continue?"):
 
                     val = st.radio(f"{varnames_dict2[selcolkey]}", vvd,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                    st.dataframe("3, ", dft["D"])
+                    st.write("3, ")
+                    st.dataframe( dft["D"])
 
 
                     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
@@ -266,10 +271,13 @@ if st.checkbox("Continue?"):
                     # st.write("v2vdt: ", v2vdt)
                     # st.write("val: ", val)
                     selval_dict[selcolkey] = v2vdt[val]
-                    st.dataframe("4, ", dft["D"])
+                    st.write("4, ")
+                    st.dataframe( dft["D"])
 
                     dft[selcolkey] = v2vdt[val]
-                    st.dataframe("5, ", dft["D"])
+                    st.write("5, ")
+
+                    st.dataframe( dft["D"])
 
                 #### Recalc
                 # st.write('dft[D]',dft['D'].iloc[0])
