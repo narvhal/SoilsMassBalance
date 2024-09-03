@@ -1230,9 +1230,9 @@ def display_massbalance_equations():
     tx = "Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:"
     st.write(tx)
 
-    tx = "\begin{equation} \label{eq:unknown_dust_both_sides}
-                        F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}
-                        \end{equation}"
+    tx = '''\begin{equation} \label{eq:unknown_dust_both_sides}
+                                    F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}
+                                    \end{equation}'''
     st.latex(tx)
 
     tx = "Note that we do not include the dissolution of dust in this model."
