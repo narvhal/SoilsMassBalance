@@ -259,61 +259,61 @@ if st.checkbox("Continue?"):
                     selval_dict[selcolkey] = v2vdt[val]
                     dft[selcolkey] = v2vdt[val]
 
-                    #### Recalc
+                #### Recalc
+                st.write('dft[D]',dft['D'])
+                # dff = write_defaults_to_df2(df)
+                # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
+                flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
+                if flag_coarse_subsurface>0:
+                    SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
+                else:
+                    SD =  dft['z'].copy()
+                    coarse_mass = dft['coarse_mass'].iloc[0]
 
-                    # dff = write_defaults_to_df2(df)
-                    # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
-                    flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
-                    if flag_coarse_subsurface>0:
-                        SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
-                    else:
-                        SD =  dft['z'].copy()
-                        coarse_mass = dft['coarse_mass'].iloc[0]
+                zl = []
+                dft['z_old'] = dft['z'].copy()
+                dft['coarse_mass_old'] = dft['coarse_mass'].copy()
+        #         print(dft['coarse_mass_old'])
+                for j, vz in enumerate(dft['z']):
+                    vz = float(vz)
+                    zl.append(vz - vz*flag_coarse_subsurface/100)
+                dft['z'] =zl
+                dft['coarse_mass'] = coarse_mass
 
-                    zl = []
-                    dft['z_old'] = dft['z'].copy()
-                    dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-            #         print(dft['coarse_mass_old'])
-                    for j, vz in enumerate(dft['z']):
-                        vz = float(vz)
-                        zl.append(vz - vz*flag_coarse_subsurface/100)
-                    dft['z'] =zl
-                    dft['coarse_mass'] = coarse_mass
+               # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
 
-                   # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
-
-                    dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
+                dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
 
-                    Inv = dft['Inv']
-                    dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
-                    res_t = dft['rt']
-                    v1 = dft['z']
-                    v2 = dft['D']
-                    v3 = dft['N']
-                    v4 = dft['p_re']
-                    dft['E_fines'] =f_erate(v1, v2, v3, ltl, v4)
+                Inv = dft['Inv']
+                dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
+                res_t = dft['rt']
+                v1 = dft['z']
+                v2 = dft['D']
+                v3 = dft['N']
+                v4 = dft['p_re']
+                dft['E_fines'] =f_erate(v1, v2, v3, ltl, v4)
 
-                    v1 = dft['z']
-                    v2 = dft['rt']# is this supposed to be in *yrs* or ky?
-                    v3 = dft['p_re']
-                    dft['F_fines_boxmodel'] =  flux_boxmodel(v1, v2, v3)
+                v1 = dft['z']
+                v2 = dft['rt']# is this supposed to be in *yrs* or ky?
+                v3 = dft['p_re']
+                dft['F_fines_boxmodel'] =  flux_boxmodel(v1, v2, v3)
 
-                    v1 = dft['coarse_mass']
-                    v2 = dft['coarse_area']
-                    v3 = dft['max_coarse_residence_time']
+                v1 = dft['coarse_mass']
+                v2 = dft['coarse_area']
+                v3 = dft['max_coarse_residence_time']
 
-                    dft['F_coarse'] = f_coarse_flux(v1, v2, v3)
+                dft['F_coarse'] = f_coarse_flux(v1, v2, v3)
 
-                    v1 = dft['br_E_rate']
-                    v2 = dft['p_br']
-                    dft['F_br'] = f_br_flux(v1, v2)
+                v1 = dft['br_E_rate']
+                v2 = dft['p_br']
+                dft['F_br'] = f_br_flux(v1, v2)
 
-                    v1 = dft['F_fines_boxmodel']
-                    v2 = dft['F_coarse']
-                    v3 = dft['F_br']
-                    v4 = dft['DF']
-                    dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
+                v1 = dft['F_fines_boxmodel']
+                v2 = dft['F_coarse']
+                v3 = dft['F_br']
+                v4 = dft['DF']
+                dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
 
 
 #                     dft, E_fines = solve_E_fines(dft)
@@ -325,27 +325,27 @@ if st.checkbox("Continue?"):
 #                     dft, F_br  = solve_F_br(dft)
 #                     dft, F_dust  = solve_F_dust(dft)
 
-                    dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
-                    dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
+                dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
+                dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
 
-                    # These should be equivalent: LHS = RHS of mass balance
-                    dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
-                    dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
+                # These should be equivalent: LHS = RHS of mass balance
+                dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
+                dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
 
 #                     DF = dft['DF']
 #                     p_re = dft['p_re']
 
-                    to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
-                    # Change fluxes to m2
-                    # g/cm2/yr  * 100*100cm2/m2
-                    for c,cc in enumerate(to_m2_cols):
-                        dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
+                to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
+                # Change fluxes to m2
+                # g/cm2/yr  * 100*100cm2/m2
+                for c,cc in enumerate(to_m2_cols):
+                    dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
 
-                    dft['rt_ky'] = dft['rt'].copy() /1000 # ky
+                dft['rt_ky'] = dft['rt'].copy() /1000 # ky
 
-                    # dftt = dft.copy()
+                # dftt = dft.copy()
 
-                    st.write(' ')
+                st.write(' ')
 
 #                 with st.popover(f"Plot dimension options"):
 
