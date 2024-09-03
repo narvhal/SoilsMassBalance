@@ -1301,7 +1301,7 @@ def display_massbalance_equations():
     tx = r'''F_b = E_b*\rho_b'''
     st.latex(tx)
 
-    tx = r'''\begin{equation} \label{eq:West14_3_inventory}
+    tx = r'''\begin{equation}
         I_{Be} = \int^z_{z_b} N \rho_{re} dz
     \end{equation}'''
     st.latex(tx)
@@ -1314,14 +1314,14 @@ def display_massbalance_equations():
 
     st.write(tx)
 
-    tx = '''\begin{equation} \label{eq:West14_4_restime}
+    tx = r'''\begin{equation}
         t=\left(\frac{-1}{\lambda}\right) ln\left(1-\frac{\lambda I_{{Be}}}{P_{^{10}Be}}\right)
     \end{equation}'''
     st.latex(tx)
 
 
     tx = r'''where $t$ is time in years, $\lambda$ is the radioactive decay constant for \Be{} (5.1 x 10$^{-7}$ yr$^{-1}$), $I_{Be}$ is the inventory of atoms of \Be{} in the soil at a site on a ridgetop (at/cm$^2$), and $P_{^{10}Be}$ is the delivery rate of \Be{} from the atmosphere (at/cm$^2$/yr).'''
-    tx = r'''\begin{equation} \label{eq:West14_5_erate}
+    tx = r'''\begin{equation}
         E=\frac{D-\lambda I_{Be}}{N_{surface}}    \end{equation}'''
     st.latex(tx)
 
