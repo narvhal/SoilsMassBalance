@@ -225,55 +225,29 @@ if st.checkbox("Continue?"):
                 #     vld.append(tempd)
 
                 # st.write(' ')
+                with lc:
+                    selcolkey = "Coarse_seds_subsurface"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    selcolkey = "D"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    selcolkey = "DF"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                for fix, selcolkey in enumerate(selcolu):
+                with rc:
+                    selcolkey = "p_re"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    selcolkey = "br_E_rate"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    selcolkey = "coarse_mass"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    selcolkey = "max_coarse_residence_time"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+
+
+                # for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
                     #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
-                    filtselcol = varnames_dict2[selcolkey]
-                    # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
-                    # st.write(f'Vars dict {vars_dict[selcolkey]}')
-                    # selcolkey = list(varnames_dict2.keys())[fix]
-                        # with colll[count]:
-                    # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
-                    # st.write(k, list(vlist[:]))
-                    # st.write(k in df_default.columns.to_list())
-                    # st.write(df_default[k])   index = def_ix,
-                    # vll = list(vlist[:])
-                    # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
-                    # if filtselcol in selcolu:
-                    keystr = str(selcolkey) + "_radioval_"+ str(six)
 
-                    # st.write("2, ")
-
-                    # st.dataframe(dft["D"])
-
-                    if selcolkey =="D":
-                        # Add note defining DAz etc556495.6872
-                        st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
-                        st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-                        st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-
-                        vvd = ['Regional Default'] + varvalues_dict[selcolkey]
-                    else:
-                        vvd = varvalues_dict[selcolkey]
-                    # if not troubleshoot:
-
-                    val = st.radio(f"{varnames_dict2[selcolkey]}", vvd,
-                        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                    # st.write("3, ")
-                    # st.dataframe( dft["D"])
-
-
-                    v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
-                    if selcolkey =="D":
-                        v2vdt["Regional Default"] = dft["D"].iloc[0]
-                    # st.write("v2vdt: ", v2vdt)
-                    # st.write("val: ", val)
-                    selval_dict[selcolkey] = v2vdt[val]
-                    # st.write("4, ")
-                    # st.dataframe( dft["D"])
-
-                    dft[selcolkey] = v2vdt[val]
                     # st.write("5, ")
 
                     # st.dataframe( dft["D"])
