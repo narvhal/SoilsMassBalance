@@ -1150,17 +1150,17 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
 
     v1 = dft['br_E_rate']
     v2 = dft['p_br']
-    st.write("before ", v1, v2, f_br_flux(v1, v2) )
+    # st.write("before ", v1, v2, f_br_flux(v1, v2) )
 
     dft['F_br'] = f_br_flux(v1, v2)
-    st.write(v1, v2, f_br_flux(v1, v2) )
+    # st.write(v1, v2, f_br_flux(v1, v2) )
 
     v1 = dft['F_fines_boxmodel']
     v2 = dft['F_coarse']
     v3 = dft['F_br']
     v4 = dft['DF']
     dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
-    st.write("3   ", dft[fmtcols].iloc[0])
+    # st.write("3   ", dft[fmtcols].iloc[0])
 
 
 # #                     dft, E_fines = solve_E_fines(dft)

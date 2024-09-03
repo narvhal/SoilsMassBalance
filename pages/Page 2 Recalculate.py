@@ -223,7 +223,7 @@ if st.checkbox("Continue?"):
 
         with colll[count]:
             with st.expander(f"Sample {samp}", expanded = True):
-                st.text("Changes to the input variables will be incorporated to the plots.")
+                st.write("Changes to the input variables will be incorporated to the plots.")
 
                 lc, rc = st.columns([0.5, 0.5])
                 # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
@@ -275,9 +275,9 @@ if st.checkbox("Continue?"):
 
                 dft, selval_dict = simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six,fmtcols)
                 # dftt = dft.copy()
-                st.write("2   ", dft[fmtcols].iloc[0])
+                # st.write("2   ", dft[fmtcols].iloc[0])
 
-                st.write(' ')
+                # st.write(' ')
 
                 with st.popover(f"Plot dimension options"):
 
@@ -304,9 +304,9 @@ if st.checkbox("Continue?"):
                          value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
                 fcc = [f + str(dft[f].iloc[0]) for f in fmcols] + fmtcols
-                for f in fcc:
-                    st.write(f)
-                st.write(selval_dict)
+                # for f in fcc:
+                #     st.write(f)
+                # st.write(selval_dict)
                 fig = wrap_flux_box_streamlit(dft, selval_dict)
 
 
@@ -315,9 +315,9 @@ if st.checkbox("Continue?"):
                 # dftt['Sample ID'] = dftt['sample_id']
                 # st.write(dftt.columns.to_list())
                 # st.write(dftt[ft])
-                for i in range(len(ft)):
-                    st.write(f'''{ftexp[i]} Flux''')
-                    st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+                # for i in range(len(ft)):
+                #     st.write(f'''{ftexp[i]} Flux''')
+                #     st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
                 # st.dataframe(dftt[ ft])
                 count +=1
 
