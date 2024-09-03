@@ -312,9 +312,13 @@ if st.checkbox("Continue?"):
 
                 dft['F_coarse'] = f_coarse_flux(v1, v2, v3)
 
+
+                st.write("before ", v1, v2, f_br_flux(v1, v2) )
+
                 v1 = dft['br_E_rate']
                 v2 = dft['p_br']
                 dft['F_br'] = f_br_flux(v1, v2)
+                st.write(v1, v2, f_br_flux(v1, v2) )
 
                 v1 = dft['F_fines_boxmodel']
                 v2 = dft['F_coarse']
