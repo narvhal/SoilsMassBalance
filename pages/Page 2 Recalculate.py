@@ -293,10 +293,9 @@ if st.checkbox("Continue?"):
 
                 dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
-
+                st.write(dft['Inv'] ,dft['D'])
                 Inv = dft['Inv']
                 dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
-                res_t = dft['rt']
                 v1 = dft['z']
                 v2 = dft['D']
                 v3 = dft['N']
