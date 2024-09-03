@@ -315,10 +315,10 @@ if st.checkbox("Continue?"):
                 # dftt['Sample ID'] = dftt['sample_id']
                 # st.write(dftt.columns.to_list())
                 # st.write(dftt[ft])
-                # for i in range(len(ft)):
-                #     st.write(f'''{ftexp[i]} Flux''')
-                #     st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-                # st.dataframe(dftt[ ft])
+                for i in range(len(ft)):
+                    st.write(f'''{ftexp[i]} Flux''')
+                    st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+                st.dataframe(dftt[ ft])
                 count +=1
 
 
