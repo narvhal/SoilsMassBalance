@@ -51,7 +51,7 @@ else:
                     "DF":"Dissolution Factor",
                     "p_re": "Soil Density",
                     "br_E_rate": "Bedrock Erosion Rate",
-                    "coarse_mass": "Coarse Fraction ($F_c$) Mass",
+                    "coarse_mass": "Coarse Fraction Mass",
                     "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                     "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
                     }

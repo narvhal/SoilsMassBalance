@@ -47,7 +47,7 @@ varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "DF":"Dissolution Factor",
                 "p_re": "Soil Density",
                 "br_E_rate": "Bedrock Erosion Rate",
-                "coarse_mass": "Coarse Fraction ($F_c$) Mass",
+                "coarse_mass": "Coarse Fraction Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                 "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface",
                 "z": "Soil Depth (fines)"
@@ -253,8 +253,11 @@ if st.checkbox("Continue?"):
 
                     selcolkey = "D"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+
+                    st.write("The mass of coarse sediment measured on the surface.")
                     selcolkey = "coarse_mass"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+
                     st.write("The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.")
                     selcolkey = "max_coarse_residence_time"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
@@ -272,10 +275,14 @@ if st.checkbox("Continue?"):
                     st.write("Soil density is involved in fine sediment flux.")
                     selcolkey = "p_re"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+
                     st.write("Bedrock erosion rate and flux of bedrock are directly related by the density of the material.")
                     selcolkey = "br_E_rate"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
-                    st.write("The mass of coarse sediment measured on the surface.")
+
+                    st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
+                    selcolkey = "DF"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
 
                 # for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
