@@ -1128,7 +1128,7 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
     v3 = dft['N']
     v4 = dft['p_re']
     dft['E_fines'] =f_erate(v1, v2, v3, ltl, v4)
-
+    st.write("p_re:", v4)
     v1 = dft['z']
     v2 = dft['rt']# is this supposed to be in *yrs* or ky?
     v3 = dft['p_re']
