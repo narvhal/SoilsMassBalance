@@ -203,7 +203,7 @@ if st.checkbox("Continue?"):
         dft['Inv'] = dft['Inv_val'].copy()
         dft['D'] = dft['D_val'].copy()
 
-        st.dataframe(dft["D"])
+        st.dataframe("1, ", dft["D"])
         troubleshoot = True
 
         with colll[count]:
@@ -242,7 +242,7 @@ if st.checkbox("Continue?"):
                     # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                     # if filtselcol in selcolu:
                     keystr = str(selcolkey) + "_radioval_"+ str(six)
-                    st.dataframe(dft["D"])
+                    st.dataframe("2, ", dft["D"])
 
                     if selcolkey =="D":
                         # Add note defining DAz etc556495.6872
@@ -257,7 +257,7 @@ if st.checkbox("Continue?"):
 
                     val = st.radio(f"{varnames_dict2[selcolkey]}", vvd,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                    st.dataframe(dft["D"])
+                    st.dataframe("3, ", dft["D"])
 
 
                     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
@@ -266,10 +266,10 @@ if st.checkbox("Continue?"):
                     # st.write("v2vdt: ", v2vdt)
                     # st.write("val: ", val)
                     selval_dict[selcolkey] = v2vdt[val]
-                    st.dataframe(dft["D"])
+                    st.dataframe("4, ", dft["D"])
 
                     dft[selcolkey] = v2vdt[val]
-                    st.dataframe(dft["D"])
+                    st.dataframe("5, ", dft["D"])
 
                 #### Recalc
                 # st.write('dft[D]',dft['D'].iloc[0])
@@ -298,7 +298,7 @@ if st.checkbox("Continue?"):
 
                 dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
-                st.write(dft['Inv'] ,dft['D'])
+                st.write("6, ", dft['Inv'] ,dft['D'])
                 Inv = dft['Inv']
                 dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
                 v1 = dft['z']
