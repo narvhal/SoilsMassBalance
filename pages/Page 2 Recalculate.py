@@ -319,7 +319,7 @@ if st.checkbox("Continue?"):
                 for i in range(len(ft)):
                     st.write(f'''{ftexp[i]} Flux''')
                     st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-                st.dataframe(dftt[ ft])
+                st.dataframe(dft[ ft])
                 count +=1
 
 
