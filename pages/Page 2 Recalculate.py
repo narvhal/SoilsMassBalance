@@ -349,80 +349,80 @@ if st.checkbox("Continue?"):
                 dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
                 dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
 
-                # These should be equivalent: LHS = RHS of mass balance
-                dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
-                dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
+#                 # These should be equivalent: LHS = RHS of mass balance
+#                 dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
+#                 dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
 
-# #                     DF = dft['DF']
-# #                     p_re = dft['p_re']
+# # #                     DF = dft['DF']
+# # #                     p_re = dft['p_re']
 
-                to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
-                # Change fluxes to m2
-                # g/cm2/yr  * 100*100cm2/m2
-                for c,cc in enumerate(to_m2_cols):
-                    dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
+#                 to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
+#                 # Change fluxes to m2
+#                 # g/cm2/yr  * 100*100cm2/m2
+#                 for c,cc in enumerate(to_m2_cols):
+#                     dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
 
-                dft['rt_ky'] = dft['rt'].copy() /1000 # ky
+#                 dft['rt_ky'] = dft['rt'].copy() /1000 # ky
 
-                # dftt = dft.copy()
+#                 # dftt = dft.copy()
 
-                st.write(' ')
+#                 st.write(' ')
 
-                with st.popover(f"Plot dimension options"):
+#                 with st.popover(f"Plot dimension options"):
 
-                    # st.write(sliderrange(5, 2, 12))
-                    hh = sliderrange(5, 2, 12)
-                    keystr = "figwidth_radio" + str(samp)
-                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                    keystr = "figheight_radio"+ str(samp)
-                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                    # height
-                    keystr = "pixelwidth_radio"+ str(samp)
+#                     # st.write(sliderrange(5, 2, 12))
+#                     hh = sliderrange(5, 2, 12)
+#                     keystr = "figwidth_radio" + str(samp)
+#                     selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+#                     keystr = "figheight_radio"+ str(samp)
+#                     selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+#                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+#                     # height
+#                     keystr = "pixelwidth_radio"+ str(samp)
 
-                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
-                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                     # Width in px of image produced...
-                    keystr = "boxscale_radio"+ str(samp)
+#                     selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
+#                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+#                      # Width in px of image produced...
+#                     keystr = "boxscale_radio"+ str(samp)
 
-                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
-                        key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-                    keystr = "shape_buffer_radio"+ str(samp)
+#                     selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
+#                         key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+#                     keystr = "shape_buffer_radio"+ str(samp)
 
-                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
-                         value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+#                     selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
+#                          value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                # fig = wrap_flux_box_streamlit(dftt, selval_dict)
-
-
-                if model_type == 'simple':
-                    fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
-                        'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
-                    ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
-                    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
-
-                else:
-                    fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
-                         'F_coarse_g_m2_yr' ,
-                         'F_fines_from_br_g_m2_yr' ,
-                         'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-                    ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
-                    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
-
-                for i, f in enumerate(fmcols):
-                    dftt[ft[i]] = dftt[f].copy()
-                # dftt['Sample ID'] = dftt['sample_id']
-                # st.write(dftt.columns.to_list())
-                # st.write(dftt[ft])
-                for i in range(len(ft)):
-                    st.write(f'''{ftexp[i]} Flux''')
-                    st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-                # st.dataframe(dftt[ ft])
-                count +=1
+#                 # fig = wrap_flux_box_streamlit(dftt, selval_dict)
 
 
-# # Add default values
-st.dataframe(df_default)
+#                 if model_type == 'simple':
+#                     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
+#                         'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
+#                     ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
+#                     ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
+
+#                 else:
+#                     fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
+#                          'F_coarse_g_m2_yr' ,
+#                          'F_fines_from_br_g_m2_yr' ,
+#                          'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
+#                     ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
+#                     ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
+
+#                 for i, f in enumerate(fmcols):
+#                     dftt[ft[i]] = dftt[f].copy()
+#                 # dftt['Sample ID'] = dftt['sample_id']
+#                 # st.write(dftt.columns.to_list())
+#                 # st.write(dftt[ft])
+#                 for i in range(len(ft)):
+#                     st.write(f'''{ftexp[i]} Flux''')
+#                     st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+#                 # st.dataframe(dftt[ ft])
+#                 count +=1
+
+
+# # # Add default values
+# st.dataframe(df_default)
 # df_defaultcols = df_default.columns.to_list()
 # for i in range(len(df_default)):
 #     st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
