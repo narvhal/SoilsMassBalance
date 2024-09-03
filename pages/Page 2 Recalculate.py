@@ -167,8 +167,9 @@ else:
          'F_fines_from_br_g_m2_yr' ,
          'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
     ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
-    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
-fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
+    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)',
+            'Dissolved Material', 'Dust (Fine sediment originating from dust)']
+# fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
 
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
@@ -303,7 +304,7 @@ if st.checkbox("Continue?"):
                     selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                          value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                fcc = [f + str(dft[f].iloc[0]) for f in fmcols] + fmtcols
+                # fcc = [f + str(dft[f].iloc[0]) for f in fmcols] + fmtcols
                 # for f in fcc:
                 #     st.write(f)
                 # st.write(selval_dict)
