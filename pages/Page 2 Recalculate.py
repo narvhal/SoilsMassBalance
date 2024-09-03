@@ -168,7 +168,7 @@ else:
          'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
     ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
     ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
-
+fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
 
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
@@ -238,7 +238,7 @@ if st.checkbox("Continue?"):
                 #     vars_itemfmt_dict[sc]= tempd
                 #     vld.append(tempd)
 
-                st.write("1   ", dft['br_E_rate'].iloc[0])
+                st.write("1   ", dft[fmtcols].iloc[0])
                 with lc:
                     selcolkey = "Coarse_seds_subsurface"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
@@ -257,7 +257,7 @@ if st.checkbox("Continue?"):
                     selcolkey = "max_coarse_residence_time"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                st.write("2   ", dft['br_E_rate'].iloc[0])
+                st.write("2   ", dft[fmtcols].iloc[0])
 
                 # for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
@@ -321,7 +321,7 @@ if st.checkbox("Continue?"):
                 v3 = dft['F_br']
                 v4 = dft['DF']
                 dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
-                st.write("3   ", dft['br_E_rate'].iloc[0])
+                st.write("3   ", dft[fmtcols].iloc[0])
 
 
 # #                     dft, E_fines = solve_E_fines(dft)
@@ -382,7 +382,7 @@ if st.checkbox("Continue?"):
                     selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                          value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                fcc = [f + str(dft[f].iloc[0]) for f in fmcols]
+                fcc = [f + str(dft[f].iloc[0]) for f in fmcols] + fmtcols
                 for f in fcc:
                     st.write(f)
                 st.write(selval_dict)
