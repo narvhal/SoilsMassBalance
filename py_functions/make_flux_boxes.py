@@ -1134,11 +1134,13 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
     v3 = dft['p_re']
     # SD, res_t, ps)
     dft['F_fines_boxmodel'] =  flux_boxmodel(v1, v2, v3)
-    st.write("p_re:", v3)
-    st.write("rt:", v2)
-    st.write("z:", v1)
-    st.write("F_fines_boxmodel:", dft['F_fines_boxmodel'].iloc[0])
-    st.write(f"SD*ps/res_t: {v1*v3/v2}" )
+    # st.write("p_re:", v3)
+    # st.write("rt:", v2)
+    # st.write("z:", v1)
+    # st.write("F_fines_boxmodel:", dft['F_fines_boxmodel'].iloc[0])
+    st.write(f"I = N*p_re*z")
+    st.write(f"rt = (-1/lambda)*log(1-(lambda*I/D))")
+    st.write(f"Ff = z*p_re/rt: {v1*v3/v2}" )
 
 
     v1 = dft['coarse_mass']
