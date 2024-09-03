@@ -1178,14 +1178,15 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
 #                 # These should be equivalent: LHS = RHS of mass balance
     dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
     dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
-
+    # dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr']
+    dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']  =dft['F_br']  - dft['F_coarse'] - dft['F_fines_boxmodel']
 # # #                     DF = dft['DF']
 # # #                     p_re = dft['p_re']
 
     # to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
     # st.write(to_m2_cols)
     to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_fines_from_br',
-    'F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved']
+    'F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr']
 #                 # Change fluxes to m2
 #                 # g/cm2/yr  * 100*100cm2/m2
     for c,cc in enumerate(to_m2_cols):
