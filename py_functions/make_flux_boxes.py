@@ -1080,7 +1080,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
 
 
     vvd =varvalues_dict[selcolkey]
-    font_size = 15
+    font_size = 25
 
     html_str = f"""
         <style>

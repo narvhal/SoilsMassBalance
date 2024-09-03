@@ -28,8 +28,8 @@ df_default =  pd.read_excel(fn)
 # toc = stoc()
 
 # Title
-st.title("Interactive Soil Mass Balance Plots")
-st.header("Flux boxes")
+st.title("Interactive Soil Mass Balance Models")
+st.write("This work is based on the work done for the dissertation: ")
 
 # g/m2/yr?
 
@@ -165,8 +165,7 @@ with rc:
     st.latex(r"F_b = F_c + F_f + F_{dis}")
     st.write(" ")
     st.write("Model B: Mass Balance Including Dust")
-    st.write(" dissolved flux constrained by calcite mass balance.")
-
+    st.write("Dissolved flux is constrained by calcite mass balance.")
     st.latex(r"F_b + F_d = F_c + F_{f,b} + F_{dis} + F_d")
 
 
