@@ -280,10 +280,6 @@ if st.checkbox("Continue?"):
                     selcolkey = "DF"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =2)
 
-                    st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
-                    selcolkey = "DF"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
-
                 # for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
                     #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
