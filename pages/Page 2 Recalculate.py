@@ -359,8 +359,8 @@ if st.checkbox("Continue?"):
                 to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
 #                 # Change fluxes to m2
 #                 # g/cm2/yr  * 100*100cm2/m2
-                for c,cc in enumerate(to_m2_cols):
-                    dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
+                # for c,cc in enumerate(to_m2_cols):
+                    # dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
 
 #                 dft['rt_ky'] = dft['rt'].copy() /1000 # ky
 
