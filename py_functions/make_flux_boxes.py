@@ -1204,26 +1204,26 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
 
 
 def display_massbalance_equations():
-    tx = ''' DF = F_{dis} / F_{fb}
+    tx = r''' DF = F_{dis} / F_{fb}
                 '''
     st.latex(tx)
 
 
     tx = '''Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:'''
     st.write(tx)
-    tx = '''    F_b = F_c + F_{fb}*(1+DF)'''
+    tx = r'''    F_b = F_c + F_{fb}*(1+DF)'''
     st.latex(tx)
 
     tx = "Rearrange to isolate $F_{fb}$:"
     st.write(tx)
 
-    tx = ''' -F_{fb} = \frac{F_c -F_b}{(1+DF)}'''
+    tx = r''' -F_{fb} = \frac{F_c -F_b}{(1+DF)}'''
     st.latex(tx)
 
     tx = "Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:"
     st.write(tx)
 
-    tx = ''' F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}'''
+    tx = r''' F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}'''
     st.latex(tx)
 
     tx = "Note that we do not include the dissolution of dust in this model."
@@ -1231,14 +1231,14 @@ def display_massbalance_equations():
     tx = r"$F_f$ represents the total flux of fine sediment (<2mm) out of the control volume, which is the sum of fine sediments produced by bedrock and those deposited by dust:"
     st.write(tx)
 
-    tx = '''   F_f =   F_{d} + F_{fb}   '''
+    tx = r'''   F_f =   F_{d} + F_{fb}   '''
     st.latex(tx)
 
     tx = '''Then, substituting Equation \ref{eq:define_Ff} into the unknown dust flux in Equation \ref{eq:unknown_dust_both_sides} :'''
     st.write(tx)
 
 
-    tx = '''F_{d}  = F_f + \frac{F_c  -F_b}{(1+DF)}'''
+    tx =r'''F_{d}  = F_f + \frac{F_c  -F_b}{(1+DF)}'''
     st.latex(tx)
 
 
@@ -1248,5 +1248,5 @@ def display_massbalance_equations():
     tx = '''The mass flux from bedrock is estimated from the \cosmoCl{} in bedrock.  Mass flux (g/cm$^2$/yr) is related to lowering rate of bedrock ($E_b$, L/T, mm/kyr) by the density (g/cm$^3$), and so the flux of material released by the bedrock as it erodes can be calculated.'''
     st.write(tx)
 
-    tx = '''F_b = E_b*\rho_b'''
+    tx = r'''F_b = E_b*\rho_b'''
     st.latex(tx)
