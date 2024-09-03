@@ -273,7 +273,7 @@ if st.checkbox("Continue?"):
                 # dff = write_defaults_to_df2(df)
                 # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
 
-                dft, selval_dict = simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                dft, selval_dict = simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six,fmtcols)
                 # dftt = dft.copy()
                 st.write("2   ", dft[fmtcols].iloc[0])
 
