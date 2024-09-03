@@ -1337,11 +1337,12 @@ def display_massbalance_equations():
     '''
     st.write(tx)
 
-    tx =r'''\Be{} provides an estimate of the residence time ($t_f$) of the fine fraction of regolith, because the accumulation of \Be{} is primarily in the soil, and is eroded with the soil \autocite{Brown_1992}. Combined with observations of soil depth, a simple model of mass flux of fine sediments can be created:
-    \begin{equation}
+    tx =r'''\Be{} provides an estimate of the residence time ($t_f$) of the fine fraction of regolith, because the accumulation of \Be{} is primarily in the soil, and is eroded with the soil \autocite{Brown_1992}. Combined with observations of soil depth, a simple model of mass flux of fine sediments can be created:'''
+    st.write(tx)
+
+    tx = r'''\begin{equation}
         F_f = h_f*\rho_f / t_f
-        \label{eq:F_fines}
-    \end{equation}'''
+            \end{equation}'''
     st.latex(tx)
 
     tx = '''where $h_f$ represents the depth of fine sediment and pore space, measured in the field, $\rho_f$ is the density of the fine fraction of sediment, and $t_f$ is the residence time of the fine fraction.
