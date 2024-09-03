@@ -347,7 +347,7 @@ if st.checkbox("Continue?"):
 # #                     dft, F_dust  = solve_F_dust(dft)
 
                 dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
-                # dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
+                dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
 
 #                 # These should be equivalent: LHS = RHS of mass balance
 #                 dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
