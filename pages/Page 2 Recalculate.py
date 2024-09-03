@@ -200,7 +200,7 @@ if st.checkbox("Continue?"):
         dft['coarse_mass'] = dft['coarse_mass_val'].copy()
         dft['coarse_area'] = dft['coarse_area_val'].copy()
         dft['br_E_rate'] = dft['br_E_rate_val'].copy()
-
+        dft['Inv'] = dft['Inv_val'].copy()
 
         troubleshoot = True
 
@@ -260,9 +260,9 @@ if st.checkbox("Continue?"):
                     dft[selcolkey] = v2vdt[val]
 
                 #### Recalc
-                st.write('dft[D]',dft['D'].iloc[0])
-                st.write('type dft[D]',type(dft['D'].iloc[0]))
-                st.write('dft[D]',dft['Inv'].iloc[0], type(dft['Inv'].iloc[0]))
+                # st.write('dft[D]',dft['D'].iloc[0])
+                # st.write('type dft[D]',type(dft['D'].iloc[0]))
+                # st.write('dft[Inv]',dft['Inv'].iloc[0], type(dft['Inv'].iloc[0]))
                 # dff = write_defaults_to_df2(df)
                 # dft, SD, N = set_up_df_for_flux_results3(dft,dff)  # calc inventory (depends on z)
                 flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
@@ -287,14 +287,14 @@ if st.checkbox("Continue?"):
                 dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
 
-#                 Inv = dft['Inv']
-#                 dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
-#                 res_t = dft['rt']
-#                 v1 = dft['z']
-#                 v2 = dft['D']
-#                 v3 = dft['N']
-#                 v4 = dft['p_re']
-#                 dft['E_fines'] =f_erate(v1, v2, v3, ltl, v4)
+                Inv = dft['Inv']
+                dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
+                res_t = dft['rt']
+                v1 = dft['z']
+                v2 = dft['D']
+                v3 = dft['N']
+                v4 = dft['p_re']
+                dft['E_fines'] =f_erate(v1, v2, v3, ltl, v4)
 
 #                 v1 = dft['z']
 #                 v2 = dft['rt']# is this supposed to be in *yrs* or ky?
