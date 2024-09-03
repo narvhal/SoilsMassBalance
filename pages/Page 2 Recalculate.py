@@ -226,7 +226,6 @@ if st.checkbox("Continue?"):
 
                 # st.write(' ')
 
-                selval_dict = {}
                 for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
                     #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
