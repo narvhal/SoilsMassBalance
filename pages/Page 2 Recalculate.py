@@ -203,8 +203,8 @@ if st.checkbox("Continue?"):
         dft['Inv'] = dft['Inv_val'].copy()
         dft['D'] = dft['D_val'].copy()
 
-        st.write("1, ")
-        st.dataframe( dft["D"])
+        # st.write("1, ")
+        # st.dataframe( dft["D"])
         troubleshoot = True
 
         with colll[count]:
@@ -244,9 +244,9 @@ if st.checkbox("Continue?"):
                     # if filtselcol in selcolu:
                     keystr = str(selcolkey) + "_radioval_"+ str(six)
 
-                    st.write("2, ")
+                    # st.write("2, ")
 
-                    st.dataframe(dft["D"])
+                    # st.dataframe(dft["D"])
 
                     if selcolkey =="D":
                         # Add note defining DAz etc556495.6872
@@ -261,13 +261,13 @@ if st.checkbox("Continue?"):
 
                     val = st.radio(f"{varnames_dict2[selcolkey]}", vvd,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                    st.write("3, ")
-                    st.dataframe( dft["D"])
+                    # st.write("3, ")
+                    # st.dataframe( dft["D"])
 
 
                     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
                     if selcolkey =="D":
-                        v2vdt["default"] = dft["D"].iloc[0]
+                        v2vdt["Regional Default"] = dft["D"].iloc[0]
                     # st.write("v2vdt: ", v2vdt)
                     # st.write("val: ", val)
                     selval_dict[selcolkey] = v2vdt[val]
