@@ -1207,32 +1207,45 @@ def display_massbalance_equations():
     tx = '''\begin{equation}
                DF = F_{dis} / F_{fb}
                 \label{eq:dissolutionfactorbalance}
-            \end{equation}
-            Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:
-            \begin{equation} \label{eq:intermediate_derivation_mass_balance}
+            \end{equation}'''
+    st.latex(tx)
+
+
+    tx = '''Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:'''
+    st.write(tx)
+    tx = '''\begin{equation} \label{eq:intermediate_derivation_mass_balance}
                 F_b = F_c + F_{fb}*(1+DF)
-            \end{equation}
-            Rearrange to isolate $F_{fb}$:
-            \begin{equation}
-               \label{eq:intermediate2_derivation_mass_balance}
-                -F_{fb} = \frac{F_c -F_b}{(1+DF)}
-            \end{equation}
+            \end{equation}'''
+    st.latex(tx)
 
-            Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:
+    tx = "Rearrange to isolate $F_{fb}$:"
+    st.write(tx)
 
-            \begin{equation} \label{eq:unknown_dust_both_sides}
-            F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}
-            \end{equation}
+    tx = '''\begin{equation}
+                                                   \label{eq:intermediate2_derivation_mass_balance}
+                                                    -F_{fb} = \frac{F_c -F_b}{(1+DF)}
+                                                \end{equation}'''
+    st.latex(tx)
 
-            Note that we do not include the dissolution of dust in this model.
+    tx = "Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:"
+    st.write(tx)
 
-            $F_f$ represents the total flux of fine sediment (<2mm) out of the control volume, which is the sum of fine sediments produced by bedrock and those deposited by dust:
+    tx = "\begin{equation} \label{eq:unknown_dust_both_sides}
+                        F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}
+                        \end{equation}"
+    st.latex(tx)
 
-            \begin{equation} \label{eq:define_Ff}
-                F_f =   F_{d} + F_{fb}
-            \end{equation}
+    tx = "Note that we do not include the dissolution of dust in this model."
+    st.write(tx)
+    tx = r"$F_f$ represents the total flux of fine sediment (<2mm) out of the control volume, which is the sum of fine sediments produced by bedrock and those deposited by dust:"
+    st.write(tx)
 
-            Then, substituting Equation \ref{eq:define_Ff} into the unknown dust flux in Equation \ref{eq:unknown_dust_both_sides} :
+    tx = '''\begin{equation} \label{eq:define_Ff}
+                        F_f =   F_{d} + F_{fb}
+                        \end{equation}'''
+    st.latex(tx)
+
+    tx = '''Then, substituting Equation \ref{eq:define_Ff} into the unknown dust flux in Equation \ref{eq:unknown_dust_both_sides} :
 
             \begin{equation} \label{eq:fluxes_dust_isolated}
                  F_{d}  = F_f + \frac{F_c  -F_b}{(1+DF)}
