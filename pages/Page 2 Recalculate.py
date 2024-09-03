@@ -244,7 +244,7 @@ if st.checkbox("Continue?"):
                 #         tempd[sv] = valid_list[j]
                 #     vars_itemfmt_dict[sc]= tempd
                 #     vld.append(tempd)
-                expb = st.checkbox("More Explanation", keystr = "explaincheckbox_" + str(samp))
+                expb = st.checkbox("More Explanation", key = "explaincheckbox_" + str(samp))
                 # st.write("1   ", dft[fmtcols].iloc[0])
                 with lc:
                     if expb: st.write("What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)")
