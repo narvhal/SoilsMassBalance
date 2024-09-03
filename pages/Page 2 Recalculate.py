@@ -68,11 +68,11 @@ varunits_dict = {"Coarse_seds_subsurface":"%",
                 #
 varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "D": ["Regional Default", "0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
-                "DF":[7.5, 15, 22.5],
+                "DF":[2.5, 5, 7.5, 15, 22.5],
                 "p_re": [0.7, 1.4, 2.1],
-                "br_E_rate": [7.5, 15, 22.5],
+                "br_E_rate": [7.5, 15, 22.5, 50, 70],
                 "coarse_mass": [.75, 1.5, 2.25],
-                "max_coarse_residence_time":[5.5, 11., 16.5],
+                "max_coarse_residence_time":[2, 5.5, 11., 16.5],
                 "z": ["Site Measurement", 5, 10, 20, 50]
                 }
 
@@ -89,14 +89,24 @@ siu = df.sample_id.unique()
 selcolu = list(varnames_dict.keys()) # df.select_col.unique()
 vars_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "D": ['default', 0.5*AZ_D_graly, AZ_D_graly, 1.5*AZ_D_graly, 0.5*SP_D_graly, SP_D_graly, 1.5* SP_D_graly, 4*SP_D_graly],
-                "DF":[7.5, 15, 22.5],
+                "DF":[2.5, 5, 7.5, 15, 22.5],
                 "p_re": [0.7, 1.4, 2.1],
-                "br_E_rate": [7.5, 15, 22.5],
+                "br_E_rate": [7.5, 15, 22.5, 50, 70],
                 "coarse_mass": [.75e3, 1.5e3, 2.25e3],
-                "max_coarse_residence_time":[5.5e3, 11.0e3, 16.5e3],
+                "max_coarse_residence_time":[2e3, 5.5e3, 11.0e3, 16.5e3],
                 "z": ['default', 5, 10, 20, 50]
                 }
-
+def varvalsfmt(mt):   # functions to provide vals for 'model_type'
+    varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
+                "D": ["Regional Default", "0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
+                "DF":[2.5, 5, 7.5, 15, 22.5],
+                "p_re": [0.7, 1.4, 2.1],
+                "br_E_rate": [7.5, 15, 22.5, 50, 70],
+                "coarse_mass": [.75, 1.5, 2.25],
+                "max_coarse_residence_time":[2, 5.5, 11., 16.5],
+                "z": ["Site Measurement", 5, 10, 20, 50]
+                }
+    return varvalues_dict[mt]
 selval_dict = {}
 
 # Select Sample Name
@@ -179,17 +189,7 @@ fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
 # Instructions & EXplanations:
-def varvalsfmt(mt):   # functions to provide vals for 'model_type'
-    varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-                "D": ["Regional Default", "0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
-                "DF":[7.5, 15, 22.5],
-                "p_re": [0.7, 1.4, 2.1],
-                "br_E_rate": [7.5, 15, 22.5],
-                "coarse_mass": [.75, 1.5, 2.25],
-                "max_coarse_residence_time":[5.5, 11., 16.5],
-                "z": ["Site Measurement", 5, 10, 20, 50]
-                }
-    return varvalues_dict[mt]
+
 
 if st.checkbox("Continue?"):
     # Scenario and values:
@@ -260,9 +260,9 @@ if st.checkbox("Continue?"):
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
 
-
-                    # selcolkey = "DF"
-                    # dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    st.write("Dissolution Factor is in the denominator, and so only increments below 7 seem important.")
+                    selcolkey = "DF"
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
                 with rc:
                     st.write("What if the measured soil depth is an underestimate? Explore: ")
