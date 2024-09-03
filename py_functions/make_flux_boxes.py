@@ -517,14 +517,14 @@ def set_up_df_for_flux_results(df, Ncol, N_unc_col, zcol, z_unc, I_desc, p_re, p
 
 # PDE
 def solve_rt(dft, flag_pde = False, ltl = 5.1e-7):
-    rtruf = []
-    for r, ro in enumerate(dft['Inv']):
-        # v1 = redef_uf(dft['D'].iloc[r])
-        # ro = redef_uf(ro)
-        v1 =dft['D'].iloc[r]
-        rtruf.append(f_rest(ro, v1, ltl))
+    # rtruf = []
+    # for r, ro in enumerate(dft['Inv']):
+    #     # v1 = redef_uf(dft['D'].iloc[r])
+    #     # ro = redef_uf(ro)
+    #     v1 =dft['D'].iloc[r]
+    #     rtruf.append(f_rest(ro, v1, ltl))
 
-    dft['rt'] = rtruf
+    dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
     res_t = dft['rt']
 
     return dft, res_t
