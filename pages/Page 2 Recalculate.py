@@ -64,7 +64,7 @@ varunits_dict = {"Coarse_seds_subsurface":"(%)",
                 #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
                 #
 varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-                "D": ["0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
+                "D": ["Regional Default", "0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
                 "DF":[7.5, 15, 22.5],
                 "p_re": [0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5],
@@ -84,7 +84,7 @@ ltl = 5.1e-7 # , 7.20e-7]  #1/yr lambda [Nishiizumi et al., 2007], Korschinek et
 siu = df.sample_id.unique()
 selcolu = list(varnames_dict.keys()) # df.select_col.unique()
 vars_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-                "D": [0.5*AZ_D_graly, AZ_D_graly, 1.5*AZ_D_graly, 0.5*SP_D_graly, SP_D_graly, 1.5* SP_D_graly, 4*SP_D_graly],
+                "D": ['default', 0.5*AZ_D_graly, AZ_D_graly, 1.5*AZ_D_graly, 0.5*SP_D_graly, SP_D_graly, 1.5* SP_D_graly, 4*SP_D_graly],
                 "DF":[7.5, 15, 22.5],
                 "p_re": [0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5],
@@ -161,7 +161,7 @@ def sliderrange(start, step, num):
 # Instructions & EXplanations:
 def varvalsfmt(mt):   # functions to provide vals for 'model_type'
     varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
-        "D": [r"0.5 x $D_{AZ}$", r"$D_{AZ}$", r"1.5x $D_{AZ}$", r"0.5x $D_{Sp}$", r"$D_{Sp}$", r"1.5x $D_{Sp}$", r"4x $D_{Sp}$"],
+        "D": ["Regional Default", r"0.5 x $D_{AZ}$", r"$D_{AZ}$", r"1.5x $D_{AZ}$", r"0.5x $D_{Sp}$", r"$D_{Sp}$", r"1.5x $D_{Sp}$", r"4x $D_{Sp}$"],
         "DF":[7.5, 15, 22.5],
         "p_re": [0.7, 1.4, 2.1],
         "br_E_rate": [7.5, 15, 22.5],
@@ -201,6 +201,8 @@ if st.checkbox("Continue?"):
         dft['coarse_area'] = dft['coarse_area_val'].copy()
         dft['br_E_rate'] = dft['br_E_rate_val'].copy()
         dft['Inv'] = dft['Inv_val'].copy()
+        dft['D'] = dft['D_val'].copy()
+
 
         troubleshoot = True
 
@@ -241,19 +243,24 @@ if st.checkbox("Continue?"):
                     # if filtselcol in selcolu:
                     keystr = str(selcolkey) + "_radioval_"+ str(six)
 
-                    if filtselcol == varnames_dict["D"]:
+                    if selcolkey =="D":
                         # Add note defining DAz etc556495.6872
                         st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
                         st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
                         st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
+                        vvd = ['Regional Default'] + varvalues_dict[selcolkey]
+                    else:
+                        vvd = varvalues_dict[selcolkey]
                     # if not troubleshoot:
 
-                    val = st.radio(f"{varnames_dict2[selcolkey]}", varvalues_dict[selcolkey],
+                    val = st.radio(f"{varnames_dict2[selcolkey]}", vvd,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
 
                     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
+                    if selcolkey =="D":
+                        v2vdt["default"] = dft["D"].iloc[0]
                     # st.write("v2vdt: ", v2vdt)
                     # st.write("val: ", val)
                     selval_dict[selcolkey] = v2vdt[val]
