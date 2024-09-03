@@ -203,7 +203,7 @@ if st.checkbox("Continue?"):
         dft['Inv'] = dft['Inv_val'].copy()
         dft['D'] = dft['D_val'].copy()
 
-
+        st.dataframe(dft)
         troubleshoot = True
 
         with colll[count]:
