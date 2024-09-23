@@ -16,13 +16,17 @@ from io import BytesIO
 st.set_page_config(layout="wide" )
 
 
-fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
+fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
 df = pd.read_excel(fn)
 df = df[df['select_col'] != "zcol"].copy()  # not useful
 
 
-fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
+fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
 df_default =  pd.read_excel(fn)
+
+fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
+fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\SGS_geochem.xlsx"
+df_chem =  pd.read_excel(fn, skiprows = 1)
 # df = df_default.copy()
 
 # toc = stoc()
@@ -41,7 +45,9 @@ varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "coarse_mass": "Coarse Fraction ($F_c$) Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                 "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface",
-                "z": "Soil Depth (fines)"
+                "z": "Soil Depth (fines)",
+                "carb_br": "Bedrock Carbonate",
+                "carb_soil": "Fine Fraction Carbonate"
                 }
 varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "DF":"Dissolution Factor",
@@ -50,8 +56,11 @@ varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "coarse_mass": "Coarse Fraction Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                 "D":"Atoms <sup>10</sup>Be<sub>met</sub> Delivered to Surface",
-                "z": "Soil Depth (fines)"
+                "z": "Soil Depth (fines)",
+                "carb_br": "Bedrock Carbonate",
+                "carb_soil": "Fine Fraction Carbonate"
                 }
+varnames_dict2 = varnames_dict
 varunits_dict = {"Coarse_seds_subsurface":"%",
                 "DF":"Solid products/Dissolved products",
                 "p_re": "g/cm$^3$",
@@ -59,7 +68,9 @@ varunits_dict = {"Coarse_seds_subsurface":"%",
                 "coarse_mass": "kg",
                 "max_coarse_residence_time":"kyr",
                 "D":"Atoms/cm$^2$/yr",
-                "z": "cm"
+                "z": "cm",
+                "carb_br": "%",
+                "carb_soil": "%"
                 }
 
                 #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
@@ -73,7 +84,10 @@ varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "br_E_rate": [7.5, 15, 22.5, 50, 70],
                 "coarse_mass": [.75, 1.5, 2.25],
                 "max_coarse_residence_time":[2, 5.5, 11., 16.5],
-                "z": ["Site Measurement", 5, 10, 20, 50]
+                "z": ["Site Measurement", 5, 10, 20, 50],
+                "carb_br": [50, 90, 100],
+                "carb_soil": [0, 5, 10, 15, 20, 25, 30]
+
                 }
 
 D = 1.8e6 # at/cm2/yr
@@ -94,7 +108,9 @@ vars_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "br_E_rate": [7.5, 15, 22.5, 50, 70],
                 "coarse_mass": [.75e3, 1.5e3, 2.25e3],
                 "max_coarse_residence_time":[2e3, 5.5e3, 11.0e3, 16.5e3],
-                "z": ['default', 5, 10, 20, 50]
+                "z": ['default', 5, 10, 20, 50],
+                "carb_br": [50, 90, 100],
+                "carb_soil": [0, 5, 10, 15, 20, 25, 30]
                 }
 def varvalsfmt(mt):   # functions to provide vals for 'model_type'
     varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
@@ -104,7 +120,9 @@ def varvalsfmt(mt):   # functions to provide vals for 'model_type'
                 "br_E_rate": [7.5, 15, 22.5, 50, 70],
                 "coarse_mass": [.75, 1.5, 2.25],
                 "max_coarse_residence_time":[2, 5.5, 11., 16.5],
-                "z": ["Site Measurement", 5, 10, 20, 50]
+                "z": ["Site Measurement", 5, 10, 20, 50],
+                "carb_br": [50, 90, 100],
+                "carb_soil": [0, 5, 10, 15, 20, 25, 30]
                 }
     return varvalues_dict[mt]
 selval_dict = {}
@@ -156,13 +174,14 @@ selval_dict['sample_id'] = si
 
 with rc:
     keystr = "model_type_radio"
-    model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
-        on_change=proc, args = (keystr,))
+    model_type = st.radio("Model Type: ", ['simple','carbbalance', 'wdust'], format_func = mtfmt, key = keystr, on_change=proc, args = (keystr,))
 
     selval_dict['model_type'] = model_type
 
     st.write("Model A: Simple Mass Balance Model")
     st.latex(r"F_b = F_c + F_f + F_{dis}")
+    st.write("Carbonate Mass Balance:")
+    st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
     st.write(" ")
     st.write("Model B: Mass Balance Including Dust")
     st.write("Dissolved flux is constrained by calcite mass balance.")
@@ -170,25 +189,35 @@ with rc:
 
 
 if model_type == 'simple':
-    fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
-        'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
+    fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
     ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
-    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material']
-
-else:
+    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material (Mass Balance)']
+elif model_type == 'carbbalance':
+    fmcols = vcols([ 'F_br_carbbalance_g_m2_yr','F_coarse_carbbalance_g_m2_yr','F_fines_boxmodel_carbbalance_g_m2_yr', 'F_dis_carbbalance_g_m2_yr'  ])
+    # ft = ['F$_{b,CO_3^{-2}}$', 'F$_{c,CO_3^{-2}}$', 'F$_{f,CO_3^{-2}}$', 'F$_{dis,CO_3^{-2}}$']
+    ft = ['F$_{b,CO3}$', 'F$_{c,CO3}$', 'F$_{f, CO3}$', 'F$_{dis,CO3}$']
+    carbfmcols = ['est total dolostone and calcite']
+    carbfmd = {'MT120': ['LL#1','LL#25'], 'NQT0': ['LL#8','LL#21'],'NQC': ['LL#13','LL#14'], 'MT160': ['LL#2','LL#27']}
+    ftexp = ['Bedrock', 'Coarse Sediment', 'Fine Sediment', 'Dissolved Material (Carbonate Balance)']
+elif model_type == 'wdust':
     fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
          'F_coarse_g_m2_yr' ,
          'F_fines_from_br_g_m2_yr' ,
          'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
     ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
-    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)',
-            'Dissolved Material', 'Dust (Fine sediment originating from dust)']
+    ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)','Dissolved Material', 'Dust (Fine sediment originating from dust)']
+st.write(model_type)
+selval_dict["fmcols"] = fmcols
+selval_dict["ft"] = ft
+selval_dict["ftexp"] = ftexp
 fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
+selval_dict["fmtcols"] = fmtcols
 
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
 # Instructions & EXplanations:
 
+# if selval_dict["model_type"] == 'simple':
 
 
 
@@ -225,7 +254,29 @@ if st.checkbox("Continue?"):
         dft['br_E_rate'] = dft['br_E_rate_val'].copy()
         dft['Inv'] = dft['Inv_val'].copy()
         dft['D'] = dft['D_val'].copy()
+        dft['DF'] = dft['DF_val'].copy()
 
+        if model_type == "carbbalance":
+            region = str(dft['sample_region'].iloc[0])
+            if region == "AZ":
+                carbkey = 'MT120'
+            elif region == "SP":
+                carbkey = 'NQT0'
+            chemfmt = carbfmd[carbkey]
+            # st.write(chemfmt)
+            # st.write(carbfmcols)
+            # st.write(df_chem.columns.to_list())
+            dfct =df_chem[ df_chem['Sample_lab_ID']== chemfmt[0]].copy()
+            dft['carb_br'] = dfct[carbfmcols].to_numpy()
+            # st.write(dfct[carbfmcols].to_numpy())
+            # st.dataframe(dfct)
+            dfct =df_chem[ df_chem['Sample_lab_ID']== chemfmt[1]].copy()
+            dft['carb_soil'] = dfct[carbfmcols].to_numpy()
+            # st.write(samp)
+            # st.write(region)
+            # st.write(dft['carb_br'])
+            # st.write(dft['carb_soil'])
+            # st.write(dft['F_br_g_m2_yr_val'])
         # st.write("1, ")
         # st.dataframe( dft["D"])
         troubleshoot = True
@@ -276,18 +327,29 @@ if st.checkbox("Continue?"):
                     selcolkey = "z"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
-                    if expb: st.write("Dust is assumed to have the same density as soil.")
-                    selcolkey = "p_re"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
+                    if model_type == "wdust":
+                        if expb: st.write("Dust is assumed to have the same density as soil.")
+                        selcolkey = "p_re"
+                        dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six)
 
                     if expb: st.write("Bedrock erosion rate and flux of bedrock are directly related by the density of the material.")
                     selcolkey = "br_E_rate"
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =1)
+                    #############################################
 
-                    if expb: st.write("Dissolution Factor is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
-                    selcolkey = "DF"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =2)
+                    if model_type == "wdust":
+                        if expb: st.write("Dissolution Factor (Model B) is the mass ratio of dissolved bedrock and solid products of chemical erosion. DF is in the denominator, and so only increments below 7 seem important.")
+                        selcolkey = "DF"
+                        dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =2)
 
+                    if model_type == "carbbalance":
+                        if expb: st.write("Bedrock and Coarse Clast Carbonate Percent")
+                        selcolkey = "carb_br"
+                        dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =2)
+
+                        if expb: st.write("Soil Carbonate Percent")
+                        selcolkey = "carb_soil"
+                        dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index =2)
                 # for fix, selcolkey in enumerate(selcolu):
                     # filtselcol = st.selectbox("Select Input Variable to Explore:",
                     #   [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
@@ -312,7 +374,7 @@ if st.checkbox("Continue?"):
                 with st.popover(f"Plot dimension options"):
 
                     # Select box model shape:
-                    keystr = "model_shape_radio"
+                    keystr = "model_shape_radio_" + str(samp)
 
                     model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
                         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
@@ -360,7 +422,7 @@ if st.checkbox("Continue?"):
 with st.expander("Display Mass Balance Equations for F$_b$, F$_d$, and F$_f$"):
     display_massbalance_equations()
 # # Add default values
-st.dataframe(df_default)
-df_defaultcols = df_default.columns.to_list()
+# st.dataframe(df_default)
+# df_defaultcols = df_default.columns.to_list()
 # for i in range(len(df_default)):
     # st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")

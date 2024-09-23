@@ -16,18 +16,25 @@ from io import BytesIO
 st.set_page_config(layout="wide" )
 
 
-troubleshoot = True
+troubleshoot = False
+flag_gh = False
+
+flag_gh = st.checkbox("Flag_gh ? ", key = "flag_gh_key")
 
 if troubleshoot: pass
 else:
 
-    fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_all_Tables_vars_baseline.xlsx"
+    if flag_gh:
+
+        fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_all_Tables_vars_baseline.xlsx"
+        fn1 = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
+    else:
+        fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\df_all_Tables_vars_baseline.xlsx"
+        fn1 = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\defaults_Tables.xlsx"
     df = pd.read_excel(fn)
     df = df[df['select_col'] != "zcol"].copy()  # not useful
 
-
-    fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
-    df_default =  pd.read_excel(fn)
+    df_default =  pd.read_excel(fn1)
 
 
     # toc = stoc()
@@ -48,7 +55,7 @@ else:
                     "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
                     }
     varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
-                    "DF":"Dissolution Factor",
+                    "DF":"Ratio of Soluble to Insoluble Mass in Bedrock",
                     "p_re": "Soil Density",
                     "br_E_rate": "Bedrock Erosion Rate",
                     "coarse_mass": "Coarse Fraction Mass",
@@ -56,7 +63,7 @@ else:
                     "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface"
                     }
     varunits_dict = {"Coarse_seds_subsurface":"(%)",
-                    "DF":"(Solid products/Dissolved products)",
+                    "DF":"(Soluble/Insoluble)",
                     "p_re": "(g/cm$^3$)",
                     "br_E_rate": "(mm/ky)",
                     "coarse_mass": "(kg)",
@@ -64,10 +71,6 @@ else:
                     "D":"Atoms/cm$^2$/yr"
                     }
 
-                    #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
-                    #  SP_D_graly*0.5,SP_D_graly*1, SP_D_graly*1.5, SP_D_graly*4]
-                    #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
-                    #
     varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                     "D": ["0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
                     "DF":[7.5, 15, 22.5],
@@ -142,7 +145,7 @@ else:
         bc1, lc, rc, bc2 = st.columns([0.2, 0.3, 0.3, 0.2])
         with lc:
             keystr = "model_type_radio"
-            model_type = st.radio("Model Type: ", ['simple', 'wdust'], format_func = mtfmt, key = keystr,
+            model_type = st.radio("Model Type: ", ['simple', 'wdust'],index = 1, format_func = mtfmt, key = keystr,
                 on_change=proc, args = (keystr,))
 
         selval_dict['model_type'] = model_type
@@ -198,13 +201,15 @@ else:
                             def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                                 return dc[mt]
                         st.write(' ')
-
-                        filtselcol = st.selectbox("Select Input Variable to Explore:", [varnames_dict2[s] for s in selcolu], key = "select_filter_col_"+ samp)
+                        varname_units = [varnames_dict2[s] + " " + varunits_dict[s] for s in selcolu]
+                        filtselcol = st.selectbox("Select Input Variable to Explore:",[varnames_dict2[s] for s in selcolu] , key = "select_filter_col_"+ samp)
                         # st.write(varnames_dict)
                         # st.write(filtselcol)
                         vixfs = list(varnames_dict2.values()).index(filtselcol)
                         selcolkey = list(varnames_dict2.keys())[vixfs]
-                            # with colll[count]:
+                        selcolunit = list(varunits_dict.values())[vixfs]
+
+                        # with colll[count]:
                         # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
                         # st.write(k, list(vlist[:]))
                         # st.write(k in df_default.columns.to_list())
@@ -212,6 +217,7 @@ else:
                         # vll = list(vlist[:])
                         # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                         # if filtselcol in selcolu:
+                        st.write(selcolunit)
                         if filtselcol == varnames_dict["D"]:
                             # Add note defining DAz etc556495.6872
                             st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
@@ -273,7 +279,6 @@ else:
                             selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
                                  value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                        fig = wrap_flux_box_streamlit(dftt, selval_dict)
 
 
                         if model_type == 'simple':
@@ -289,6 +294,11 @@ else:
                                  'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
                             ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
                             ftexp = ['Bedrock','Dust', 'Coarse Sediment', 'Fine Sediment (originating from bedrock)', 'Dissolved Material', 'Dust (Fine sediment originating from dust)']
+
+                        selval_dict["fmcols"] = fmcols
+                        selval_dict["ft"] = ft
+                        selval_dict["ftexp"] = ftexp
+                        fig = wrap_flux_box_streamlit(dftt, selval_dict)
 
                         for i, f in enumerate(fmcols):
                             dftt[ft[i]] = dftt[f].copy()

@@ -78,8 +78,9 @@ def proc(key):
 
 
 def mtfmt(mt):   # functions to provide vals for 'model_type'
-    mtd = {'simple':"Model A: Solve for dissolved flux, no dust ('simple')",
-    'wdust':  "Model B: Solve for dust flux " }
+    mtd = {'simple':"Model A: Solve for dissolved flux, mass balance, no dust ('simple')",
+    'carbbalance': "Model C: Solve for dissolved flux, carbonate balance",
+    'wdust':  "Model B: Solve for dust flux, mass balance, carbonate balance " }
     return mtd[mt]
 
 
@@ -87,7 +88,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
     height = selval_dict['model_shape']
     flag_model = selval_dict['model_type']
-    list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, flag_model = flag_model, height = height, scale = selval_dict["boxscale"] , shape_buffer = selval_dict["shape_buffer"])
+    list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, selval_dict, flag_model = flag_model, height = height, scale = selval_dict["boxscale"] , shape_buffer = selval_dict["shape_buffer"])
     plot_patches(list_of_tuplelists, dft, ft, L, H, XY,YC, fst, height = height,
         flag_model =flag_model, newfig = False,flag_annot = False)
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
@@ -104,21 +105,17 @@ def deal_w_ustring(val):
         numstr = val
     return numstr
 
-def make_into_area_streamlit(df, flag_model= 'simple', height = 'auto', scale = 1, shape_buffer = .75):
+def make_into_area_streamlit(df,selval_dict, flag_model= 'simple', height = 'auto', scale = 1, shape_buffer = .75):
     if flag_model == 'simple':
-        fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,
-            'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
-        ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
         spacerloc = 0
+
+    elif flag_model == "carbbalance":
+        spacerloc = 0
+
     else:
-        fmcols = vcols([ 'F_br_g_m2_yr' ,'F_dust_g_m2_yr',
-             'F_coarse_g_m2_yr' ,
-             'F_fines_from_br_g_m2_yr' ,
-             'F_dissolved_g_m2_yr','F_dust_g_m2_yr' ])
-        ft = ['F$_b$','F$_{dust}$', 'F$_c$', 'F$_{f,br}$', 'F$_{dis}$', 'F$_{dust}$']
         spacerloc = 1
-
-
+    fmcols = selval_dict["fmcols"]
+    ft = selval_dict["ft"]
     H = []  # Vertical
     L = []  # Horiz
     csum = shape_buffer
@@ -205,9 +202,16 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     if flag_model == 'simple':
         hch = ['x', '', '', '']
         bxc = ['grey', 'rosybrown', 'indianred', 'lightcyan']
+        ec = 'dimgrey'
+    elif flag_model == 'carbbalance':
+        hch = ['+', '+', '+', '+']
+        bxc = ['grey', 'rosybrown', 'indianred', 'lightcyan']
+        ec = 'dimgrey'
     else:
         hch = ['x','', '', '', '', '']
         bxc = ['grey','burlywood', 'rosybrown', 'indianred', 'lightcyan', 'burlywood']
+        ec = 'dimgrey'
+
     flag_tilt_label = False
 
     ## Make subscripts smaller??
@@ -222,7 +226,7 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
             y = [points[p][1] for p in np.arange(len(points))]
             npp = list(zip(adjx, y))
-            ax.add_patch(mpatches.Polygon(npp, ec = 'dimgrey', fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
+            ax.add_patch(mpatches.Polygon(npp, ec = ec, fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
             npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2, midy )  # Find x and y-midpoint
             # st.write(npp)
@@ -230,6 +234,8 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             # st.write(f"Orig: {fst[i]}" )
             # st.write("npp Points:",npp[1])
             if flag_model == 'simple':
+                pct_denom = fst[0]  # just bedrock flux
+            elif flag_model == 'carbbalance':
                 pct_denom = fst[0]  # just bedrock flux
             else:
                 pct_denom = fst[0] + fst[1] # bedrock + dust flux
@@ -273,7 +279,11 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
-
+                elif flag_model == 'carbbalance':
+    #                 print(i, points)
+                    syms = [' ', '=', '+', '+', ' ']
+                    sy = syms[i]
+                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
                 else:
                     syms = [' ','+', '=', '+', '+','+', ' ']
                     sy = syms[i]
@@ -627,108 +637,6 @@ def set_up_df_for_flux_results3(df,Ncol = 'calc-10Be_at_g', N_unc_col = 'calc-un
     return dft, SD, N
 
 
-def get_new_df_results_w_unc2(df,dff, col_overwrite = False, val_overwrite = 0, flag_br_equiv = False, flag_coarse_subsurface = 10, flag_pde = False):
-    # col_overwrite = ['coarse_mass'], val_overwrite= 2000,
-
-    AZ_D_graly = D_graly(400, 31.2)
-    SP_D_graly = D_graly(510, 39.1)
-
-    #     print('Default df cols: ', dff.columns.to_list())
-    #     print('L4: dff[\'coarse_mass\'].iloc[0]', dff['coarse_mass'].iloc[0])
-    #     print('L4: dff[\'coarse_area\'].iloc[0]', dff['coarse_area'].iloc[0])
-    if isinstance(col_overwrite, list):  # Then we wanna calculate non-default vals
-        for i, ovrc in enumerate(col_overwrite):
-            ovrval = val_overwrite[i] # Will write uniform value for all samples
-            if ovrc not in dff.columns.to_list():
-                print('whoops column to overwrite isnt in the default df, adding col anyways: ', ovrc )
-            dff[ovrc] = ovrval
-
-    dft, SD, N = set_up_df_for_flux_results3(df,dff)  # does not output ufloats yet
-    #     print('L13: debug: ', dft.columns.to_list())
-    #     print('L14: dft[\'z\'].iloc[0]', dft['z'].iloc[0])
-    #     print('L14: dft[\'coarse_mass\'].iloc[0]', dft['coarse_mass'].iloc[0])
-    #     print('L14: dft[\'coarse_area\'].iloc[0]', dft['coarse_area'].iloc[0])
-
-    ## run through and modify anything that isn't ufloat, need to follow uncertainties....
-    # Is ufcols just the cols of dff?
-    ufcols = ['p_re','p_br', 'br_E_rate', 'coarse_mass', 'coarse_area', 'max_coarse_residence_time', 'z', 'D', 'DF']
-    for i, ucol in enumerate(ufcols):#isinstance(uf, uncertainties.core.Variable) | isinstance(uf, uncertainties.core.AffineScalarFunc)\
-    #         if ucol == 'coarse_mass':
-    #             print('before coarsemass: ', dft[ucol].iloc[0])
-        if isinstance(dft[ucol].iloc[0], uncertainties.core.Variable): # already done, don't do anything
-    #             print('TRUE: isinstance(dft[ucol].iloc[0], uncertainties.core.Variable)')
-            pass
-        elif isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc):
-    #                print('TRUE: isinstance(dft[ucol].iloc[0],  uncertainties.core.AffineScalarFunc)')
-            dft[ucol] = redef_uf(dft[ucol])
-        else: # if any of those ufcols isn't already ufloat, then we need to change it and assume the unc col is there else 0
-    #             print('TRUE: else, i.e. not a affine scalar func or variable')
-            uncol = ucol + '_unc'
-            if uncol not in dft.columns.to_list():
-    #                 print('uncol: ', uncol)
-                dft[uncol] = 0
-            tarr = []
-            for j, uval in enumerate(dft[ucol]): # redef uf doesn't need to loop through each row but ufloat does
-                 tarr.append(ufloat(uval, dft[uncol].iloc[j], ucol))
-            dft[ucol] = tarr
-    #         if ucol == 'coarse_mass':
-    #             print('after ufloate coarsemass: ', dft[ucol].iloc[0])
-
-
-
-    dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
-
-
-    dft,res_t = solve_rt(dft)
-    dft, E_fines = solve_E_fines(dft)
-    # in mm/kyr
-    # need mass fluxes --> unc sensitive to res time
-
-    dft, F_fines = solve_F_fines(dft)
-    dft, F_coarse  = solve_F_coarse(dft)
-    dft, F_br  = solve_F_br(dft)
-    dft, F_dust  = solve_F_dust(dft)
-
-    dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
-    dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
-
-    # These should be equivalent: LHS = RHS of mass balance
-    dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
-    dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
-
-    DF = dft['DF']
-    p_re = dft['p_re']
-
-    to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
-    # ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_br_solids_after_chem_wx','F_fines_from_br', 'F_dissolved', 'F_br_plus_F_dust','F_coarse_plus_F_fines_plus_F_dissolved','F_coarse_normbr', 'F_fines_from_br_normbr','F_fines_boxmodel_normbr', 'F_dust_normbr', 'F_dissolved_normbr', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']
-    dft = dft.copy()
-    # Change fluxes to m2
-    # g/cm2/yr  * 100*100cm2/m2
-    for c,cc in enumerate(to_m2_cols):
-        dft[cc + '_g_m2_yr'] = dft[cc].apply(lambda x: x*10000).copy()
-    dft = dft.copy()
-
-    dft['rt_ky'] = dft['rt'].copy() /1000 # ky
-    dft = dft.copy()
-    # At very end, run through all columns and make sure none are Affine Scalar Function
-    for c, col in enumerate(dft.columns.to_list()):
-        fv = dft[col].iloc[0]
-        dft = dft.copy()
-    # Actually I think remaking all ufloats will improve those horribly long decimals        if isinstance(fv, uncertainties.core.Variable):
-    #             dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-        if isinstance(fv, uncertainties.core.AffineScalarFunc) | isinstance(fv, uncertainties.core.Variable):
-    #             print('Line 96:' , col, dft[col].iloc[0],'\n', dft[col])
-            dft = dft.copy()
-            dft[col] = redef_uf(dft[col])
-
-            dft[col + '_val'], dft[col + '_unc'] = get_vals_uf(dft[col])
-            dft = dft.copy()
-
-    #             print(col, dft[col].iloc[1])
-        else: pass
-
-    return dft
-
 
 
 def modify_start_subsoil_coarse_seds(dft, percent_subsurface_by_vol_is_coarse):
@@ -854,112 +762,6 @@ def htcvstuff():
 
 
 
-def write_defaults_to_df2(df, col_overwrite= 'none', dict_val_overwrite = [], Dcol_overwrite = 'none', dcol_dict_val = []):
-    # Rules:
-    # D --> if MT, then Graly AZ, else Graly SP
-    AZ_D_graly = D_graly(400, 31.2)
-    SP_D_graly = D_graly(510, 39.1)
-    # AZ_D_graly = D_graly(450, 31.2)
-    # SP_D_graly = D_graly(450, 39.1)
-
-    if col_overwrite == 'D':
-        D_dflt_dct = dict_val_overwrite
-    else:
-        D_dflt_dct = {'AZ': AZ_D_graly, 'SP': SP_D_graly}
-
-    if Dcol_overwrite != 'none':
-        D_dflt_dct = dcol_dict_val
-
-    # DF --> based on cao soil/cao br; SP: ~4% cao in soil so 25 DF, MT: ~ 6% cao in soil so ~ 17 DF. BUT some soils in both samples have ~ 20% cao AND if include MgO then MT 9, 30%, and SP is 7,8, 26%. But I think these are probably sm rock fragments elevating these vals.... so use lowest
-    if col_overwrite == 'DF':
-        DF_dflt_dct =dict_val_overwrite
-    else:
-        DF_dflt_dct = {'AZ': 17, 'SP': 25}
-    # p_re --> 1.4
-    # p_re, p_br, coarse_area, max_coarse_residence_time, p_crs, coarse_mass
-    if col_overwrite == 'p_re':
-        p_re = dict_val_overwrite
-    else:
-        p_re = 1.4
-    # p_br --> 2.6
-    if col_overwrite == 'p_br':
-        p_br = dict_val_overwrite
-    else:
-        p_br = 2.6
-    # coarse area
-    if col_overwrite == 'coarse_area':
-        coarse_area = dict_val_overwrite
-    else:
-        coarse_area = 300
-    # max coarse residence time.
-    if col_overwrite == 'coarse_area':
-        max_coarse_residence_time = dict_val_overwrite
-    else:
-        max_coarse_residence_time = 15500
-    # density of coarse sediment modify? but if anything I want to overestimate the coarse sedments SHOULD be 2.2 or so (Poesen Laveee 1994)
-    p_crs = 2.2
-    # coarse mass
-    if col_overwrite == 'coarse_mass':
-        coarse_mass = dict_val_overwrite
-    else:
-        coarse_mass = 1133
-
-
-
-    if col_overwrite == 'K': # Sed transport coeff
-        K_sed = dict_val_overwrite
-    else:
-    # dft['K'] = dft.sample_region.map()
-        K_sed = {'AZ':2.6, 'SP':14.6}
-    # # br E rate: use closest E rate to sample....(br or clast), N14 for all meteoric except NQCV4 --> N04 br, NQPR0 --> C01 or BR04-C
-        # Br, BRunc, ID, Name  (bulk as measured)
-        # 10.2  2.4 13  BH04-B
-        # 47.3  8.6 3   Bic-1
-        # 24.2  4.3 1   Bo1-2-2-15
-        #                             12.9  2.8 5   BR04-C
-        #                           11.8    2.6 6   C012-15.85
-        #                           11.5    2.6 7   C01gt15.85
-        #                 7.6   1.7 14  MT1
-        #                 16.2  3.5 15  MT6
-        #                           15.6    3.4 8   N04-BR
-        # 14.5  3.1 9   N08-BR
-        # 19.7  4.1 10  N11-Cgt15.85
-        #                           11.5    2.6 11  N14-BR
-        # 13.0  2.8 12  N14-C-gt15
-        # 40.4  7.2 4   R01c-2-15
-        # 57.1  10.3    2   RioG-1-2-15
-
-
-    MT1_E = [7.6,1.7]
-    MT6_E = [16.2,3.5]
-    N14br_E = [11.5, 2.6]
-    N04br_E = [15.6,3.4]
-    C01_E = [11.8,2.6]
-    if col_overwrite == 'br_E':
-        br_E_dflt_dct = dict_val_overwrite
-    else:
-        br_E_dflt_dct = {'MT120':MT1_E,  'MT130':MT1_E, 'MT140':MT1_E,  'MT150':MT6_E,'MT160':MT6_E, 'MT170':MT6_E, 'NQT0':N14br_E, 'NQCC2':N14br_E,'NQCV2':N14br_E, 'NQCV4':N04br_E, 'NQPR0':C01_E}
-
-    samp_dflt_dct = {'MT120':'AZ',  'MT130':'AZ', 'MT140':'AZ',  'MT150':'AZ','MT160':'AZ', 'MT170':'AZ', 'NQT0':'SP', 'NQCC2':'SP','NQCV2':'SP', 'NQCV4':'SP', 'NQPR0':'SP'}
-    count = 0
-
-
-
-    for key in br_E_dflt_dct:
-        # make new dict, then append as df to big df
-        sampreg = df['sample_region'].loc[df['sample_id'] == key].copy().to_list()[0]
-        dct = {'K': K_sed[sampreg], 'D': D_dflt_dct[sampreg],'DF':DF_dflt_dct[sampreg], 'p_re':p_re,  'p_br':p_br, 'coarse_area': coarse_area, 'max_coarse_residence_time':max_coarse_residence_time,'p_crs':p_crs, 'coarse_mass': coarse_mass, 'br_E_rate': br_E_dflt_dct[key][0], 'br_E_rate_unc': br_E_dflt_dct[key][1], 'zcol': 'local_sd_avg' }
-
-
-        dft = pd.DataFrame(dct, index = [key])
-        dft['sample_id']=key
-        dft['sample_region'] = samp_dflt_dct[key]
-        if count == 0:
-            dfdflt = dft.copy()
-        else:
-            dfdflt = pd.concat([dfdflt, dft])
-        count +=1
-    return dfdflt
 
 
 def prep_initial_df(df):
@@ -1085,18 +887,18 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
     html_str = f"""
         <style>
         p.a {{
-          font: bold {font_size}px Courier;
+          font: bold {font_size}px Times New Roman;
         }}
         </style>
         <p class="a">{varnames_dict2[selcolkey]}</p>
         """
-
-    st.markdown(html_str, unsafe_allow_html=True)
-    val = st.radio(f" ", vvd, index = index,
+    rmd = f"**{varnames_dict2[selcolkey]}**"
+    # st.markdown(html_str, unsafe_allow_html=True)
+    val = st.radio(rmd, vvd, index = index,
         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     # st.write("3, ")
     # st.dataframe( dft["D"])
-
+    st.write(" " )
 
     v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
     if selcolkey =="D":
@@ -1108,6 +910,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
     selval_dict[selcolkey] = v2vdt[val]
 
     dft[selcolkey] = v2vdt[val]
+
     return dft, selval_dict
 
 
@@ -1169,6 +972,8 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
     dft['F_br'] = f_br_flux(v1, v2)
     # st.write(v1, v2, f_br_flux(v1, v2) )
 
+
+
     v1 = dft['F_fines_boxmodel']
     v2 = dft['F_coarse']
     v3 = dft['F_br']
@@ -1200,18 +1005,42 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
 # # #                     DF = dft['DF']
 # # #                     p_re = dft['p_re']
 
-    # to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
-    # st.write(to_m2_cols)
-    to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_fines_from_br',
-    'F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']
-#                 # Change fluxes to m2
+    #########Carbonate mass balance
+    # Recalc DF:
+    # Fb = Fc + Ffb + Fdis
+    # Fb = Fc + Ffb + DF*Ffb
+    # We want DF to be true for DF*Ffb = Fdis
+    # DF = Fdis/Ffb
+    # Fdis_carbbalance
+    if selval_dict['model_type'] == "carbbalance":
+        dft['F_br_carbbalance']= dft['F_br'] *dft['carb_br']/100
+        dft['F_coarse_carbbalance']= dft['F_coarse'] *dft['carb_br']/100
+        dft['F_fines_boxmodel_carbbalance']= dft['F_fines_boxmodel'] *dft['carb_br']/100
+
+        dft['F_dis_carbbalance'] = dft['F_br_carbbalance'] -dft['F_coarse_carbbalance']  - dft['F_fines_boxmodel_carbbalance']
+        dft['DF_carbbalance'] = dft['F_dis_carbbalance'] / dft['F_fines_boxmodel']
+        to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_fines_from_br','F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines','F_br_carbbalance','F_coarse_carbbalance','F_fines_boxmodel_carbbalance', 'F_dis_carbbalance']
+        st.write(f"DF (Carbonate Balance) is {np.round(dft['DF_carbbalance'].to_numpy(), 1)}")
+        rhsmb = dft['F_fines_boxmodel'].to_numpy()+dft['F_coarse'].to_numpy()+ dft['F_dis_carbbalance'].to_numpy()
+        st.write(f"RHS is {np.round(rhsmb*1e4, 1) }")
+    else:
+        # to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
+        # st.write(to_m2_cols)
+        to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_fines_from_br',
+        'F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']
+    #                 # Change fluxes to m2
 #                 # g/cm2/yr  * 100*100cm2/m2
     for c,cc in enumerate(to_m2_cols):
         dft[cc + '_g_m2_yr_val'] = dft[cc].apply(lambda x: x*10000).copy()
         # dft[cc + '_g_m2_yr_val'] = dft[cc].apply(lambda x: x*10000).copy()
 
     dft['rt_ky'] = dft['rt'].copy() /1000 # ky
+
     return dft, selval_dict
+
+# def simple_carb_recalc(dft, df_chem, F_br,F_c, F_fines,  selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six,fmtcols, carbfmcols,carbfmd):
+#     # Recalc DF
+
 
 
 def display_massbalance_equations():
@@ -1272,6 +1101,8 @@ def display_massbalance_equations():
 
     # tx = '''Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:'''
     # st.write(tx)
+
+def write_postscript():
     tx = r'''    F_b = F_c + F_{fb}*(1+DF)'''
     st.latex(tx)
 
@@ -1318,7 +1149,7 @@ def display_massbalance_equations():
     st.latex(tx)
 
 
-    tx = '''where I$_{Be}$ is the total inventory of \Be\ calculated for a given sample (at/cm$^2$), $z$ is the elevation of the surface, and $z_b$ is the elevation of the bedrock-soil interface. \textit{N} is the \Be\ concentration (at/g), $\rho_{re}$ is the depth-averaged regolith density of the sample (g/cm$^3$).
+    tx = r'''where I$_{Be}$ is the total inventory of \Be\ calculated for a given sample (at/cm$^2$), $z$ is the elevation of the surface, and $z_b$ is the elevation of the bedrock-soil interface. \textit{N} is the \Be\ concentration (at/g), $\rho_{re}$ is the depth-averaged regolith density of the sample (g/cm$^3$).
 
         Residence times assume the soil depth is stable through time and describe how long that sample would need to be exposed to the delivery rate to be in secular equilibrium, given that \Be{} decays and the soil is eroding. Residence times are dependent on the inventory of \Be{}, which in turn is dependent on the soil depth.  Soil residence time is the duration of an average particle of soil  on the hillslope \autocites{Jungers_2009, west_regolith_2013}, and to elucidate the processes involved in moving soil on the hillslope. For example, \textcite{Jungers_2009} identifies the zone where hillslope transport transitions from creep into advective transport by ephemeral channels.
         '''
@@ -1331,7 +1162,7 @@ def display_massbalance_equations():
     st.latex(tx)
 
 
-    tx = '''where $t$ is time in years, $\lambda$ is the radioactive decay constant for \Be{} (5.1 x 10$^{-7}$ yr$^{-1}$), $I_{Be}$ is the inventory of atoms of \Be{} in the soil at a site on a ridgetop (at/cm$^2$), and $P_{^{10}Be}$ is the delivery rate of \Be{} from the atmosphere (at/cm$^2$/yr).'''
+    tx = r'''where $t$ is time in years, $\lambda$ is the radioactive decay constant for \Be{} (5.1 x 10$^{-7}$ yr$^{-1}$), $I_{Be}$ is the inventory of atoms of \Be{} in the soil at a site on a ridgetop (at/cm$^2$), and $P_{^{10}Be}$ is the delivery rate of \Be{} from the atmosphere (at/cm$^2$/yr).'''
     st.write(tx)
 
     tx = r'''\begin{equation}
@@ -1339,12 +1170,12 @@ def display_massbalance_equations():
     st.latex(tx)
 
 
-    tx ='''where E is erosion rate (cm/yr), $N_{surface}$ is the \Be{} concentration of the eroding material, i.e. the surface soil (at/cm$^3$) \autocite{West_2014}.
+    tx =r'''where E is erosion rate (cm/yr), $N_{surface}$ is the \Be{} concentration of the eroding material, i.e. the surface soil (at/cm$^3$) \autocite{West_2014}.
     '''
 
     st.write(tx)
 
-    tx = '''This erosion rate is independent of the assumptions involved in calculating bedrock erosion rates from \cosmoCl.
+    tx = r'''This erosion rate is independent of the assumptions involved in calculating bedrock erosion rates from \cosmoCl.
     '''
     st.write(tx)
 
@@ -1356,7 +1187,10 @@ def display_massbalance_equations():
             \end{equation}'''
     st.latex(tx)
 
-    tx = '''where $h_f$ represents the depth of fine sediment and pore space, measured in the field, $\rho_f$ is the density of the fine fraction of sediment, and $t_f$ is the residence time of the fine fraction.
+    tx = r'''where $h_f$ represents the depth of fine sediment and pore space, measured in the field, $\rho_f$ is the density of the fine fraction of sediment, and $t_f$ is the residence time of the fine fraction.
     '''
 
     st.write(tx)
+
+
+
