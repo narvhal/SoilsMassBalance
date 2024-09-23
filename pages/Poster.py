@@ -28,6 +28,7 @@ flag_gh = True  #  st.checkbox("Flag_gh ? ", key = "flag_gh_key", value = True)
 
 if flag_gh:
     fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/GSA_2024_poster_NMiller3.pdf"
+          # "https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller3.pdf
 else:
     fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\GSA_2024_poster_NMiller3.pdf"
 
