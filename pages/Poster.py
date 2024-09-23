@@ -24,7 +24,7 @@ def displayPDF(file):
     st.markdown(pdf_display, unsafe_allow_html=True)
 
 
-flag_gh = st.checkbox("Flag_gh ? ", key = "flag_gh_key")
+flag_gh = st.checkbox("Flag_gh ? ", key = "flag_gh_key", value = True)
 
 if flag_gh:
     fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/GSA_2024_poster_NMiller3.pdf"

@@ -15,21 +15,27 @@ from io import BytesIO
 # from uncertainties import ufloat_fromstr
 st.set_page_config(layout="wide" )
 
+flag_gh = True
+if flag_gh:
+    fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
+    fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
+    fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
 
-fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
+else:
+    fn3 = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\SGS_geochem.xlsx"
+
+
+
+# data_sources/df_initialize.xlsx
+
+st.write(fn)
 df = pd.read_excel(fn)
 df = df[df['select_col'] != "zcol"].copy()  # not useful
 
 
-fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
-df_default =  pd.read_excel(fn)
+df_default =  pd.read_excel(fn2)
 
-fn = r"https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
-fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\SGS_geochem.xlsx"
-df_chem =  pd.read_excel(fn, skiprows = 1)
-# df = df_default.copy()
-
-# toc = stoc()
+df_chem =  pd.read_excel(fn3, skiprows = 1)
 
 # Title
 st.title("Interactive Soil Mass Balance Models")
