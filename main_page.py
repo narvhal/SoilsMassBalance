@@ -7,6 +7,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from py_functions.make_flux_boxes import *
 from io import BytesIO
+import requests
+
 # from py_functions.load_intro import *
 # from py_functions.load_prep_initial_df import *
 # from py_functions.load_wrap_plotting_funcs import *
@@ -18,9 +20,9 @@ st.set_page_config(layout="wide" )
 st.write("hi")
 
 troubleshoot = False
-flag_gh = False
+flag_gh = True
 
-flag_gh = st.checkbox("Flag_gh ? ", key = "flag_gh_key")
+#flag_gh = st.checkbox("Flag_gh ? ", key = "flag_gh_key")
 
 if troubleshoot: pass
 else:
