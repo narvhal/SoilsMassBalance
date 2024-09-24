@@ -1,0 +1,15 @@
+Streamlit notes
+Pages --> Add name & email to main page, poster.
+      --  move model to other page
+      --  Hide model that doesn't work.
+
+- add ability to ask general questions ---> What if I under/overestimates F(coarse, fine, br, dissolved) by X%?
+        - e.g. Fcoarse mismeasured
+        - e.g. Ffines not representative of Steady state ---> eg. erosion pulse in the past. 
+        - can't relly do this in general, bc specific variables contribute to multiple fluxes. 
+        - 
+-    More specific ---> What if X assumption (specific input variables) were over/underestimated? 
+
+-  Simplify names to match poster// just compare NQT and MT12  (Semi-Arid/Arid)
+
+
