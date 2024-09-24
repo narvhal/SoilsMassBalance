@@ -17,7 +17,6 @@ import requests
 # from uncertainties import ufloat_fromstr
 st.set_page_config(layout="wide" )
 
-st.write("hi")
 
 troubleshoot = False
 flag_gh = True
@@ -72,6 +71,7 @@ else:
                     "coarse_mass": "(kg)",
                     "max_coarse_residence_time":"(kyr)",
                     "D":"Atoms/cm$^2$/yr"
+                        selcolunit = list(varunits_dict.values())[vixfs]
                     }
 
     varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],

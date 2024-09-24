@@ -76,7 +76,7 @@ varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 }
 varnames_dict2 = varnames_dict
 varunits_dict = {"Coarse_seds_subsurface":"%",
-                "DF":"Solid products/Dissolved products",
+                "DF":"Soluble/Insoluble",
                 "p_re": "g/cm$^3$",
                 "br_E_rate": "mm/ky",
                 "coarse_mass": "kg",
@@ -86,7 +86,6 @@ varunits_dict = {"Coarse_seds_subsurface":"%",
                 "carb_br": "%",
                 "carb_soil": "%"
                 }
-
                 #  vals_arr = [ AZ_D_graly*0.5, AZ_D_graly,AZ_D_graly*1.5,
                 #  SP_D_graly*0.5,SP_D_graly*1, SP_D_graly*1.5, SP_D_graly*4]
                 #"D": ["0.5 $\cdot$ $D_A_Z$", "$D_A_Z$", "1.5$\cdot$ $D_A_Z$", "0.5 $\cdot$ $D_S_P$", "$D_S_P$", "1.5 $\cdot$ $D_S_P$", "4$\cdot$ $D_S_P$"],
