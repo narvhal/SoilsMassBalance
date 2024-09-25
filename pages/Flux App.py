@@ -45,7 +45,9 @@ else:
     st.title("Interactive Soil Mass Balance Plots")
     st.header("Flux boxes")
 
-    # g/m2/yr?
+
+    st.write("  ")
+    st.write("This app is not yet done! I'll add clarification for how to use it soon. ")
 
 
     varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
