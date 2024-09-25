@@ -15,7 +15,7 @@ lc, rc = st.columns([0.75, 0.25])
 with lc:
     # st.write("I like investigating open-ended problems, integrating disparate data sources, and making meaningful contributions. I am looking for a job that meets one or more of those . ")
     st.write("This website is under construction, but provides my email & 2024 GSA poster.")
-    st.write("I am looking for a job that meets one or more of those . ")
+    # st.write("I am looking for a job that meets one or more of those . ")
 
 st.write("nari.v.miller@gmail.com")
 st.write("Dissertation (July 2024) available here: https://keep.lib.asu.edu/items/195269")
