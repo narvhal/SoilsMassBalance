@@ -95,26 +95,22 @@ else:
     with st.popover(f"Plot dimension options"):
 
         # st.write(sliderrange(5, 2, 12))
-        hh = sliderrange(5, 2, 12)
+        hh = sliderrange(3, 1, 20)
         keystr = "figwidth_radio" 
-        selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+        selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 11,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
         keystr = "figheight_radio"
-        selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-        # height
+        selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 0.5,10), value = 3,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+        
         keystr = "pixelwidth_radio"
+        selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 20), value = 800, key = keystr, on_change = proc, args = (keystr,))
 
-        selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
-            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
          # Width in px of image produced...
         keystr = "boxscale_radio"
-
-        selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
-            key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+        selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.4, 0.2, 12), value = 1, key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+        
         keystr = "shape_buffer_radio"
-
-        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
-             value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 16),
+             value = 2.25, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
 
     model_type = "wdust"
@@ -152,162 +148,173 @@ else:
     # Select Sample Name
     si_to_poster = {"NQT0":"Semi-Arid", "MT120":"Arid"}
 
-    lc, mc, rc = st.columns([0.2, 0.6, 0.2])
-    with mc:
-        # st.write("Choose samples: ")
-        # keystr = "sample_id_selbox"
-        # si = st.multiselect(" ", siu, default = ["NQT0", "MT120"], key = keystr, on_change=proc, args = (keystr,))["NQT0", "MT120"]
-        si = ["NQT0", "MT120"]
-        selval_dict['sample_id'] = si
+    # st.write("Choose samples: ")
+    # keystr = "sample_id_selbox"
+    # si = st.multiselect(" ", siu, default = ["NQT0", "MT120"], key = keystr, on_change=proc, args = (keystr,))["NQT0", "MT120"]
+    si = ["NQT0", "MT120"]
+    selval_dict['sample_id'] = si
 
 
-        # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
-        #       or with dust  (Dissolution constrained by calcite mass balance) )
+    # Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
+    #       or with dust  (Dissolution constrained by calcite mass balance) )
 
-        # bc1, lc, rc, bc2 = st.columns([0.2, 0.3, 0.3, 0.2])
-        # with lc:
-            # keystr = "model_type_radio"
-            # model_type = st.radio("Model Type: ", ['simple', 'wdust'],index = 1, format_func = mtfmt, key = keystr,
-                # on_change=proc, args = (keystr,))
-        model_type = "wdust"
-        selval_dict['model_type'] = model_type
+    # bc1, lc, rc, bc2 = st.columns([0.2, 0.3, 0.3, 0.2])
+    # with lc:
+        # keystr = "model_type_radio"
+        # model_type = st.radio("Model Type: ", ['simple', 'wdust'],index = 1, format_func = mtfmt, key = keystr,
+            # on_change=proc, args = (keystr,))
+    model_type = "wdust"
+    selval_dict['model_type'] = model_type
 
-        # with rc:
-        # Select box model shape:
-            # keystr = "model_shape_radio"
+    # with rc:
+    # Select box model shape:
+        # keystr = "model_shape_radio"
 
-            # model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
-                # key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-        model_shape = "Uniform height"
-        selval_dict['model_shape'] = model_shape
-
-
-
-        # Instructions & EXplanations:
-
-
-        # Scenario and values:
-        baseline_dict = {}
-        # units_dict = {}  #
-        # if len(si) == 3:
-        #     coL, coM, coR = st.columns([0.33, 0.33, 0.33])
-        #     colll = [ coL, coM, coR,  coL, coM, coR]
-        # elif len(si) == 2:
-        #     coL, coR = st.columns([0.5,  0.5])
-        #     colll = [ coL,  coR,  coL, coR, coL,  coR,  coL, coR]
-        # elif len(si) == 1:
-        coL = st.container()
-        colll = [ coL]
-        st.text("Changes to the input variables will be incorporated to the plots.")
-
-        count = 0
-        for six, samp in enumerate(si):
-            dft = df[df['sample_id']== samp].copy()
-
-            with coL:
-                with st.expander(si_to_poster[samp], expanded = True):
-
-                    plot_data_default = [True, False]
-
-                    for pdd in plot_data_default:
-
-                        if pdd:
-                            dftt = dft.copy()
-                        else:
-                            lc, rc = st.columns([0.5, 0.5])
-
-                            for k, vlist in vars_dict.items():
-                                vld = []
-                                # vars_itemfmt_dict[k] = {}
-                                tempd = {}
-                                for j, sv in enumerate(vlist):
-                                    valid_list = varvalues_dict[k]
-                                    tempd[sv] = valid_list[j]
-                                # vars_itemfmt_dict[sc]= tempd
-                                # vld.append(tempd)
-                                def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
-                                    return dc[mt]
-                            st.write(' ')
-                            varname_units = [varnames_dict2[s] + " " + varunits_dict[s] for s in selcolu]
-                            filtselcol = st.selectbox("Select Input Variable to Explore:",[varnames_dict2[s] for s in selcolu] , key = "select_filter_col_"+ samp)
-                            vixfs = list(varnames_dict2.values()).index(filtselcol)
-                            selcolkey = list(varnames_dict2.keys())[vixfs]
-                            selcolunit = list(varunits_dict.values())[vixfs]
-
-                            # with colll[count]:
-                            # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
-                            # st.write(k, list(vlist[:]))
-                            # st.write(k in df_default.columns.to_list())
-                            # st.write(df_default[k])   index = def_ix,
-                            # vll = list(vlist[:])
-                            # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
-                            # if filtselcol in selcolu:
-                            st.write(selcolunit)
-                            if filtselcol == varnames_dict["D"]:
-                                # Add note defining DAz etc556495.6872
-                                st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
-                                st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-                                st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-
-                            keystr = str(selcolkey) + "_radioval_"+ str(six)
-                            # st.write("filtselcol: ", filtselcol)
-                            # st.write("selcolkey", selcolkey)
-                            # st.write("vars_dict[selcolkey]",vars_dict[selcolkey])
-
-                            # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
-                            #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-
-                            # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
-                            val = st.radio(" ", vars_dict[selcolkey],
-                                key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                            vix = list( vars_dict[selcolkey]).index(val)
-                            # selval_dict[filtselcol] = val
-                            # Filter df outside of func...
-                            # Filter df
-                            # if len(dft)>1:
-                            # if filtselcol == "Coarse_seds_subsurface":
-                            dftt = dft[dft["select_col"]==selcolkey].copy()
-                            dftt = dftt[dftt["select_col_val"]==val].copy()
-                            # else:
-                                # dftt = dft[dft[selcolkey] == dft[selcolkey].unique()[vix]].copy()
-                            # st.write("Length of df: ", len(dft))
-                            # count+=1
-                            # with mc:
-
-                            # width = st.sidebar.slider("plot width", 1, 20, 3)
-                            # height = st.sidebar.slider("plot height", 1, 14, 3)
-                            st.write(' ')
-
-                        fig = wrap_flux_box_streamlit(dftt, selval_dict)
-
-                        # for i, f in enumerate(fmcols):
-                        #     dftt[ft[i]] = dftt[f].copy()
-                        # # dftt['Sample ID'] = dftt['sample_id']
-                        # # st.write(dftt.columns.to_list())
-                        # # st.write(dftt[ft])
-                        # for i in range(len(ft)):
-                        #     st.write(f'''{ftexp[i]} Flux''')
-                        #     st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-                        # # st.dataframe(dftt[ ft])
-                        count +=1
-
-
-        # # Add default values
-        # st.dataframe(df_default)
-
-
-        # df_defaultcols = df_default.columns.to_list()
-        # for i in range(len(df_default)):
-        #     st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
+        # model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
+            # key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+    model_shape = "Uniform height"
+    selval_dict['model_shape'] = model_shape
 
 
 
-        # filenametag = '_rows_D_dft_x4_cols_coarse_seds_subs_0_25'
+    # Instructions & EXplanations:
 
-        # savefig(filenametag,
-        #             saveloc,
-        #             [],
-        #             [],
-        #             (8.5, 5),
-        #             w_legend=False,
-        #             prefixtag='stacked_norm_vals')
+
+    # Scenario and values:
+    baseline_dict = {}
+    
+    # Field measurement mods:
+    ## What if Fine soils are under/over estimated?
+    ## What if amount of Coarse Fraction are under/over estimated?
+    ## What if res time of coarse fraction is under/over estimated?
+
+    # Specific vars as input NOT related to above (coarse/fine seds):
+    ##  Delivery rate of 10Be
+    ##  
+
+
+
+
+
+    # coL = st.container()
+    # colll = [ coL]
+
+
+
+    st.text("Changes to the input variables will be incorporated to the plots.")
+
+    count = 0
+    for six, samp in enumerate(si):
+        dft = df[df['sample_id']== samp].copy()
+
+        # with coL:
+        with st.expander(si_to_poster[samp], expanded = True):
+
+            plot_data_default = [True, False]
+
+            for pdd in plot_data_default:
+
+                if pdd:
+                    dftt = dft.copy()
+                    selval_dict["flag_sample_label_default"] = si_to_poster[samp] + " Site, as shown on poster"
+
+                else:
+                    selval_dict["flag_sample_label_default"] = si_to_poster[samp] + " Site, modified"
+
+                    lc, rc = st.columns([0.5, 0.5])
+
+                    for k, vlist in vars_dict.items():
+                        vld = []
+                        # vars_itemfmt_dict[k] = {}
+                        tempd = {}
+                        for j, sv in enumerate(vlist):
+                            valid_list = varvalues_dict[k]
+                            tempd[sv] = valid_list[j]
+                        # vars_itemfmt_dict[sc]= tempd
+                        # vld.append(tempd)
+                        def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
+                            return dc[mt]
+                    st.write(' ')
+                    varname_units = [varnames_dict2[s] + " " + varunits_dict[s] for s in selcolu]
+                    filtselcol = st.selectbox("Select Input Variable to Explore:",[varnames_dict2[s] for s in selcolu] , key = "select_filter_col_"+ samp)
+                    vixfs = list(varnames_dict2.values()).index(filtselcol)
+                    selcolkey = list(varnames_dict2.keys())[vixfs]
+                    selcolunit = list(varunits_dict.values())[vixfs]
+
+                    # with colll[count]:
+                    # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
+                    # st.write(k, list(vlist[:]))
+                    # st.write(k in df_default.columns.to_list())
+                    # st.write(df_default[k])   index = def_ix,
+                    # vll = list(vlist[:])
+                    # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
+                    # if filtselcol in selcolu:
+                    st.write(selcolunit)
+                    if filtselcol == varnames_dict["D"]:
+                        # Add note defining DAz etc556495.6872
+                        st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
+                        st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+                        st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+
+                    keystr = str(selcolkey) + "_radioval_"+ str(six)
+                    # st.write("filtselcol: ", filtselcol)
+                    # st.write("selcolkey", selcolkey)
+                    # st.write("vars_dict[selcolkey]",vars_dict[selcolkey])
+
+                    # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
+                    #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+
+                    # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
+                    val = st.radio(" ", vars_dict[selcolkey],
+                        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                    vix = list( vars_dict[selcolkey]).index(val)
+                    # selval_dict[filtselcol] = val
+                    # Filter df outside of func...
+                    # Filter df
+                    # if len(dft)>1:
+                    # if filtselcol == "Coarse_seds_subsurface":
+                    dftt = dft[dft["select_col"]==selcolkey].copy()
+                    dftt = dftt[dftt["select_col_val"]==val].copy()
+                    # else:
+                        # dftt = dft[dft[selcolkey] == dft[selcolkey].unique()[vix]].copy()
+                    # st.write("Length of df: ", len(dft))
+                    # count+=1
+                    # with mc:
+
+                    # width = st.sidebar.slider("plot width", 1, 20, 3)
+                    # height = st.sidebar.slider("plot height", 1, 14, 3)
+                    st.write(' ')
+
+                fig = wrap_flux_box_streamlit(dftt, selval_dict)
+
+                # for i, f in enumerate(fmcols):
+                #     dftt[ft[i]] = dftt[f].copy()
+                # # dftt['Sample ID'] = dftt['sample_id']
+                # # st.write(dftt.columns.to_list())
+                # # st.write(dftt[ft])
+                # for i in range(len(ft)):
+                #     st.write(f'''{ftexp[i]} Flux''')
+                #     st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+                # # st.dataframe(dftt[ ft])
+                count +=1
+
+
+    # # Add default values
+    # st.dataframe(df_default)
+
+
+    # df_defaultcols = df_default.columns.to_list()
+    # for i in range(len(df_default)):
+    #     st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
+
+
+
+    # filenametag = '_rows_D_dft_x4_cols_coarse_seds_subs_0_25'
+
+    # savefig(filenametag,
+    #             saveloc,
+    #             [],
+    #             [],
+    #             (8.5, 5),
+    #             w_legend=False,
+    #             prefixtag='stacked_norm_vals')

@@ -90,7 +90,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     flag_model = selval_dict['model_type']
     list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, selval_dict, flag_model = flag_model, height = height, scale = selval_dict["boxscale"] , shape_buffer = selval_dict["shape_buffer"])
     plot_patches(list_of_tuplelists, dft, ft, L, H, XY,YC, fst, height = height,
-        flag_model =flag_model, newfig = False,flag_annot = False)
+        flag_model =flag_model, newfig = False,flag_annot = False, flag_sample_label_default = selval_dict["flag_sample_label_default"])
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
@@ -118,7 +118,7 @@ def make_into_area_streamlit(df,selval_dict, flag_model= 'simple', height = 'aut
     ft = selval_dict["ft"]
     H = []  # Vertical
     L = []  # Horiz
-    csum = shape_buffer
+    csum = 0
     fst = []
     Fbr_L = df[fmcols[0]].to_numpy()[0]   # BR value
     XC = [csum]
@@ -180,7 +180,7 @@ def make_into_area_streamlit(df,selval_dict, flag_model= 'simple', height = 'aut
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
 
-def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple',newfig = True, flag_annot = True, set_maxy = None, xoffset = 0):
+def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple',newfig = True, flag_annot = True, set_maxy = None, xoffset = 0, flag_sample_label_default = True):
     if newfig:
         fig, ax = plt.subplots()
     else:
@@ -213,6 +213,10 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
         ec = 'dimgrey'
 
     flag_tilt_label = False
+    if isinstance(flag_sample_label_default, bool):    
+        sample_label = df.sample_id.iloc[0] +"\n" + df.sample_region.iloc[0]
+    else:
+        sample_label = flag_sample_label_default+"\n(g/m$^2$/yr)"
 
     ## Make subscripts smaller??
     matplotlib._mathtext.SHRINK_FACTOR = 0.5
@@ -226,13 +230,10 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
             y = [points[p][1] for p in np.arange(len(points))]
             npp = list(zip(adjx, y))
-            ax.add_patch(mpatches.Polygon(npp, ec = ec, fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))  # df.cdict.iloc[0]
+            ax.add_patch(mpatches.Polygon(npp, ec = ec, fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
             npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2, midy )  # Find x and y-midpoint
-            # st.write(npp)
-            # st.write(f"Area {ft[i]}: {(npp[1][1]-npp[1][0])* (npp[2][0]-npp[1][0])}")
-            # st.write(f"Orig: {fst[i]}" )
-            # st.write("npp Points:",npp[1])
+            
             if flag_model == 'simple':
                 pct_denom = fst[0]  # just bedrock flux
             elif flag_model == 'carbbalance':
@@ -248,23 +249,18 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                         # plt.annotate(''+ft[i], npn, va = 'center')
                     flag_tilt_label = True
                 else: # LABEL boxes in middle
-                    # st.write("wide box, " +ft[i])
-                    # st.write(npn)
-                    # st.write(npp[0])
-                    # st.write(points[0])
-                    # st.write()
-
                     plt.annotate(ft[i], npn, va = 'center', fontsize = 13, ha = 'center')
                     plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
                     plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
             else:
-                # npn = (npn[0], npn[1]+ midy*1.9)
                 npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
 
-                # npn = (npp[0][0] , npn[1]+ midy*1.9)
                 plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
                 if i == 0:
-                    plt.annotate('\n {:0.1f}\n g/m$^2$/yr'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'center')
+                    if isinstance(flag_sample_label_default, bool):
+                        plt.annotate('\n {:0.1f}\n g/m$^2$/yr'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'center')
+                    else:
+                        plt.annotate('\n {:0.1f}'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'center')
                 else:
                     plt.annotate('\n {:0.1f}'.format(fst[i]), npn,fontsize = 10, va = 'top', ha = 'center')
 
@@ -272,22 +268,36 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                 plt.annotate('{:0.0f}%'.format(fst_as_pct), npn, va = 'center', ha = 'center', fontsize = 8 ) # , fontweight = "bold")
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
+
             if i>0:
                 spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
+
+                sample_label_loc = (npp[1][0]-spacex, maxy+ 13/14*maxy)
                 if flag_model == 'simple':
-    #                 print(i, points)
+                    if i == 1:
+                        # Write sample name above equals sign: 
+                        plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center") 
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
                 elif flag_model == 'carbbalance':
+
+                    if i == 2:
+                        # Write sample name above equals sign: 
+                        plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center")  
     #                 print(i, points)
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
                 else:
+
+                    if i == 2:
+                        # Write sample name above equals sign: 
+                        plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center")
                     syms = [' ','+', '=', '+', '+','+', ' ']
                     sy = syms[i]
                     plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
+
                 # Also write between F labels
                 if not flag_annot:
                     npn2 = (npp[1][0]-spacex,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
@@ -298,25 +308,24 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
     frame1 = plt.gca()
     if set_maxy !=None:
         maxx = set_maxy
-        plt.xlim(0, set_maxy+0.3)
-        plt.ylim(0, maxy*2) #set_maxy/3+0.1 )
+        plt.xlim(0, set_maxx+0.3)
+        plt.ylim(0, maxy*3) #set_maxy/3+0.1 )
 
         frame1 = plt.gca()
     else:
         # st.write("TWO max x",maxx)
         # st.write("TWO max Y",maxy)
-        xl = maxx2*1.1+0.3
-        yl = maxy*2+0.1
+        xl = maxx2*1.1+0.01
+        yl = maxy*3+0.01
         # st.write(f"xy lims: {xl}, {yl}" )
-        plt.xlim(0, xl)
-        plt.ylim(0, yl )
-    frame1.axes.get_xaxis().set_visible(False)
-    frame1.axes.get_yaxis().set_visible(False)
+        plt.xlim(-0.01, xl)
+        plt.ylim(-0.01, yl )
+    # frame1.axes.get_xaxis().set_visible(False)
+    # frame1.axes.get_yaxis().set_visible(False)
 
-    plt.annotate(df.sample_id.iloc[0] +"\n" + df.sample_region.iloc[0], (0, maxy+ 13/14*maxy), fontsize = 13) #(0, npp[1][1]+4.5))
-    #npp[1][1]+3.5))
-
+    # fig.set_facecolor('grey')
     frame1.axis('off')
+    fig.tight_layout()
     return
 
 
