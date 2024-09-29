@@ -79,8 +79,8 @@ def proc(key):
 
 def mtfmt(mt):   # functions to provide vals for 'model_type'
     mtd = {'simple':"Model A: Solve for dissolved flux, mass balance, no dust ('simple')",
-    'carbbalance': "Model C: Solve for dissolved flux, carbonate balance",
-    'wdust':  "Model B: Solve for dust flux, mass balance, carbonate balance " }
+    'wdust':  "Mass Balance Model: Solve for dust flux, maintaining mass and carbonate balance ",
+    'carbbalance': "Model C: Solve for dissolved flux, carbonate balance" }
     return mtd[mt]
 
 
