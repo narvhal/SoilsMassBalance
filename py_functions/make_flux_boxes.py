@@ -86,11 +86,9 @@ def mtfmt(mt):   # functions to provide vals for 'model_type'
 
 def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
-    height = selval_dict['model_shape']
-    flag_model = selval_dict['model_type']
-    list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, selval_dict, flag_model = flag_model, height = height, scale = selval_dict["boxscale"] , shape_buffer = selval_dict["shape_buffer"])
-    plot_patches(list_of_tuplelists, dft, ft, L, H, XY,YC, fst, height = height,
-        flag_model =flag_model, newfig = False,flag_annot = False, flag_sample_label_default = selval_dict["flag_sample_label_default"])
+    
+    list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, selval_dict)
+    plot_patches(list_of_tuplelists, selval_dict,dft, ft, L, H, XY,YC, fst, newfig = False,flag_annot = False, flag_sample_label_default = selval_dict["flag_sample_label_default"])
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
@@ -105,7 +103,13 @@ def deal_w_ustring(val):
         numstr = val
     return numstr
 
-def make_into_area_streamlit(df,selval_dict, flag_model= 'simple', height = 'auto', scale = 1, shape_buffer = .75):
+def make_into_area_streamlit(df,selval_dict):
+    scale = selval_dict["boxscale"]
+    shape_buffer = selval_dict["shape_buffer"]
+    height = selval_dict['boxheight']
+    flag_model = selval_dict['model_type']
+    flag_model_style = selval_dict['model_style']
+
     if flag_model == 'simple':
         spacerloc = 0
 
@@ -128,15 +132,25 @@ def make_into_area_streamlit(df,selval_dict, flag_model= 'simple', height = 'aut
         colval = df[col].to_numpy()[0]
         colval = deal_w_ustring(colval)
         if colval > 0:
-            if height == 'Uniform height':  # About half of sqrt (FBr_L)
-                htt = 0.3 * (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
-                L1 = colval/htt*scale
-            elif isinstance(height, float):
+
+            if flag_model_style == "Uniform height":
                 htt = height
-                L1 = colval/htt*scale
+                L1 = colval/htt*scale   # maintains area == fluxes
+                
             else:  # squares
                 L1 = (colval*scale)**(0.5)
                 htt = L1
+
+            # # if height == 'Uniform height':  # About half of sqrt (FBr_L)
+            #     htt = 0.3 * (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
+            #     L1 = colval/htt*scale
+            # elif isinstance(height, float):
+            #     # As of now, want to scale height of 1 by height. 
+            #     htt = 1
+            #     L1 = colval/htt*scale
+            #     htt = height
+
+            
         else:
             L1 = 0
 
@@ -180,7 +194,10 @@ def make_into_area_streamlit(df,selval_dict, flag_model= 'simple', height = 'aut
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
 
-def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',  height = 'auto', flag_model = 'simple',newfig = True, flag_annot = True, set_maxy = None, xoffset = 0, flag_sample_label_default = True):
+def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_conc = 'auto', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0, flag_sample_label_default = True):
+
+    height = selval_dict['boxheight']
+    flag_model = selval_dict['model_type']
     if newfig:
         fig, ax = plt.subplots()
     else:
@@ -188,17 +205,19 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
         fig = plt.gcf()
     equals_locx = 0
 
-    if height != 'Uniform height':
-        maxy = H[0]   # bedrock height
-        maxx = XC[-1]
-    elif isinstance(height, float):
-        maxy = height
-        maxx = XC[-1]
-    else:# squares
+    if selval_dict['model_style'] == "squares":
+
         maxy = np.max(H)
-        maxx = XC[-1]
-    # st.write("XY",XY)
-    mxo = maxx
+        midy_patch = maxy/2
+        # npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  npn[1]+ midy_patch*1.9 ) # Find x and y-midpoint
+    else:
+        maxy = 1 #H[0]   # bedrock height
+        midy_patch = np.max(H)/2
+
+        # npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  2) # Find x and y-midpoint
+    maxx = XC[-1]
+    suby = -0.5
+
     if flag_model == 'simple':
         hch = ['x', '', '', '']
         bxc = ['grey', 'rosybrown', 'indianred', 'lightcyan']
@@ -226,13 +245,15 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
         flag_along_baseline = False
         if flag_along_baseline: pass
         else:
-            midy = np.max(H)/2
             adjx = [points[p][0] + xoffset for p in np.arange(len(points))]
             y = [points[p][1] for p in np.arange(len(points))]
             npp = list(zip(adjx, y))
+            #### ADD PATCH
             ax.add_patch(mpatches.Polygon(npp, ec = ec, fc = bxc[i], hatch = hch[i], ls = '-', lw = .5))
+
+            midx = npp[0][0] + (npp[3][0]-npp[0][0])/2
             # npn = ( (npp[0][1]+npp[1][1])/2 ,  (npp[1][0] + npp[0][0])/2 )  # Find x and y-midpoint
-            npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2, midy )  # Find x and y-midpoint
+            # npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2, midy_patch )  # Find x and y-midpoint
             
             if flag_model == 'simple':
                 pct_denom = fst[0]  # just bedrock flux
@@ -241,54 +262,59 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
             else:
                 pct_denom = fst[0] + fst[1] # bedrock + dust flux
             fst_as_pct = np.round(fst[i]/pct_denom*100, 0)
-            if flag_annot:
-                if (points[3][0] - points[0][0])<=maxx/20:
-                    # st.write("narrow box, "+ft[i]+'   : {:0.1f}'.format(fst[i]))
-                    plt.annotate(' '+ft[i]+' : {:0.1f}'.format(fst[i]), npp[1], rotation = 45, fontsize = 15)
-                    # if (points[3][0] - points[0][0])>=.6:
-                        # plt.annotate(''+ft[i], npn, va = 'center')
-                    flag_tilt_label = True
-                else: # LABEL boxes in middle
-                    plt.annotate(ft[i], npn, va = 'center', fontsize = 13, ha = 'center')
-                    plt.annotate('\n{:0.1f}'.format(fst[i]), npn, va = 'top', ha = 'center')
-                    plt.annotate('\n\n {:0.0f}%'.format(fst_as_pct), npn, va = 'top', ha = 'center')
+
+            # midpt of space between this patch and previous
+            spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
+            midspacex = npp[1][0]-spacex
+            textht = 3
+
+            sll_offset = 0.4
+            sample_label_loc = (npp[1][0]-spacex, textht+sll_offset)
+            if selval_dict['model_style'] == "squares":
+                npn = (midx,  npn[1]+ midy_patch*1.9 ) # Find x and y-midpoint
+                npsym = (midspacex,   npn[1]+ midy_patch*1.9)
             else:
-                npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
-
-                plt.annotate(ft[i], npn, va = 'center', fontsize = 15, ha = 'center')
-                if i == 0:
-                    if isinstance(flag_sample_label_default, bool):
-                        plt.annotate('\n {:0.1f}\n g/m$^2$/yr'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'center')
-                    else:
-                        plt.annotate('\n {:0.1f}'.format(fst[i]), npn, fontsize = 10,  va = 'top', ha = 'center')
+                npn = (midx, textht) # Find x and y-midpoint
+                npsym = (midspacex,textht)
+            
+            ## ANNOT: F_br etc
+            lgfont = 18 
+            medfont = 12
+            plt.annotate(ft[i], npn, va = 'center', fontsize = 18, ha = 'center')
+            ## ANNOT: AMOUNT (g/m2/yr)
+            if i == 0:
+                if isinstance(flag_sample_label_default, bool):
+                    plt.annotate('\n {:0.1f}\n g/m$^2$/yr \n {:0.0f}%'.format(fst[i], fst_as_pct), npn, fontsize = medfont,  va = 'top', ha = 'center')
                 else:
-                    plt.annotate('\n {:0.1f}'.format(fst[i]), npn,fontsize = 10, va = 'top', ha = 'center')
+                    plt.annotate('\n {:0.1f}\n {:0.0f}%'.format(fst[i], fst_as_pct), npn, fontsize = medfont,  va = 'top', ha = 'center')
+            else:
+                plt.annotate('\n {:0.1f}\n {:0.0f}%'.format(fst[i], fst_as_pct), npn,fontsize = medfont, va = 'top', ha = 'center')
 
-                npn = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  (npp[0][1]+npp[1][1])/2 ) # Find x and y-midpoint
-                plt.annotate('{:0.0f}%'.format(fst_as_pct), npn, va = 'center', ha = 'center', fontsize = 8 ) # , fontweight = "bold")
+            # npn2 = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  (npp[0][1]+npp[1][1])/2 ) # Find x and y-midpoint
+            # npn2 = (midx,  textht) # Find x midpoint and y below patch
+
+            ## ANNOT: PCT
+            # plt.annotate('{:0.0f}%'.format(fst_as_pct), npn2, va = 'center', ha = 'center', fontsize = medfont ) # , fontweight = "bold")
             # plt.annotate(f"LxH = Area\n{L[i]} x {H[i]} \n\t= {fst[i]}", (points[0][0], 0.1), va = "center", rotation = 20)
             # Add equation stuff to nearby box
-
             if i>0:
-                spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
-
-                sample_label_loc = (npp[1][0]-spacex, maxy+ 13/14*maxy)
                 if flag_model == 'simple':
                     if i == 1:
                         # Write sample name above equals sign: 
-                        plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center") 
+                        plt.annotate(sample_label, sample_label_loc, fontsize = lgfont, ha = "center") 
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
-                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
+                    plt.annotate(sy, (midspacex, midy_patch),ha='center', va = 'center', fontsize = medfont)
+                    # (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 )
                 elif flag_model == 'carbbalance':
-
                     if i == 2:
                         # Write sample name above equals sign: 
-                        plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center")  
+                        plt.annotate(sample_label, sample_label_loc, fontsize = lgfont, ha = "center")  
     #                 print(i, points)
                     syms = [' ', '=', '+', '+', ' ']
                     sy = syms[i]
-                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
+                    plt.annotate(sy,(midspacex, midy_patch),ha='center', va = 'center', fontsize = medfont)
+                     # (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 )
                 else:
 
                     if i == 2:
@@ -296,35 +322,25 @@ def plot_patches(list_of_tuplelist, df, ft, L, H, XC, YC, fst,add_conc = 'auto',
                         plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center")
                     syms = [' ','+', '=', '+', '+','+', ' ']
                     sy = syms[i]
-                    plt.annotate(sy, (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 ),ha='center', va = 'center')
+                    plt.annotate(sy,(midspacex, midy_patch),ha='center', va = 'center', fontsize = medfont)
+                     # (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 )
 
                 # Also write between F labels
                 if not flag_annot:
-                    npn2 = (npp[1][0]-spacex,  npn[1]+ midy*1.9 ) # Find x and y-midpoint
-                    plt.annotate(sy, npn2,ha='center', va = 'center')
+                    plt.annotate(sy, npsym,ha='center', va = 'center', fontsize = medfont)
 
         mxx.append(adjx)
     maxx2 = np.max(np.array(mxx))
     frame1 = plt.gca()
-    if set_maxy !=None:
-        maxx = set_maxy
-        plt.xlim(0, set_maxx+0.3)
-        plt.ylim(0, maxy*3) #set_maxy/3+0.1 )
 
-        frame1 = plt.gca()
-    else:
-        # st.write("TWO max x",maxx)
-        # st.write("TWO max Y",maxy)
-        xl = maxx2*1.1+0.01
-        yl = maxy*3+0.01
-        # st.write(f"xy lims: {xl}, {yl}" )
-        plt.xlim(-0.01, xl)
-        plt.ylim(-0.01, yl )
-    # frame1.axes.get_xaxis().set_visible(False)
-    # frame1.axes.get_yaxis().set_visible(False)
+    xl = maxx2+0.01
+    yl = textht + sll_offset+0.2
+    plt.xlim(-0.001, xl)
+    plt.ylim(-0.01, yl )
 
     # fig.set_facecolor('grey')
     frame1.axis('off')
+    # fig.set_layout('constrained')
     fig.tight_layout()
     return
 

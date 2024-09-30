@@ -92,25 +92,31 @@ else:
 
     def sliderrange(start, step, num):
         return start + np.arange(num)*step
-    with st.popover(f"Plot dimension options"):
+    with st.popover(f"Adjust plot dimensions (optional)"):
 
         # st.write(sliderrange(5, 2, 12))
+        keystr = "boxheight_radio"
+
+        selval_dict['boxheight'] = st.select_slider("Scale box height: ", options = sliderrange(0.5, 0.25, 20), value = 2,key = keystr, on_change = proc, args = (keystr,))
+
+        keystr = "shape_buffer_radio"
+        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 16),
+             value = 1.75, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
         hh = sliderrange(3, 1, 20)
+
         keystr = "figwidth_radio" 
-        selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 11,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+        selval_dict['figwidth'] = st.select_slider("Scale the width of the canvas: ", options = hh, value = 11,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
         keystr = "figheight_radio"
-        selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 0.5,10), value = 3,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+        selval_dict['figheight']  = st.select_slider("Scale the height of the canvas: ",  sliderrange(1, 1,20), value = 4,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
         
         keystr = "pixelwidth_radio"
         selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 20), value = 800, key = keystr, on_change = proc, args = (keystr,))
 
          # Width in px of image produced...
-        keystr = "boxscale_radio"
-        selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.4, 0.2, 12), value = 1, key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-        
-        keystr = "shape_buffer_radio"
-        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 16),
-             value = 2.25, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+        # keystr = "boxscale_radio"
+        # selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.4, 0.2, 12), value = 1, key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+        selval_dict["boxscale"] = 1
 
 
     model_type = "wdust"
@@ -173,7 +179,8 @@ else:
         # model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
             # key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     model_shape = "Uniform height"
-    selval_dict['model_shape'] = model_shape
+    selval_dict['model_style'] = model_shape
+
 
 
 
@@ -235,27 +242,24 @@ else:
                         def varvalsfmt(mt, dc = tempd):   # functions to provide vals for 'model_type'
                             return dc[mt]
                     st.write(' ')
-                    varname_units = [varnames_dict2[s] + " " + varunits_dict[s] for s in selcolu]
-                    filtselcol = st.selectbox("Select Input Variable to Explore:",[varnames_dict2[s] for s in selcolu] , key = "select_filter_col_"+ samp)
-                    vixfs = list(varnames_dict2.values()).index(filtselcol)
-                    selcolkey = list(varnames_dict2.keys())[vixfs]
-                    selcolunit = list(varunits_dict.values())[vixfs]
+                    lc, rc = st.columns([0.5, 0.5])
+                    with lc:
+                        varname_units = [varnames_dict2[s] + " " + varunits_dict[s] for s in selcolu]
+                        filtselcol = st.selectbox("Select Input Variable to Explore:",[varnames_dict2[s] for s in selcolu] , key = "select_filter_col_"+ samp)
+                        vixfs = list(varnames_dict2.values()).index(filtselcol)
+                        selcolkey = list(varnames_dict2.keys())[vixfs]
+                        selcolunit = list(varunits_dict.values())[vixfs]
 
-                    # with colll[count]:
-                    # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
-                    # st.write(k, list(vlist[:]))
-                    # st.write(k in df_default.columns.to_list())
-                    # st.write(df_default[k])   index = def_ix,
-                    # vll = list(vlist[:])
-                    # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
-                    # if filtselcol in selcolu:
-                    st.write(selcolunit)
-                    if filtselcol == varnames_dict["D"]:
-                        # Add note defining DAz etc556495.6872
-                        st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
-                        st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-                        st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
-
+                        # with colll[count]:
+                        # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
+                        # st.write(k, list(vlist[:]))
+                        # st.write(k in df_default.columns.to_list())
+                        # st.write(df_default[k])   index = def_ix,
+                        # vll = list(vlist[:])
+                        # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
+                        # if filtselcol in selcolu:
+                        st.write(selcolunit)
+                    
                     keystr = str(selcolkey) + "_radioval_"+ str(six)
                     # st.write("filtselcol: ", filtselcol)
                     # st.write("selcolkey", selcolkey)
@@ -265,9 +269,16 @@ else:
                     #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
 
                     # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
-                    val = st.radio(" ", vars_dict[selcolkey],
-                        key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                    with rc:
+                        val = st.radio(" ", vars_dict[selcolkey],
+                            key = keystr, on_change=proc, args = (keystr,), horizontal = True)
                     vix = list( vars_dict[selcolkey]).index(val)
+                    if filtselcol == varnames_dict["D"]:
+                        # Add note defining DAz etc556495.6872
+                        st.write("Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: ")
+                        st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+                        st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
+
                     # selval_dict[filtselcol] = val
                     # Filter df outside of func...
                     # Filter df
