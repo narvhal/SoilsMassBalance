@@ -230,6 +230,19 @@ else:
 
                     lc, rc = st.columns([0.5, 0.5])
 
+
+                    ## Add option to modify by field/lab measurements
+                    # Soil depth (fine sediment mass), 
+                    #  Residence time (fines)
+                    # coarse clast mass
+                    #  Residence time (coarse)
+
+                    ### Need to get independent calculations working....
+
+                    # Do both, just allow multiselect: 
+
+
+
                     for k, vlist in vars_dict.items():
                         vld = []
                         # vars_itemfmt_dict[k] = {}
@@ -250,25 +263,11 @@ else:
                         selcolkey = list(varnames_dict2.keys())[vixfs]
                         selcolunit = list(varunits_dict.values())[vixfs]
 
-                        # with colll[count]:
-                        # bc of the way I structured the df, there is no column for coarse seds subsurface, instead it is "select_col_val"
-                        # st.write(k, list(vlist[:]))
-                        # st.write(k in df_default.columns.to_list())
-                        # st.write(df_default[k])   index = def_ix,
-                        # vll = list(vlist[:])
-                        # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
                         # if filtselcol in selcolu:
                         st.write(selcolunit)
                     
                     keystr = str(selcolkey) + "_radioval_"+ str(six)
-                    # st.write("filtselcol: ", filtselcol)
-                    # st.write("selcolkey", selcolkey)
-                    # st.write("vars_dict[selcolkey]",vars_dict[selcolkey])
-
-                    # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey], format_func = varvalsfmt,
-                    #     key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-
-                    # val = st.radio(f"{filtselcol}: ", vars_dict[selcolkey],
+                    
                     with rc:
                         val = st.radio(" ", vars_dict[selcolkey],
                             key = keystr, on_change=proc, args = (keystr,), horizontal = True)
@@ -279,34 +278,12 @@ else:
                         st.write("$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
                         st.write("$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr")
 
-                    # selval_dict[filtselcol] = val
-                    # Filter df outside of func...
-                    # Filter df
-                    # if len(dft)>1:
-                    # if filtselcol == "Coarse_seds_subsurface":
                     dftt = dft[dft["select_col"]==selcolkey].copy()
                     dftt = dftt[dftt["select_col_val"]==val].copy()
-                    # else:
-                        # dftt = dft[dft[selcolkey] == dft[selcolkey].unique()[vix]].copy()
-                    # st.write("Length of df: ", len(dft))
-                    # count+=1
-                    # with mc:
-
-                    # width = st.sidebar.slider("plot width", 1, 20, 3)
-                    # height = st.sidebar.slider("plot height", 1, 14, 3)
                     st.write(' ')
 
                 fig = wrap_flux_box_streamlit(dftt, selval_dict)
 
-                # for i, f in enumerate(fmcols):
-                #     dftt[ft[i]] = dftt[f].copy()
-                # # dftt['Sample ID'] = dftt['sample_id']
-                # # st.write(dftt.columns.to_list())
-                # # st.write(dftt[ft])
-                # for i in range(len(ft)):
-                #     st.write(f'''{ftexp[i]} Flux''')
-                #     st.write(f"{ft[i]}:   {np.round(dftt[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
-                # # st.dataframe(dftt[ ft])
                 count +=1
 
 

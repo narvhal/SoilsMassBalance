@@ -19,17 +19,19 @@ import requests
 # from uncertainties import ufloat_fromstr
 st.set_page_config(layout="wide" )
 
-flag_gh = True
+flag_gh = False
 if flag_gh:
-
     fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/main/data_sources/df_initialize.xlsx"
     #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
     fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/main/data_sources/defaults_Tables.xlsx"
     # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
     fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/main/data_sources/SGS_geochem.xlsx"
     # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
-
 else:
+    fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\df_initialize.xlsx"
+    #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
+    fn2 = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\defaults_Tables.xlsx"
+    # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
     fn3 = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\SGS_geochem.xlsx"
 
 
@@ -38,11 +40,11 @@ else:
 
 st.write(fn)
 df = pd.read_excel(fn)
-df = df[df['select_col'] != "zcol"].copy()  # not useful
+# df = df[df['select_col'] != "zcol"].copy()  # zcol is not useful modifier here... should I just write a new wrapper?
+
 
 
 df_default =  pd.read_excel(fn2)
-
 df_chem =  pd.read_excel(fn3, skiprows = 1)
 
 # Title
@@ -50,6 +52,21 @@ st.title("Interactive Soil Mass Balance Models")
 st.write("This work is based on the work done for the dissertation: ")
 
 # g/m2/yr?
+
+# varname_col_dict = {"z":"zcol"}
+#   where zcol is a float, not string. 
+
+
+varnames_dict = {"br_E_rate": "Bedrock Erosion Rate",
+                "coarse_mass": "Coarse Fraction ($F_c$) Mass",
+                "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
+                "z": "Soil Depth (fines)",
+                "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface",
+                "carb_br": "Bedrock Carbonate",
+                "carb_soil": "Fine Fraction Carbonate"
+                }
+
+
 
 
 varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
