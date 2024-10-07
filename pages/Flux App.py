@@ -7,11 +7,11 @@ import matplotlib.pyplot as plt
 from py_functions.make_flux_boxes import *
 from io import BytesIO
 import requests
-from pathlib import Path
+# from pathlib import Path
 
 # `cwd`: current directory is straightforward
-cwd = Path.cwd()
-st.write(cwd)
+# cwd = Path.cwd()
+# st.write(cwd)
 # from py_functions.load_intro import *
 # from py_functions.load_prep_initial_df import *
 # from py_functions.load_wrap_plotting_funcs import *
@@ -30,8 +30,8 @@ flag_gh = True
 if troubleshoot: pass
 else:
 
-    fn = os.join(cwd, "data_sources", "df_all_Tables_vars_baseline.xlsx") #"/data_sources/df_all_Tables_vars_baseline.xlsx"
-    fn1 = os.join(cwd, "data_sources", "defaults_Tables.xlsx") # "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
+    # fn = os.join(cwd, "data_sources", "df_all_Tables_vars_baseline.xlsx") #"/data_sources/df_all_Tables_vars_baseline.xlsx"
+    # fn1 = os.join(cwd, "data_sources", "defaults_Tables.xlsx") # "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
     if flag_gh:
 
         fn = "https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_all_Tables_vars_baseline.xlsx"
