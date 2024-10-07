@@ -18,7 +18,7 @@ st.set_page_config(layout="wide" )
 
 
 troubleshoot = False
-flag_gh = False 
+flag_gh = True 
 
 
 ## Add soil depth as variable.
