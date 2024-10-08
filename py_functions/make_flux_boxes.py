@@ -355,6 +355,17 @@ def f_Inv_unc(N,p_re,z, N_unc, p_re_unc, z_unc):
     list_of_uncerts = [ N_unc, z_unc, p_re_unc]
     return generic_squares(list_of_partials, list_of_uncerts)
 
+## meh, this equation turns negative.... idk
+def other_flux(df):
+    lda = 5.1*1e4   # 1/yr
+    N = dft['N'].values[0]
+    p_re = dft['p_re'].values[0]
+    z = dft['z'].values[0]
+
+    df['otherflux'] = (df['D'] - lda*df['Inv']) / (df['N']/df['z'])*df['p_re']*1e4  # g/m2/yr
+    st.write("E*p_re = (D-lambda*I)/(N/volume)*p_re")
+    st.write("{:0.2f} = ({:0.1e}-lambda*{:0.2e})/({:0.2e}/{:0.1f})*{:0.2f}".format(df['otherflux'].values[0], df['D'].values[0], df['Inv'].values[0], df['N'].values[0], df['z'].values[0], df['p_re'].values[0]))
+    return df  
 
 
 def f_rest_unc(Inv, D, ltl, Inv_unc, D_unc):
@@ -858,7 +869,19 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
 #     return dfn
 
 
-
+def varvalsfmt(mt):   # functions to provide vals for 'model_type'
+    varvalues_dict = {"Coarse_seds_subsurface":[0, 25, 50, 75],
+                "D": ["Regional Default", "0.5x $D_{AZ}$", "$D_{AZ}$", "1.5x $D_{AZ}$", "0.5 x $D_{Sp}$", "$D_{Sp}$", "1.5x $D_{Sp}$", "4x $D_{Sp}$"],
+                "DF":[2.5, 5, 7.5, 15, 22.5],
+                "p_re": [0.1, 0.7, 1.4, 2.1],
+                "br_E_rate": [7.5, 15, 22.5, 50, 70],
+                "coarse_mass": [.75, 1.5, 2.25],
+                "max_coarse_residence_time":[2, 5.5, 11., 16.5],
+                "z": ["Site Measurement", 5, 10, 20, 50],
+                "carb_br": [50, 90, 100],
+                "carb_soil": [0, 5, 10, 15, 20, 25, 30]
+                }
+    return varvalues_dict[mt]
 
 
 def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index = 0):
@@ -914,7 +937,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
     return dft, selval_dict
 
 
-def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six,fmtcols, ltl = 5.1e-7):
+def simple_recalc(dft, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six,fmtcols, ltl = 5.1e-7):
     flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
     if flag_coarse_subsurface>0:
         SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
@@ -935,7 +958,7 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
    # Post-df formation calculations. E.g. coarse mass in subsurface? need to redefine soil depth, bc soil depth is actually FINE soil depth....
 
     dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
-
+    
     dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
     v1 = dft['z']
     v2 = dft['D']
