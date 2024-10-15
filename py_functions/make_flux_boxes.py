@@ -449,6 +449,9 @@ def f_noncarb_mass_balance_for_dust(F_fines, F_coarse, F_br, X_coarse,X_fines, X
     F_dust = (X_coarse*F_coarse + X_fines*F_fines -X_br*F_br)/X_dust
     return F_dust 
 
+
+
+
 def f_f_from_br(dft):
     F_fines_from_br = dft['F_fines_boxmodel'] - dft['F_dust']
     return F_fines_from_br
@@ -456,6 +459,17 @@ def f_f_from_br(dft):
 def f_diss_from_other_F(F_fines, F_coarse, F_br, F_dust):
     # F_dissolved
     return F_br +F_dust - F_fines - F_coarse
+
+def f_noncarb_mass_balance_for_diss(F_fines, F_coarse, F_br, X_coarse,X_fines, X_br, X_dust):
+    # X_ need to be fractions <1
+    # F can be any unit.
+    F_diss = (X_coarse*F_coarse + X_fines*F_fines -X_br*F_br)/X_dust  - F_fines - F_coarse + F_br  
+    return F_diss  
+
+def f_dust_from_other_F(F_fines, F_coarse, F_br, F_diss):
+    # F_dust
+    return F_fines + F_coarse+ F_diss - F_br 
+
 
 def f_mass_balance_for_dust_unc(F_fines, F_coarse, F_br, DF, F_fines_unc, F_coarse_unc, F_br_unc, DF_unc):
     list_of_partials = [1, 1/(1+DF), -1/(1+DF) , -(F_coarse - F_br)*(1+DF)**(-2)]
@@ -1182,15 +1196,38 @@ def get_X_vals(dft, list_of_carbcols = ['C_br', 'C_c', 'C_f', 'C_dust']):
 def add_val_report(dft, user_option_keys, selval_dict):
     for col in user_option_keys:
         st.write(col, dft[col].astype(float).values[0])
+    
+    st.write("Mass balance")
+    st.write(f"F_br+ F_dust = F_fines + F_coarse + F_diss")
+
+    # st.write(dft['F_br_g_m2_yr_val'].values[0],dft['F_dust_g_m2_yr_val'].values[0],dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['F_coarse_g_m2_yr_val'].values[0], dft['F_dissolved_g_m2_yr_val'].values[0])
+    st.write("{:0.2f} + {:0.2f} = {:0.2f} + {:0.2f} +{:0.2f}".format(dft['F_br_g_m2_yr_val'].values[0],dft['F_dust_g_m2_yr_val'].values[0],dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['F_coarse_g_m2_yr_val'].values[0], dft['F_dissolved_g_m2_yr_val'].values[0]))
+
+    st.write("Non-carb mass balance")
+    st.write("F_dissolved  = (X_f F_f + X_c F_c - X_br F_br)/X_dust - F_f - F_c + F_br")
+    # st.write(dft['X_f'])
+    # st.write(dft['F_dissolved_g_m2_yr_val'].values[0],dft['X_f'].values[0],dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['X_c'].values[0],dft['F_coarse_g_m2_yr_val'].values[0],dft['X_br'].values[0],dft['F_br_g_m2_yr_val'].values[0],dft['X_dust'].values[0],dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['F_coarse_g_m2_yr_val'].values[0],dft['F_br_g_m2_yr_val'].values[0])
+
+    st.write("{:0.2f}  = ({:0.2f} {:0.2f} + {:0.2f} {:0.2f} - {:0.2f} {:0.2f})/{:0.2f} - {:0.2f} - {:0.2f} + {:0.2f}".format(dft['F_dissolved_g_m2_yr_val'].values[0],dft['X_f'].values[0],dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['X_c'].values[0],dft['F_coarse_g_m2_yr_val'].values[0],dft['X_br'].values[0],dft['F_br_g_m2_yr_val'].values[0],dft['X_dust'].values[0],dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['F_coarse_g_m2_yr_val'].values[0],dft['F_br_g_m2_yr_val'].values[0]))
+
+    st.write("{:0.2f}  = ({:0.2f}+ {:0.2f}  - {:0.2f} )/{:0.2f} - {:0.2f} - {:0.2f} + {:0.2f}".format(dft['F_dissolved_g_m2_yr_val'].values[0],dft['X_f'].values[0]*dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['X_c'].values[0]*dft['F_coarse_g_m2_yr_val'].values[0],dft['X_br'].values[0]*dft['F_br_g_m2_yr_val'].values[0],dft['X_dust'].values[0],dft['F_fines_boxmodel_g_m2_yr_val'].values[0],dft['F_coarse_g_m2_yr_val'].values[0],dft['F_br_g_m2_yr_val'].values[0]))
+
+    eq1 = "f_mass_balance_for_dust(F_fines, F_coarse, F_br, DF)\nF_dust = F_fines + (F_coarse - F_br)/ (1+ DF)"
+
+    eq2 = "f_noncarb_mass_balance_for_dust(F_fines, F_coarse, F_br, X_coarse,X_fines, X_br, X_dust)\n    F_dust = (X_coarse*F_coarse + X_fines*F_fines -X_br*F_br)/X_dust"
+
+    ffeq = "f_f_from_br(dft): F_fines_from_br = dft['F_fines_boxmodel'] - dft['F_dust']"
+
+    fdis = "f_diss_from_other_F(F_fines, F_coarse, F_br, F_dust)\n  F_br +F_dust - F_fines - F_coarse"
 
     # st.write("F_fines*1e4: {:0.1f}, \t {:0.1f}".format(dfti['F_fines_boxmodel'].astype(float).values[0]*1e4, dft['F_fines_boxmodel'].astype(float).values[0]*1e4))
-    st.write("Inv = N*p_re*z")
-    st.write(dft['Inv'].astype(float).values[0])
-    st.write(" rt = (-1.0/ ltl) * log(1 - (ltl* Inv/ D))")
-    st.write(dft['rt_ky'].astype(float).values[0])
-    st.write("F_fines = SD*ps/res_t")
+    # st.write("Inv = N*p_re*z")
+    # st.write(dft['Inv'].astype(float).values[0])
+    # st.write(" rt = (-1.0/ ltl) * log(1 - (ltl* Inv/ D))")
+    # st.write(dft['rt_ky'].astype(float).values[0])
+    # st.write("F_fines = SD*ps/res_t")
 
-    st.write("DF:", dft['DF'].astype(float).values[0])
+    # st.write("DF:", dft['DF'].astype(float).values[0])
     # st.write(r"Xbrc, X_dust, X_fines, F_fines, F_coarse, F_br, F_dust, F_diss",Xbrc, X_dust, X_fines, F_fines, F_coarse, F_br, F_dust, F_diss)
     # st.write(r"F_fines*X_fines + F_coarse*X_coarse + F_dust*X_dust",F_fines*X_fines + F_coarse*X_coarse + F_dust*X_dust)
     # st.write(r"F_br + F_dust",F_br + F_dust)

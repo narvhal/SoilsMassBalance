@@ -283,7 +283,7 @@ for six, samp in enumerate(si):
             "C_br": (100-Xbr),
             "C_c": (100-Xbr),
             "C_f": (100-Xf),
-            "C_dust": 10
+            "C_dust": 1
             }
     selval_dict_def = {}
     kk = ["fmtcols", "ft", "ftexp", 'fmcols', 'flag_sample_label_default', 'model_type']
@@ -405,9 +405,15 @@ for six, samp in enumerate(si):
             F_br = dft['F_br'].astype(float).values[0]
 
             dft, X_c, X_f, X_br, X_dust = get_X_vals(dft)
+            st.write(dft['X_f'])
 
-            F_dust =  f_noncarb_mass_balance_for_dust(F_fines, F_coarse, F_br,  X_c, X_f, X_br, X_dust)
-            F_diss =  f_diss_from_other_F(F_fines, F_coarse, F_br, F_dust)
+            # try getting F_diss first, maybe solves issue??
+            F_diss = f_noncarb_mass_balance_for_diss(F_fines, F_coarse, F_br, X_c,X_f, X_br, X_dust)
+
+            F_dust = f_dust_from_other_F(F_fines, F_coarse, F_br, F_diss)
+
+            # F_dust =  f_noncarb_mass_balance_for_dust(F_fines, F_coarse, F_br,  X_c, X_f, X_br, X_dust)
+            # F_diss =  f_diss_from_other_F(F_fines, F_coarse, F_br, F_dust)
 
             dft['F_dust'] = F_dust 
             dft['F_dissolved'] = F_diss
@@ -422,6 +428,10 @@ for six, samp in enumerate(si):
             lc, rc = st.columns([0.5, 0.5])
             with lc:
                 st.write(f"**Default values**")
+                dfti['X_c'] = X_c
+                dfti['X_f'] = X_f
+                dfti ['X_br'] = X_br  
+                dfti['X_dust'] = X_dust
                 add_val_report(dfti, user_option_keys,selval_dict)
             with rc:
                 st.write(f"**Modified Values**")
