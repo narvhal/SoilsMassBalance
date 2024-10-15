@@ -108,7 +108,7 @@ def make_into_area_streamlit(df,selval_dict):
     shape_buffer = selval_dict["shape_buffer"]
     height = selval_dict['boxheight']
     flag_model = selval_dict['model_type']
-    flag_model_style = selval_dict['model_style']
+    flag_model_style = selval_dict['model_shape']
 
     if flag_model == 'simple':
         spacerloc = 0
@@ -132,25 +132,12 @@ def make_into_area_streamlit(df,selval_dict):
         colval = df[col].to_numpy()[0]
         colval = deal_w_ustring(colval)
         if colval > 0:
-
             if flag_model_style == "Uniform height":
                 htt = height
                 L1 = colval/htt*scale   # maintains area == fluxes
-                
             else:  # squares
                 L1 = (colval*scale)**(0.5)
                 htt = L1
-
-            # # if height == 'Uniform height':  # About half of sqrt (FBr_L)
-            #     htt = 0.3 * (Fbr_L)**(0.5)  # bedrock length where Fb_L**2 = Fb
-            #     L1 = colval/htt*scale
-            # elif isinstance(height, float):
-            #     # As of now, want to scale height of 1 by height. 
-            #     htt = 1
-            #     L1 = colval/htt*scale
-            #     htt = height
-
-            
         else:
             L1 = 0
 
@@ -195,7 +182,7 @@ def make_into_area_streamlit(df,selval_dict):
 
 
 def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_conc = 'auto', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0, flag_sample_label_default = True):
-
+    flag_model_style = selval_dict['model_shape']
     height = selval_dict['boxheight']
     flag_model = selval_dict['model_type']
     if newfig:
@@ -205,7 +192,7 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
         fig = plt.gcf()
     equals_locx = 0
 
-    if selval_dict['model_style'] == "squares":
+    if flag_model_style == "squares":
 
         maxy = np.max(H)
         midy_patch = maxy/2
@@ -270,7 +257,7 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
 
             sll_offset = 0.4
             sample_label_loc = (npp[1][0]-spacex, textht+sll_offset)
-            if selval_dict['model_style'] == "squares":
+            if flag_model_style == "squares":
                 npn = (midx,  npn[1]+ midy_patch*1.9 ) # Find x and y-midpoint
                 npsym = (midspacex,   npn[1]+ midy_patch*1.9)
             else:
@@ -444,8 +431,31 @@ def v_reg(D, xpos,x0, p_re, N_B, N_A):
 
 def f_mass_balance_for_dust(F_fines, F_coarse, F_br, DF):
     # out in g/cm2/yr
+    # Assumes that F_dust is ALL non carb and F_fines is ALL non carb
     F_dust = F_fines + (F_coarse - F_br)/ (1+ DF)
     return F_dust
+
+def x_noncarb_fines(CaO_wt_pct_fraction_fines, Loss_on_ignition_fines):
+    # Xf = LOI-CO2 mass percent using CaO_wt_pct_fraction_fines* CALCITESTOICHIOMETRY
+    Calcite_wt_pct = CaO_wt_pct_fraction_fines *(100/56)  # Check stoichiometry
+    CO2_from_calcite = Calcite_wt_pct * 44/100
+    OM_fines = Loss_on_ignition_fines - CO2_from_calcite # Get CO2 loss that can't be attributed to Calcite
+    X_fines = 1-calcite_wt_pct/100 - OM_fines/100    # just assume that is all OM
+    return X_fines  
+
+def f_noncarb_mass_balance_for_dust(F_fines, F_coarse, F_br, X_coarse,X_fines, X_br, X_dust):
+    # X_ need to be fractions <1
+    # F can be any unit.
+    F_dust = (X_coarse*F_coarse + X_fines*F_fines -X_br*F_br)/X_dust
+    return F_dust 
+
+def f_f_from_br(dft):
+    F_fines_from_br = dft['F_fines_boxmodel'] - dft['F_dust']
+    return F_fines_from_br
+
+def f_diss_from_other_F(F_fines, F_coarse, F_br, F_dust):
+    # F_dissolved
+    return F_br +F_dust - F_fines - F_coarse
 
 def f_mass_balance_for_dust_unc(F_fines, F_coarse, F_br, DF, F_fines_unc, F_coarse_unc, F_br_unc, DF_unc):
     list_of_partials = [1, 1/(1+DF), -1/(1+DF) , -(F_coarse - F_br)*(1+DF)**(-2)]
@@ -611,7 +621,6 @@ def solve_F_coarse(dft):  # dft, F_coarse  = solve_F_coarse(dft)
         Et_ri = redef_uf(Et_i)
         Et.append(Et_ri)
     dft['F_coarse'] = copy.copy(Et)
-    #     print(type(copy.copy(Et[0])))
     F_coarse = dft['F_coarse']
     return dft, F_coarse
 
@@ -886,7 +895,7 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
 
 
 
-def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, index = 0):
+def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict, index = 0):
     filtselcol = varnames_dict2[selcolkey]
     # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
     # st.write(f'Vars dict {vars_dict[selcolkey]}')
@@ -899,12 +908,11 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
     # vll = list(vlist[:])
     # def_ix = vll.index(default_dict[k])   # Lots of weird errors here as I try to set the default value "value" for the radio button. ugh.
     # if filtselcol in selcolu:
+
+
+    # st.write(expb_d[selcolkey])
+    # st.write(varunits_dict[selcolkey])
     keystr = str(selcolkey) + "_radioval_"+ str(six)
-
-    # st.write("2, ")
-
-    # st.dataframe(dft["D"])
-
 
     vvd =varvalues_dict[selcolkey]
     font_size = 20
@@ -915,31 +923,28 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
           font: bold {font_size}px Times New Roman;
         }}
         </style>
-        <p class="a">{varnames_dict2[selcolkey]}</p>
+        <p class="a">{varnames_dict2[selcolkey]} </p>
         """
-    rmd = f"**{varnames_dict2[selcolkey]}**"
+    rmd = f"**{varnames_dict2[selcolkey]}**."
     # st.markdown(html_str, unsafe_allow_html=True)
-    val = st.radio(rmd, vvd, index = index,
+    st.write(rmd)
+
+    val = st.radio( f"{expb_d[selcolkey]} ({varunits_dict[selcolkey]})", vvd, index = index,
         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     # st.write("3, ")
     # st.dataframe( dft["D"])
     st.write(" " )
 
-    v2vdt = {varvalues_dict[selcolkey][ii]:vars_dict[selcolkey][ii] for ii in range(len(varvalues_dict[selcolkey]))}
-    if selcolkey =="D":
-        v2vdt["Regional Default"] = dft["D"].iloc[0]
-    if selcolkey == "z":
-        v2vdt["Site Measurement"] = dft["z"].iloc[0]
-    # st.write("v2vdt: ", v2vdt)
-    # st.write("val: ", val)
+    # Assign un-formatted choice to selval_dict "selected values dictionary"
+    v2vdt = {vvd[ii]:vars_dict[selcolkey][ii] for ii in range(len(vvd))}
+
     selval_dict[selcolkey] = v2vdt[val]
 
     dft[selcolkey] = v2vdt[val]
 
     return dft, selval_dict
 
-
-def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six,fmtcols, ltl = 5.1e-7):
+def partial_recalc(dft, selval_dict, ltl = 5.1e-7):
     flag_coarse_subsurface = float(selval_dict['Coarse_seds_subsurface'])
     if flag_coarse_subsurface>0:
         SD, coarse_mass = modify_start_subsoil_coarse_seds(dft, flag_coarse_subsurface)
@@ -962,25 +967,12 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
     dft['Inv'] = dft.apply(lambda x: f_Inv(x['N'],x['p_re'], x['z']), axis = 1)
 
     dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
-    v1 = dft['z']
-    v2 = dft['D']
-    v3 = dft['N']
-    v4 = dft['p_re']
-    dft['E_fines'] =f_erate(v1, v2, v3, ltl, v4)
 
     v1 = dft['z']
     v2 = dft['rt']# is this supposed to be in *yrs* or ky?
     v3 = dft['p_re']
     # SD, res_t, ps)
     dft['F_fines_boxmodel'] =  flux_boxmodel(v1, v2, v3)
-    # st.write("p_re:", v3)
-    # st.write("rt:", v2)
-    # st.write("z:", v1)
-    # st.write("F_fines_boxmodel:", dft['F_fines_boxmodel'].iloc[0])
-    # st.write(f"I = N*p_re*z")
-    # st.write(f"rt = (-1/lambda)*log(1-(lambda*I/D))")
-    # st.write(f"Ff = z*p_re/rt: {v1*v3/v2}" )
-
 
     v1 = dft['coarse_mass']
     v2 = dft['coarse_area']
@@ -988,16 +980,15 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
 
     dft['F_coarse'] = f_coarse_flux(v1, v2, v3)
 
-
-
     v1 = dft['br_E_rate']
     v2 = dft['p_br']
     # st.write("before ", v1, v2, f_br_flux(v1, v2) )
 
     dft['F_br'] = f_br_flux(v1, v2)
-    # st.write(v1, v2, f_br_flux(v1, v2) )
+    return dft, selval_dict
 
-
+def simple_recalc(dft, selval_dict, ltl = 5.1e-7):
+    dft, selval_dict = partial_recalc(dft, selval_dict, ltl = ltl)
 
     v1 = dft['F_fines_boxmodel']
     v2 = dft['F_coarse']
@@ -1006,67 +997,26 @@ def simple_recalc(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, v
     dft['F_dust'] =  f_mass_balance_for_dust(v1, v2, v3, v4)
     # st.write("3   ", dft[fmtcols].iloc[0])
 
-
-# #                     dft, E_fines = solve_E_fines(dft)
-# #                     # in mm/kyr
-# #                     # need mass fluxes --> unc sensitive to res time
-
-# #                     dft, F_fines = solve_F_fines(dft)
-# #                     dft, F_coarse  = solve_F_coarse(dft)
-# #                     dft, F_br  = solve_F_br(dft)
-# #                     dft, F_dust  = solve_F_dust(dft)
-
     dft['F_fines_from_br'] = dft['F_fines_boxmodel'] - dft['F_dust']
     dft['F_dissolved'] = (dft['F_fines_boxmodel'] - dft['F_dust']) * dft['DF']
 
-#                 # These should be equivalent: LHS = RHS of mass balance
-    dft['F_br_plus_F_dust'] = dft['F_br'] + dft['F_dust']
-    dft['F_coarse_plus_F_fines_plus_F_dissolved']= dft['F_coarse'] + dft['F_fines_boxmodel'] + dft['F_dissolved']
-    # dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr']
-    dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']  =dft['F_br']  - dft['F_coarse'] - dft['F_fines_boxmodel']
-    # fdissimple = dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines'].iloc[0]
-    # st.write(f"F (diss, simple) = Fbr - Fc - Ff,{np.round(fdissimple,5)} = {np.round(dft['F_br'].iloc[0], 5)}  - {np.round(dft['F_coarse'].iloc[0],5)} - {np.round(dft['F_fines_boxmodel'].iloc[0], 5)}")
-    # st.write(f"F (diss, simple) = {np.round(fdissimple,5)} = {np.round([dft['F_br'].iloc[0]- dft['F_coarse'].iloc[0] - dft['F_fines_boxmodel'].iloc[0]], 5)}")
-# # #                     DF = dft['DF']
-# # #                     p_re = dft['p_re']
-
-    #########Carbonate mass balance
-    # Recalc DF:
-    # Fb = Fc + Ffb + Fdis
-    # Fb = Fc + Ffb + DF*Ffb
-    # We want DF to be true for DF*Ffb = Fdis
-    # DF = Fdis/Ffb
-    # Fdis_carbbalance
-    if selval_dict['model_type'] == "carbbalance":
-        dft['F_br_carbbalance']= dft['F_br'] *dft['carb_br']/100
-        dft['F_coarse_carbbalance']= dft['F_coarse'] *dft['carb_br']/100
-        dft['F_fines_boxmodel_carbbalance']= dft['F_fines_boxmodel'] *dft['carb_br']/100
-
-        dft['F_dis_carbbalance'] = dft['F_br_carbbalance'] -dft['F_coarse_carbbalance']  - dft['F_fines_boxmodel_carbbalance']
-        dft['DF_carbbalance'] = dft['F_dis_carbbalance'] / dft['F_fines_boxmodel']
-        to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_fines_from_br','F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines','F_br_carbbalance','F_coarse_carbbalance','F_fines_boxmodel_carbbalance', 'F_dis_carbbalance']
-        st.write(f"DF (Carbonate Balance) is {np.round(dft['DF_carbbalance'].to_numpy(), 1)}")
-        rhsmb = dft['F_fines_boxmodel'].to_numpy()+dft['F_coarse'].to_numpy()+ dft['F_dis_carbbalance'].to_numpy()
-        st.write(f"RHS is {np.round(rhsmb*1e4, 1) }")
-    else:
-        # to_m2_cols = [co for co in dft.columns.to_list() if co.startswith('F_')]
-        # st.write(to_m2_cols)
-        to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust', 'F_fines_from_br',
-        'F_dissolved', 'F_br_plus_F_dust', 'F_coarse_plus_F_fines_plus_F_dissolved', 'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']
-    #                 # Change fluxes to m2
-#                 # g/cm2/yr  * 100*100cm2/m2
-    for c,cc in enumerate(to_m2_cols):
-        dft[cc + '_g_m2_yr_val'] = dft[cc].apply(lambda x: x*10000).copy()
-        # dft[cc + '_g_m2_yr_val'] = dft[cc].apply(lambda x: x*10000).copy()
-
-    dft['rt_ky'] = dft['rt'].copy() /1000 # ky
-
+    dft  = modify_F_units(dft, to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust','F_dissolved', 'F_fines_from_br'])
     return dft, selval_dict
 
-# def simple_carb_recalc(dft, df_chem, F_br,F_c, F_fines,  selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six,fmtcols, carbfmcols,carbfmd):
-#     # Recalc DF
+def modify_F_units(dft, to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust','F_dissolved']):
+    #                 # Change fluxes to m2
+    #                 # g/cm2/yr  * 100*100cm2/m2
+    for c,cc in enumerate(to_m2_cols):
+        dft[cc + '_g_m2_yr_val'] = dft[cc].apply(lambda x: x*10000).copy()
+    dft['rt_ky'] = dft['rt'].copy() /1000 # ky
+    return dft
 
+def wrap_dual_eq_solve(CaO_wt_pct_fraction_fines, Loss_on_ignition_fines,F_fines, F_coarse, F_br, X_coarse,X_fines, X_br, X_dust ):
+    X_fines = x_noncarb_fines(CaO_wt_pct_fraction_fines, Loss_on_ignition_fines)
+    F_dust =  f_noncarb_mass_balance_for_dust(F_fines, F_coarse, F_br, X_coarse,X_fines, X_br, X_dust)
 
+    F_diss =  f_diss_from_other_F(F_fines, F_coarse, F_br, F_dust)
+    return X_fines, F_dust, F_diss
 
 def display_massbalance_equations():
     tx = r'''\begin{equation}
@@ -1217,5 +1167,48 @@ def write_postscript():
 
     st.write(tx)
 
+def get_X_vals(dft, list_of_carbcols = ['C_br', 'C_c', 'C_f', 'C_dust']):
+    # from percent carbs, returns fraction (of 1) of insoluble material.
+    for i, col in enumerate(list_of_carbcols):
+        dft["X_" + col[2:]] = (100 - dft[col])/100
+
+    X_c = dft['X_c'].astype(float).values[0]
+    X_f = dft['X_f'].astype(float).values[0]
+    X_br = dft['X_br'].astype(float).values[0]
+    X_dust = dft['X_dust'].astype(float).values[0]
+    return dft, X_c, X_f, X_br, X_dust
 
 
+def add_val_report(dft, user_option_keys, selval_dict):
+    for col in user_option_keys:
+        st.write(col, dft[col].astype(float).values[0])
+
+    # st.write("F_fines*1e4: {:0.1f}, \t {:0.1f}".format(dfti['F_fines_boxmodel'].astype(float).values[0]*1e4, dft['F_fines_boxmodel'].astype(float).values[0]*1e4))
+    st.write("Inv = N*p_re*z")
+    st.write(dft['Inv'].astype(float).values[0])
+    st.write(" rt = (-1.0/ ltl) * log(1 - (ltl* Inv/ D))")
+    st.write(dft['rt_ky'].astype(float).values[0])
+    st.write("F_fines = SD*ps/res_t")
+
+    st.write("DF:", dft['DF'].astype(float).values[0])
+    # st.write(r"Xbrc, X_dust, X_fines, F_fines, F_coarse, F_br, F_dust, F_diss",Xbrc, X_dust, X_fines, F_fines, F_coarse, F_br, F_dust, F_diss)
+    # st.write(r"F_fines*X_fines + F_coarse*X_coarse + F_dust*X_dust",F_fines*X_fines + F_coarse*X_coarse + F_dust*X_dust)
+    # st.write(r"F_br + F_dust",F_br + F_dust)
+    # st.write(r"F_fines + F_coarse + F_diss ",F_fines + F_coarse + F_diss + F_dust)
+    # st.write(r"Two-eqn rewrite: ")
+    # st.write("Fdiss:{:0.1f}".format(F_diss))
+    # st.write("Fdust:{:0.1f}".format(F_dust))
+
+    st.write('Ratio of bedrock that is mechanical wx: {:0.2f}'.format(float(dft['F_coarse_g_m2_yr_val'])/float(dft['F_br_g_m2_yr_val'])))
+    fmcols = selval_dict['fmcols']
+
+    ft = selval_dict['ft']
+    ftexp = selval_dict['ftexp']
+
+    for i, f in enumerate(fmcols):
+        dft[ft[i]] = dft[f].copy()
+
+    for i in range(len(ft)):
+        st.write(f'''{ftexp[i]} Flux''')
+        st.write(f"{ft[i]}:   {np.round(dft[ft[i]].to_numpy()[0], 1)} g/m$^2$/yr")
+    # st.dataframe(dft[ ft])
