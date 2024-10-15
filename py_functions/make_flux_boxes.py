@@ -808,10 +808,6 @@ def htcvstuff():
     dft['DF_if_Fd_is_set_to_15'] = (F_coarse - F_br)/(15/10000 - F_fines) -1
     dft['DF_if_Fd_is_set_to_20'] = (F_coarse - F_br)/(20/10000 - F_fines) -1
 
-
-
-
-
 def prep_initial_df(df):
     cols = ['calc-uncert_10Be_at-g', 'calc-10Be_at_g', 'inv_sum_flag', 'sample_region', 'sample_location', 'sample_position', 'sample_top', 'sample_bot', 'sample_vol_cm', 'sample_type', 'sample_id', 'sample_is_transect', 'sample_is_profile', 'local_soildepth1','local_soildepth2', 'local_soildepth3', 'local_soildepth4','local_soildepth_avg', 's_lat', 's_lon', 's_elev', 's_elev_src', 'slpcombined', 's_cv', 's_dx', 's_dx (cm)', 'Inventory (at/cm2) each site', 'cv_prof_sm8m', 'cv_prof_sm30m','cv_tot_sm30m', 'gradient_sm8_in_degrees', 's_dx (cm) upslope', 'Inventory each site_localdepth', 'depth_avg_conc_each_site', 'Inventory[at/cm2]']
     dft = df[cols].copy()
@@ -829,8 +825,6 @@ def prep_initial_df(df):
     # df[['local_sd_avg','local_sd_min', 'local_sd_max']]
     return df
 
-
-
 def D_graly(P,L, flag_P_is_mm_per_yr = True):
     # Graly 2010a
     # latitude = L
@@ -840,7 +834,6 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
         P = P/10
     flux = P*(1.44/(1+np.exp((30.7-L)/4.36))+0.63)*10**4
     return flux
-
 
 # df = pd.read_excel(r'C:\Users\nariv\OneDrive\Research\Landuse\SampleWorkup\Be-10-Samples\10Be_Data_Reduction_Miller.xlsx', sheet_name = '10BeCalculations', skiprows = 9, nrows = 29)
 
@@ -905,10 +898,6 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
 
 #     return dfn
 
-
-
-
-
 def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict, index = 0):
     filtselcol = varnames_dict2[selcolkey]
     # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
@@ -969,7 +958,7 @@ def partial_recalc(dft, selval_dict, ltl = 5.1e-7):
     zl = []
     dft['z_old'] = dft['z'].copy()
     dft['coarse_mass_old'] = dft['coarse_mass'].copy()
-#         print(dft['coarse_mass_old'])
+    #         print(dft['coarse_mass_old'])
     for j, vz in enumerate(dft['z']):
         vz = float(vz)
         zl.append(vz - vz*flag_coarse_subsurface/100)

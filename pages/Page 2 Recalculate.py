@@ -260,13 +260,15 @@ for six, samp in enumerate(si):
     # So % Insoluble = INSOLUBLE /(Soluble + Insoluble) = 1/(DF + 1)
     df_chemt = df_chem[df_chem['Sample_Name'] == dft['geochem_br_sample_names__sheet2'].values[0]].copy()
     Xbr = 1/(dft['DF'].astype(float).values[0] + 1) #df_chemt['X_fines'].astype(float).values[0]  # This column is in pct
-
+    # st.write('Pct noncarb in br: {:0.2f}'.format(Xbr*100))
     df_chemt = df_chem[df_chem['Sample_Name'] == dft['geochem_fines_sample_names__sheet2'].values[0]].copy()
-    Xf = 100  # df_chemt['X_fines'].astype(float).values[0]
+    Xf = 1  # df_chemt['X_fines'].astype(float).values[0]
     if Xbr<0:
         Xbr = .01
     if Xf<0:
         Xf = .01
+
+    Xdust = 1
 
     dft_def = dft.copy()
     # Defaults
@@ -280,10 +282,10 @@ for six, samp in enumerate(si):
             "coarse_area":  dft_def['coarse_area'].astype(float).values[0],
             "max_coarse_residence_time":dft_def['max_coarse_residence_time'].astype(float).values[0],
             "z": dft_def['z'].astype(float).values[0],
-            "C_br": (100-Xbr),
-            "C_c": (100-Xbr),
-            "C_f": (100-Xf),
-            "C_dust": 1
+            "C_br": (100-Xbr*100),
+            "C_c": (100-Xbr*100),
+            "C_f": (100-Xf*100),
+            "C_dust": (100 - Xdust*100)
             }
     selval_dict_def = {}
     kk = ["fmtcols", "ft", "ftexp", 'fmcols', 'flag_sample_label_default', 'model_type']
@@ -405,7 +407,7 @@ for six, samp in enumerate(si):
             F_br = dft['F_br'].astype(float).values[0]
 
             dft, X_c, X_f, X_br, X_dust = get_X_vals(dft)
-            st.write(dft['X_f'])
+            # st.write(dft['X_f'])
 
             # try getting F_diss first, maybe solves issue??
             F_diss = f_noncarb_mass_balance_for_diss(F_fines, F_coarse, F_br, X_c,X_f, X_br, X_dust)
@@ -430,7 +432,7 @@ for six, samp in enumerate(si):
                 st.write(f"**Default values**")
                 dfti['X_c'] = X_c
                 dfti['X_f'] = X_f
-                dfti ['X_br'] = X_br  
+                dfti['X_br'] = X_br  
                 dfti['X_dust'] = X_dust
                 add_val_report(dfti, user_option_keys,selval_dict)
             with rc:
