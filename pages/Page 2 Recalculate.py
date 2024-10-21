@@ -32,7 +32,6 @@ else:
 
 
 # data_sources/df_initialize.xlsx
-st.write(fn)
 df = pd.read_excel(fn)
 
 df_default =  pd.read_excel(fn2)
@@ -42,9 +41,6 @@ df_chem =  pd.read_excel(fn3,sheet_name = 'Sheet2', skiprows = 1)
 # Title
 st.title("Interactive Soil Mass Balance Models")
 # st.write("This work is based on the work done for the dissertation: ")
-
-# g/m2/yr?
-
 
 varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "DF":"Dissolution Factor",
@@ -97,8 +93,8 @@ varvalues_dict_orig= {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "p_re": [0.1, 0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5, 50, 70],
                 "coarse_area": [1, 100, 1000],
-                "coarse_mass": [.75, 1.5, 2.25],
-                "max_coarse_residence_time":[2, 5.5, 11., 16.5],
+                "coarse_mass": [.75, 1.5, 2.25,3],
+                "max_coarse_residence_time":[2, 5.5, 11., 16.5, 20],
                 "z": [ 5, 10, 20, 50],
                 "C_br": [50, 90, 100],
                 "C_f": [0, 5, 10, 15, 20, 25, 30, 90],
@@ -122,70 +118,40 @@ vars_dict_orig = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "DF":[2.5, 5, 7.5, 15, 22.5],
                 "p_re": [0.1, 0.7, 1.4, 2.1],
                 "br_E_rate": [7.5, 15, 22.5, 50, 70],
-                "coarse_mass": [.75e3, 1.5e3, 2.25e3],
+                "coarse_mass": [.75e3, 1.5e3, 2.25e3,3e3],
                 "coarse_area": [1, 100, 1000],
-                "max_coarse_residence_time":[2e3, 5.5e3, 11.0e3, 16.5e3],
+                "max_coarse_residence_time":[2e3, 5.5e3, 11.0e3, 16.5e3,20e3],
                 "z": [5, 10, 20, 50, 100],
                 "C_br": [50, 90, 100],
                 "C_f": [0, 5, 10, 15, 20, 25, 30, 90],
                 "C_c": [10, 50, 90, 100],
-                "C_dust": [1, 10, 20, 30, 40, 50, 90]
-                }
+                "C_dust": [1, 10, 20, 30, 40, 50, 90]}
 
 selval_dict = {}
 
 # Select Sample Name
-# with lc:
 default_ix = list(siu).index("NQT0")
-
-# si = st.selectbox("Choose sample: ", siu, index = default_ix,
-    # key = keystr, on_change=proc, args = (keystr,))
 bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
-
 with lc:
     st.write("Choose samples: ")
-
-
-    flag_choose_samples_checkbox = False
-    si = []
-    if flag_choose_samples_checkbox:
-        c1, c2,c3, c4, c5 = st.columns([0.2, 0.2, 0.2, 0.2, 0.2])
-        colll = [c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5, c1, c2,c3, c4, c5]
-        count = 0
-        for ixsi, samp in enumerate(siu):
-            tfsamp = False
-
-            if samp == "NQT0": tfsamp = True
-            if samp == "MT120": tfsamp = True
-            keystr = "sample_id_selbox_" + samp
-            with colll[count]:
-                sitemp = st.checkbox(samp, value = tfsamp, key = keystr, on_change=proc, args = (keystr,))
-                count +=1
-            if sitemp:
-                si.append(samp)
-    else:
-        keystr = "sample_id_selbox"
-
-        si = st.multiselect(" ", siu, default = ["NQT0"], key = keystr, on_change=proc, args = (keystr,))
+    keystr = "sample_id_selbox"
+    si = st.multiselect(" ", siu, default = ["NQT0"], key = keystr, on_change=proc, args = (keystr,))
 
 selval_dict['sample_id'] = si
-# dft = df[df['sample_id'] == si].copy()
-# dft = df[df['sample_id'].isin(si)].copy()
 
-# dfdsi = df_default[df_default['sample_id']== si].copy()
-# default_cols = dfdsi.columns.to_list()
+# Disable model selection for now, until I have a better wy of displaying the simple model violating the carbonate mass balance. 
 
-# default_dict = {c:dfdsi[c] for c in default_cols}
-# Select model type (Simple mass balance  (solve for dissolution, no dust) + Compare with calcite mass balance
-#       or with dust  (Dissolution constrained by calcite mass balance) )
+# with rc:
+#     keystr = "model_type_radio"
+#     model_type = st.radio("Model Type: ", ['simple','carbbalance', 'wdust'], format_func = mtfmt, index = 2, key = keystr, on_change=proc, args = (keystr,))
+model_type = 'wdust'
+selval_dict['model_type'] = model_type
 
-with rc:
-    keystr = "model_type_radio"
-    model_type = st.radio("Model Type: ", ['simple','carbbalance', 'wdust'], format_func = mtfmt, index = 2, key = keystr, on_change=proc, args = (keystr,))
+with st.expander(f"**Display Mass Balance Equations**"):
+    # display_massbalance_equations()
 
-    selval_dict['model_type'] = model_type
-
-with st.expander(f"Details of Model"):
+    # # Add default values
+    # with st.expander(f"Details of Model"):
     if model_type == "simple":
         st.write("Model A: Simple Mass Balance Model")
         st.latex(r"F_b = F_c + F_f + F_{dis}")
@@ -193,10 +159,16 @@ with st.expander(f"Details of Model"):
         st.write("Carbonate Mass Balance:")
         st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
     elif model_type == "wdust":
-        st.write("Model B: Mass Balance Including Dust")
-        st.write("Dissolved flux is constrained by calcite mass balance.")
-        st.latex(r"F_b + F_d = F_c + F_{f,b} + F_{dis} + F_d")
-
+        st.write("Mass Balance Including dust, constrained by insoluble material mass balance")
+        st.latex(r"F_b + F_d = F_c + F_{f} + F_{dis}")
+        st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and $F_f$ is the entire fine fraction of sediment. ")
+        st.write(f"Note that $F_f$ = $F_{{f,b}}$ + $F_d$, where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
+        st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
+        st.latex(r"X_b F_b + X_d F_d = X_c F_c + X_f F_f + X_{dis} F_{dis}")
+        st.write(f" where X represents the fraction of mass flux that is insoluble. Note that **$X_{{dis}}$** is 0, by definition (all dissolved material is soluble), so that term goes to 0. For each other component, the fraction of insoluble material can be determined by bulk geochemistry. ")
+        st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
+        st.write("Dissolved flux: ")
+        st.latex("F_{dis} = (X_{c}*F_{c} + X_{f}*F_{f} -X_{b}*F_{b})/X_{d}  - F_{f} - F_{c} + F_{b} ")
 
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
@@ -220,29 +192,10 @@ selval_dict["flag_sample_label_default"] = True
 def sliderrange(start, step, num):
     return start + np.arange(num)*step
 # Instructions & EXplanations:
-
-# if st.checkbox("Continue?"):
-# Scenario and values:
-baseline_dict = {}
-# units_dict = {}  #
 count = 0
-if len(si) == 3:
-    coL, coM, coR = st.columns([0.33, 0.33, 0.33])
-    colll = [ coL, coM, coR,  coL, coM, coR]
-elif len(si) == 2:
-    coL, coR = st.columns([0.5,  0.5])
-    colll = [ coL,  coR,  coL, coR, coL,  coR,  coL, coR]
-elif len(si) == 1:
-    coL = st.container()
-    colll = [ coL]
 
-count = 0
 for six, samp in enumerate(si):
     dft = df[df['sample_id']== samp].copy()
-    # FIND DEFAULT ROW:
-    # Get values from dft, overwrite later
-    # dft = dft[dft['select_col'] == 'Coarse_seds_subsurface'].copy()
-    # dft = dft[dft["select_col_val"]==0].copy()
     dft['Coarse_seds_subsurface'] = 0
     dft['z'] = dft['z_val'].astype(float).values[0]
     dft['p_re'] = dft['p_re_val'].astype(float).values[0]
@@ -271,7 +224,6 @@ for six, samp in enumerate(si):
     Xdust = 1
 
     dft_def = dft.copy()
-    # Defaults
 
     vars_dict_def = {"Coarse_seds_subsurface":dft_def['Coarse_seds_subsurface'].astype(float).values[0],
             "D": dft_def['D'].astype(float).values[0],
@@ -287,21 +239,32 @@ for six, samp in enumerate(si):
             "C_f": (100-Xf*100),
             "C_dust": (100 - Xdust*100)
             }
+    # Appearance of default vars
+    varsfmttd_dict_def = {"Coarse_seds_subsurface":f'{vars_dict_def["Coarse_seds_subsurface"]:0.0f}',
+            "D":f'{vars_dict_def["D"]:0.2e}',
+            "DF":f'{vars_dict_def["DF"]:0.1f}',
+            "p_re": f'{vars_dict_def["p_re"]:0.1f}',
+            "br_E_rate": f'{vars_dict_def["br_E_rate"]:0.1f}',
+            "coarse_mass":  f'{vars_dict_def["coarse_mass"]/1e3:0.0f}',
+            "coarse_area":  f'{vars_dict_def["coarse_area"]:0.0f}',
+            "max_coarse_residence_time":f'{vars_dict_def["max_coarse_residence_time"]/1e3:0.1f}',
+            "z": f'{vars_dict_def["z"]:0.1f}',
+            "C_br": f'{vars_dict_def["C_br"]:0.1f}',
+            "C_c": f'{vars_dict_def["C_c"]:0.1f}',
+            "C_f": f'{vars_dict_def["C_f"]:0.1f}',
+            "C_dust": f'{vars_dict_def["C_dust"]:0.1f}'
+            }
     selval_dict_def = {}
     kk = ["fmtcols", "ft", "ftexp", 'fmcols', 'flag_sample_label_default', 'model_type']
     for k in kk:
         selval_dict_def[k] = selval_dict[k]
-
-    # for k in ['C_br', 'C_c', 'C_f', 'C_dust']:
-    #     dft_def[k] = vars_dict_def[k]
-    #     dft[k] = vars_dict_def[k]
 
     # Calculate and plot default values: 
     varvalues_dict_def = varvalues_dict_orig
     vars_dict_def2 = vars_dict_orig
     for k in list(vars_dict_def.keys()):
         selval_dict_def[k] = vars_dict_def[k]
-        varvalues_dict_def[k] = [f"Default: {vars_dict_def[k]}" ] + varvalues_dict_def[k] 
+        varvalues_dict_def[k] = [f"Default: {varsfmttd_dict_def[k]}" ] + varvalues_dict_def[k]
         vars_dict_def2[k] = [vars_dict_def[k] ] + vars_dict_def2[k] 
         dft_def[k] = vars_dict_def[k]
         dft[k] = vars_dict_def[k]
@@ -309,94 +272,124 @@ for six, samp in enumerate(si):
     # simple recalc inputs: 
     dfti, selval_dict_def = simple_recalc(dft_def, selval_dict_def)
 
-    with st.popover(f"Plot dimension options"):
-
-        # Select box model shape:
-        keystr = "model_shape_radio_" + str(samp)
-
-        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 1,
-            key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-        selval_dict['model_shape'] = model_shape
-        # st.write(sliderrange(5, 2, 12))
-        hh = sliderrange(5, 2, 12)
-        keystr = "figwidth_radio" + str(samp)
-        selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 7,key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-        keystr = "figheight_radio"+ str(samp)
-        selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-        # height
-        keystr = "pixelwidth_radio"+ str(samp)
-
-        selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 12), value = 650,
-            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-         # Width in px of image produced...
-        keystr = "boxscale_radio"+ str(samp)
-
-        selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.8, 0.2, 12), value = 1,
-            key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-        keystr = "shape_buffer_radio"+ str(samp)
-
-        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 12),
-             value = 1, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-        selval_dict['boxheight'] = .1
-            
-        kk = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight']
-        for k in kk:
-            selval_dict_def[k] = selval_dict[k]
-
+    # Provide plot dimension defaults early
+    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':700, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3}
+    for ki, key in enumerate(list(kk.keys())):
+        selval_dict[key] = kk[key]
+        selval_dict_def[key] = kk[key]
 
     varvalues_dict = varvalues_dict_def
     vars_dict = vars_dict_def2
 
+    if len(si) == 3:
+        coL, coM, coR = st.columns([0.33, 0.33, 0.33])
+        colll = [ coL, coM, coR,  coL, coM, coR]
+    elif len(si) == 2:
+        coL, coR = st.columns([0.5,  0.5])
+        colll = [ coL,  coR,  coL, coR, coL,  coR,  coL, coR]
+    elif len(si) == 1:
+        coL = st.container()
+        colll = [ coL]
+
+    count = 0
     with colll[count]:
         with st.expander(f"Sample {samp}", expanded = True):
-            st.write("Changes to the input variables will be incorporated to the plots.")
+            with st.container(height=400):
+                st.write("Changes to the input variables will be incorporated to the plots.")
+                lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
+                with lc:
+                    dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = ['C_br', 'C_c'],labellist = ['Bedrock Composition','Coarse Sediment Composition'],ft = ['F$_b$', 'F$_c$'], ec = 'k')
+                with rc:
+                    dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = [ 'C_f', 'C_dust'],labellist = ['Fine Sediment Composition','Dust Composition'],ft = ['F$_f$','F$_{dust}$'], ec = 'k')
+                # fig =plot_carb_pct(dft,'C_f','Fine Sediment Composition', ec = 'k')
+                # fig =plot_carb_pct(dft,'C_c','Coarse Sediment Composition', ec = 'k')
+                # fig =plot_carb_pct(dft,'C_dust','Dust Composition', ec = 'k')
 
-            lc, rc = st.columns([0.5, 0.5])
-            # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
-            # for k, vlist in vars_dict.items():
-            #     vld = []
-            #     # vars_itemfmt_dict[k] = {}
-            #     tempd = {}
-            #     for j, sv in enumerate(vlist):
-            #         valid_list = varvalues_dict[k]
-            #         tempd[sv] = valid_list[j]
-            #     vars_itemfmt_dict[sc]= tempd
-            #     vld.append(tempd)
-            # flag_expb = st.checkbox("More Explanation", key = "explaincheckbox_" + str(samp))
-            expb_d = {"Coarse_seds_subsurface": "What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)",
-                "D":"Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: \n$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr\n$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr",
-                "coarse_mass": "The mass of coarse sediment measured on the surface.",
-                "max_coarse_residence_time": "The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.",
-                "z": "What if the measured soil depth is an underestimate? Explore: ",
-                "p_re": "Dust is assumed to have the same density as soil.",
-                "br_E_rate": "Bedrock erosion rate and flux of bedrock are directly related by the density of the material.",
-                "C_br": "Percent of bedrock that is soluble (e.g. CaCO3).",
-                "C_c": "Percent of coarse sediments that are soluble (e.g. CaCO3).",
-                "C_f": "Percent of fine sediments that are soluble (e.g. CaCO3).",
-                "C_dust": "Percent of dust that is soluble (e.g. CaCO3)."
-            }
+                lc, rc = st.columns([0.5, 0.5])
+                # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
-            user_option_keys = sorted(list(set(list(expb_d.keys())) - set(['Coarse_seds_subsurface'])))
-            selval_dict['Coarse_seds_subsurface'] = selval_dict_def['Coarse_seds_subsurface']
-            len_user_optionk = len(user_option_keys)
-            for sck, selcolkey in enumerate(user_option_keys):
-                if sck < (np.floor(len_user_optionk/2)+1):
-                    sck_col = lc  
-                else: sck_col = rc   
-                with sck_col:
-                    # selcolkey = "Coarse_seds_subsurface"
-                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict)
-                    # Add note defining DAz etc556495.6872
+                # for k, vlist in vars_dict.items():
+                #     vld = []
+                #     # vars_itemfmt_dict[k] = {}
+                #     tempd = {}
+                #     for j, sv in enumerate(vlist):
+                #         valid_list = varvalues_dict[k]
+                #         tempd[sv] = valid_list[j]
+                #     vars_itemfmt_dict[sc]= tempd
+                #     vld.append(tempd)
+                # flag_expb = st.checkbox("More Explanation", key = "explaincheckbox_" + str(samp))
+                expb_d = {"Coarse_seds_subsurface": "What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)",
+                    "D":"Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: \n$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr\n$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr",
+                    "coarse_mass": "The mass of coarse sediment measured on the surface.",
+                    "max_coarse_residence_time": "The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.",
+                    "z": "What if the measured soil depth is an underestimate? Explore: ",
+                    "p_re": "Dust is assumed to have the same density as soil.",
+                    "br_E_rate": "Bedrock erosion rate and flux of bedrock are directly related by the density of the material.",
+                    "C_br": "Percent of bedrock that is soluble (e.g. CaCO3).",
+                    "C_c": "Percent of coarse sediments that are soluble (e.g. CaCO3).",
+                    "C_f": "Percent of fine sediments that are soluble (e.g. CaCO3).",
+                    "C_dust": "Percent of dust that is soluble (e.g. CaCO3)."
+                }
+                fmtfc = ['.2e', '.0f', '.0f', '.1f', '.1f', '.1f']
+                user_option_keys = sorted(list(set(list(expb_d.keys())) - set(['Coarse_seds_subsurface', 'C_br', 'C_c', 'C_f', 'C_dust'])))
+                selval_dict['Coarse_seds_subsurface'] = selval_dict_def['Coarse_seds_subsurface']
+                user_option_keys = user_option_keys[1:] + [user_option_keys[0]]
+                len_user_optionk = len(user_option_keys)
+                for sck, selcolkey in enumerate(user_option_keys):
+                    if sck < (np.floor(len_user_optionk/2)):
+                        sck_col = lc  
+                    else: sck_col = rc   
+                    with sck_col:
+                        # selcolkey = "Coarse_seds_subsurface"
+                        dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict)
+                        # Add note defining DAz etc556495.6872
+
+
+            if st.checkbox(f"See plot dimension options",  key='show_plot_dimensions'):
+                
+
+                # Select box model shape:
+                keystr = "model_shape_radio_" + str(samp)
+                model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 0, key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                selval_dict['model_shape'] = model_shape
+
+                # start, step, number
+                hh = sliderrange(5, 1, 10)
+                keystr = "figwidth_radio" + str(samp)
+                selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 9,key = keystr, on_change = proc, args = (keystr,))
+
+                keystr = "figheight_radio"+ str(samp)
+                selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+                    key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                # height
+                keystr = "pixelwidth_radio"+ str(samp)
+                selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = 700,
+                    key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+
+                 # Width in px of image produced...
+                keystr = "boxscale_radio"+ str(samp)
+                selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.2, 0.2, 19), value = 1,
+                    key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
+                keystr = "shape_buffer_radio"+ str(samp)
+                selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 20), value = 2, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
+                keystr = "boxheight_radio"+ str(samp)
+                selval_dict['boxheight'] = st.select_slider("Scale box height: ", sliderrange(0.25, 0.25, 16),value = 2, key =keystr, on_change = proc, args = (keystr,))
+
+                keystr = "medfont_radio"+ str(samp)
+                selval_dict["medfont"]=st.select_slider("Scale label font size: ", sliderrange(6, 1, 15), value = 12, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
+                keystr = "textheight_radio"+ str(samp)
+
+                selval_dict["textheight"]=st.select_slider("text height: ", sliderrange(0, 0.25, 28),value = 3, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    
+                kk = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight', 'medfont', 'textheight']
+                for k in kk:
+                    selval_dict_def[k] = selval_dict[k]
 
             #### Recalc
-            
-            # dft, selval_dict = simple_recalc(dft,  selval_dict)
-            fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
-            
-            # fig = wrap_flux_box_streamlit(dft, selval_dict)
-           
             ##############################
             # Whether this is plotting default values or modified depends whether dataframe dft has been modified. 
             dft, selval_dict = partial_recalc(dft, selval_dict)
@@ -423,30 +416,31 @@ for six, samp in enumerate(si):
 
             dft = modify_F_units(dft, to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust','F_dissolved', 'F_fines_from_br'])
 
+            st.write(f"**Modified inputs**")
+
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-
+            if st.checkbox("View Mass Balance with Default Variables"):
+                # st.header("Default inputs")
+                fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
+                        
             ###############
-            lc, rc = st.columns([0.5, 0.5])
-            with lc:
-                st.write(f"**Default values**")
-                dfti['X_c'] = X_c
-                dfti['X_f'] = X_f
-                dfti['X_br'] = X_br  
-                dfti['X_dust'] = X_dust
-                add_val_report(dfti, user_option_keys,selval_dict)
-            with rc:
-                st.write(f"**Modified Values**")
-                add_val_report(dft,user_option_keys, selval_dict)
-        
+            if st.checkbox("See Default and Modified Input Values and Fluxes",key = "see_default_inputs" + str(samp)):
+                lc, rc = st.columns([0.5, 0.5])
+                with lc:
+                    st.write(f"**Default values**")
+                    dfti['X_c'] = X_c
+                    dfti['X_f'] = X_f
+                    dfti['X_br'] = X_br  
+                    dfti['X_dust'] = X_dust
+                    add_val_report(dfti, user_option_keys,selval_dict)
+                with rc:
+                    st.write(f"**Modified Values**")
+                    add_val_report(dft,user_option_keys, selval_dict)
+            
             count +=1
 
-with st.expander("Display Mass Balance Equations for F$_b$, F$_d$, and F$_f$"):
-    display_massbalance_equations()
-# # Add default values
 # st.dataframe(df_default)
 # df_defaultcols = df_default.columns.to_list()
 # for i in range(len(df_default)):
     # st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
-
-

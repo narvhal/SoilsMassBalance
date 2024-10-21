@@ -88,7 +88,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
     
     list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, selval_dict)
-    plot_patches(list_of_tuplelists, selval_dict,dft, ft, L, H, XY,YC, fst, newfig = False,flag_annot = False, flag_sample_label_default = selval_dict["flag_sample_label_default"])
+    plot_patches(list_of_tuplelists, selval_dict,dft, ft, L, H, XY,YC, fst, newfig = False,flag_annot = False, flag_sample_label_default = selval_dict["flag_sample_label_default"], medfont = selval_dict["medfont"], textht = selval_dict["textheight"])
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
@@ -181,7 +181,83 @@ def make_into_area_streamlit(df,selval_dict):
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
 
-def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_conc = 'auto', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0, flag_sample_label_default = True):
+def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],labellist = ['Bedrock Composition','Coarse Sediment Composition','Fine Sediment Composition','Dust Composition'],ft = ['F$_b$', 'F$_c$','F$_f$','F$_{dust}$'], ec = 'k'):
+    
+    # lc, cc, rc,rc2,rc3 = st.columns([0.3,  0.15, .15,0.275, .175])
+
+    # with lc:
+    #     st.write("  ")
+    # with rc2:
+    #     st.write(" ")
+        # fig, axs = plt.subplots(nrows = len(collist))
+    # with cc:
+        # st.write(f"**Soluble**")
+    # with rc:
+    #     st.write(f"**Insoluble**")
+
+    for i, colname in enumerate(collist):
+        labelname = labellist[i]
+        # with lc:
+        st.write(f"**{labelname}** ({ft[i]})  \n  \t   Percent Carbonate:")
+        pct_carb = st.slider("Change Percent Carbonate:", value = df[colname].iloc[0], format = "%0.1f", key = "slider_pct_carb" + colname, label_visibility = "collapsed")
+
+        fig, ax = plt.subplots()
+
+        # ax = axs[i]
+        plt.sca(ax)
+        Cv = pct_carb/100
+        
+        # with cc:
+            # st.write("{:0.1f}% ".format(Cv*100 ))
+            # st.write("  ")
+
+        # with rc:
+            # st.write("{:0.1f}% ".format( (1-Cv)*100) )
+            # st.write("  ")
+        # with rc2:
+            #add boxes
+        # add label of pct
+        colors = ['grey', 'indianred']
+        x = [0,0,Cv,Cv,0]
+        x2 = [Cv,Cv,1,1,Cv]
+        y = [0,1,1,0,0]
+        pp = list(zip(x, y))
+        pp2 = list(zip(x2, y))
+        #### Soluble     hatch = ['x'],
+        ax.add_patch(mpatches.Polygon(pp, ec = ec, fc = colors[0],  ls = '-', lw = .5))
+        #### Insoluble
+        ax.add_patch(mpatches.Polygon(pp2, ec = ec, fc = colors[1], ls = '-', lw = .5))
+
+        ### LAbel
+        # matplotlib._mathtext.SHRINK_FACTOR = 0.5
+        plt.annotate(f"{ft[i]}", [0.5,1.05], va = 'bottom', fontsize = 10, ha = 'center')
+        plt.annotate("Soluble\n{:0.1f}%".format(Cv*100), [0,1.05], va = 'bottom', fontsize = 8, ha = 'left')
+        plt.annotate("Insoluble\n{:0.1f}%".format((1-Cv)*100), [.95,1.05], va = 'bottom', fontsize = 8, ha = 'left')
+    # with rc2: 
+        # for i in range(len(collist)):
+        frame1 = ax #axs[i]
+        plt.sca(frame1)
+        plt.xlim(-0.1, 1.1)
+        plt.ylim(-0.1, 1.4)
+
+        # fig.set_facecolor('grey')
+        frame1.axis('off')
+        
+        fig.set_size_inches(3,1)
+
+        # fig.set_layout('constrained')
+        fig.tight_layout()
+
+        buf = BytesIO()
+        fig.savefig(buf, format="png")
+        st.image(buf, width = 350)
+        st.write('  ')
+        df[colname] = pct_carb
+        selval_dict[colname] = pct_carb
+    return df,selval_dict
+
+
+def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_conc = 'auto', newfig = True, flag_annot = True, set_maxy = None, xoffset = 0, flag_sample_label_default = True, medfont = 12, textht = 3):
     flag_model_style = selval_dict['model_shape']
     height = selval_dict['boxheight']
     flag_model = selval_dict['model_type']
@@ -253,7 +329,7 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
             # midpt of space between this patch and previous
             spacex = (npp[0][0] - (list_of_tuplelist[i-1][3][0] + xoffset))/2
             midspacex = npp[1][0]-spacex
-            textht = 3
+            
 
             sll_offset = 0.4
             sample_label_loc = (npp[1][0]-spacex, textht+sll_offset)
@@ -266,8 +342,7 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
             
             ## ANNOT: F_br etc
             lgfont = 18 
-            medfont = 12
-            plt.annotate(ft[i], npn, va = 'center', fontsize = 18, ha = 'center')
+            plt.annotate(ft[i], npn, va = 'center', fontsize = medfont + 6, ha = 'center')
             ## ANNOT: AMOUNT (g/m2/yr)
             if i == 0:
                 if isinstance(flag_sample_label_default, bool):
@@ -304,26 +379,31 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
                      # (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 )
                 else:
 
-                    if i == 2:
-                        # Write sample name above equals sign: 
-                        plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center")
+                    # if i == 2:
+                    #     # Write sample name above equals sign: 
+                    #     plt.annotate(sample_label, sample_label_loc, fontsize = 13, ha = "center")
                     syms = [' ','+', '=', '+', '+','+', ' ']
                     sy = syms[i]
                     plt.annotate(sy,(midspacex, midy_patch),ha='center', va = 'center', fontsize = medfont)
                      # (npp[1][0]-spacex, (npp[0][1]+npp[1][1])/2 )
 
                 # Also write between F labels
-                if not flag_annot:
-                    plt.annotate(sy, npsym,ha='center', va = 'center', fontsize = medfont)
+                # if not flag_annot:
+                    # plt.annotate(sy, npsym,ha='center', va = 'center', fontsize = medfont)
 
         mxx.append(adjx)
     maxx2 = np.max(np.array(mxx))
     frame1 = plt.gca()
 
-    xl = maxx2+0.01
+    xl = maxx2+1.5
     yl = textht + sll_offset+0.2
     plt.xlim(-0.001, xl)
     plt.ylim(-0.01, yl )
+
+    # add height annotation if uniform height.
+    if flag_model_style != "squares":
+    #     astyle = f']-, widthA={height}, lengthA=0.1'  # arrowprops=dict(arrowstyle=astyle, lw=1.0, color='k'),
+        ax.annotate('height is {:0.1f} units'.format(height), xy=((xl-0.75), height/2), xytext=((xl-0.75), height/2), xycoords='data', fontsize=8, ha='center', va='center', rotation = 90)
 
     # fig.set_facecolor('grey')
     frame1.axis('off')
@@ -898,7 +978,7 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
 
 #     return dfn
 
-def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict, index = 0):
+def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict, index = 0, fmtfc = '%0.1f'):
     filtselcol = varnames_dict2[selcolkey]
     # st.write(f'Varvaldict {varvalues_dict[selcolkey]}')
     # st.write(f'Vars dict {vars_dict[selcolkey]}')
@@ -928,7 +1008,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
         </style>
         <p class="a">{varnames_dict2[selcolkey]} </p>
         """
-    rmd = f"**{varnames_dict2[selcolkey]}**."
+    rmd = f"**{varnames_dict2[selcolkey]}**"
     # st.markdown(html_str, unsafe_allow_html=True)
     st.write(rmd)
 
