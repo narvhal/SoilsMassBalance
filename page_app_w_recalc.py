@@ -458,8 +458,12 @@ for six, samp in enumerate(si):
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
+
+            buf = BytesIO()
+            fig.savefig(buf, format="png")
+            # st.image(buf, width = selval_dict["pixelwidth"])
             st.download_button(label ="Download Modified Input Mass Balance Fluxes",
-                    data=fig,
+                    data=buf,
                     file_name="Modified_Mass_Balance_Fluxes.png",
                     mime="image/png")
 
@@ -467,8 +471,10 @@ for six, samp in enumerate(si):
                 # st.header("Default inputs")
                 fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
 
+                buf = BytesIO()
+                fig_def.savefig(buf, format="png")
                 st.download_button(label ="Download Default Input Mass Balance Fluxes",
-                    data=fig_def,
+                    data=buf,
                     file_name="Default_Mass_Balance_Fluxes.png",
                     mime="image/png")
                         
