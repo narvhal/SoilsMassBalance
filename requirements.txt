@@ -6,9 +6,4 @@ openpyxl
 matplotlib-scalebar
 uncertainties
 pybase64
-os
-json
-pickle
-uuid
-re
 streamlit-pdf-viewer
