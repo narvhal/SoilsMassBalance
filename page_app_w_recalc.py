@@ -174,8 +174,8 @@ with st.expander(f"**Display Mass Balance Equations**"):
         # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
     # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/df_initialize.xlsx"
 
-    fn = "https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-    with open(fn, "r") as pdf_file:
+    fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+    with open(fn, "rb") as pdf_file:
         PDFbyte = pdf_file.read()
 
     st.download_button(label ="Download GSA 2024 Poster",
