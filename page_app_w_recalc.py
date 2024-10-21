@@ -7,7 +7,7 @@ from py_functions.make_flux_boxes import *
 from io import BytesIO, StringIO
 import requests
 import base64
-
+from streamlit_pdf_viewer import pdf_viewer
 # from st_pages import add_page_title, get_nav_from_toml
 # from py_functions.load_intro import *
 # from py_functions.load_prep_initial_df import *
@@ -181,13 +181,12 @@ with st.expander(f"**Display Mass Balance Equations**"):
     # url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
 
-    from streamlit_pdf_viewer import pdf_viewer
 
     # url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
     url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
-    pdf_viewer(url, width = 800)
+    pdf_viewer(url, width = 8000)
     # fn = requests.get(url, stream = True)
     # if response.status_code == 200:
         # return pd.read_csv(StringIO(response.text))
