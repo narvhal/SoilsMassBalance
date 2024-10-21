@@ -5,7 +5,7 @@ pyxlsb
 openpyxl
 matplotlib-scalebar
 uncertainties
-base64
+pybase64
 os
 json
 pickle
