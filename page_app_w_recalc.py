@@ -172,7 +172,9 @@ with st.expander(f"**Display Mass Balance Equations**"):
         st.latex("F_{dis} = (X_{c}*F_{c} + X_{f}*F_{f} -X_{b}*F_{b})/X_{d}  - F_{f} - F_{c} + F_{b} ")
 
         # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-        fn = "https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+    # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/df_initialize.xlsx"
+
+    fn = "https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
     with open(fn, "r") as pdf_file:
         PDFbyte = pdf_file.read()
 
