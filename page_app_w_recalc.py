@@ -141,8 +141,8 @@ model_type = 'wdust'
 selval_dict['model_type'] = model_type
 
 st.write("This is an interactive supplement to my GSA poster. Explore the effects of input variables on the dust and dissolved material fluxes. ")
-with st.container(f"**Mass Balance Equations**"):
-
+with st.container():
+    st.subheader(f"**Mass Balance Equations**")
     # display_massbalance_equations()
     lc, rc = st.columns([0.5, 0.5])
     with lc:
