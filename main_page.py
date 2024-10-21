@@ -50,8 +50,6 @@ st.write("GSA 2024 Poster (to zoom in, you need to download it by right-clicking
 flag_gh = True  #  st.checkbox("Flag_gh ? ", key = "flag_gh_key", value = True)
 
 if flag_gh:
-
-
     fn = r"https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
           #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/GSA_2024_poster_NMiller3.png"
           # "https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller3.pdf

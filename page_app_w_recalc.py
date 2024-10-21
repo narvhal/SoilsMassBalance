@@ -171,6 +171,16 @@ with st.expander(f"**Display Mass Balance Equations**"):
         st.write("Dissolved flux: ")
         st.latex("F_{dis} = (X_{c}*F_{c} + X_{f}*F_{f} -X_{b}*F_{b})/X_{d}  - F_{f} - F_{c} + F_{b} ")
 
+    fn = r"https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf?raw=true"
+
+    with open(fn, "rb") as pdf_file:
+        PDFbyte = pdf_file.read()
+
+    st.download_button(label ="Download GSA 2024 Poster",
+                        data=PDFbyte,
+                        file_name="NMiller_GSA_2024_CarbonateSoilsMassBalance.pdf",
+                        mime='application/octet-stream')
+
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
     ft = ['F$_b$', 'F$_c$', 'F$_f$', 'F$_{dis}$']
@@ -421,9 +431,19 @@ for six, samp in enumerate(si):
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
+            st.download_button(label ="Download Modified Input Mass Balance Fluxes",
+                    data=fig,
+                    file_name="Modified_Mass_Balance_Fluxes.png",
+                    mime="image/png")
+
             if st.checkbox("View Mass Balance with Default Variables"):
                 # st.header("Default inputs")
                 fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
+
+                st.download_button(label ="Download Default Input Mass Balance Fluxes",
+                    data=fig_def,
+                    file_name="Default_Mass_Balance_Fluxes.png",
+                    mime="image/png")
                         
             ###############
             if st.checkbox("See Default and Modified Input Values and Fluxes",key = "see_default_inputs" + str(samp)):
