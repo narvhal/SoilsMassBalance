@@ -14,16 +14,16 @@ import requests
 # from uncertainties import ufloat_fromstr
 st.set_page_config(layout="wide" )
 
-# flag_gh = False
+flag_gh = True
 # if flag_gh:
-try:
+if flag_gh:
     fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/df_initialize.xlsx"
     #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
     fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/defaults_Tables.xlsx"
     # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
     fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/SGS_geochem.xlsx"
     # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
-except:
+else:
     fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\df_initialize.xlsx"
     fn2 = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\defaults_Tables.xlsx"
 
