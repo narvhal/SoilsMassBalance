@@ -151,61 +151,40 @@ selval_dict['model_type'] = model_type
 
 with st.expander(f"**Display Mass Balance Equations**"):
     # display_massbalance_equations()
-
+    lc, rc = st.columns([0.5, 0.5])
+    with lc:
     # # Add default values
     # with st.expander(f"Details of Model"):
-    if model_type == "simple":
-        st.write("Model A: Simple Mass Balance Model")
-        st.latex(r"F_b = F_c + F_f + F_{dis}")
-    elif model_type == "carbbalance":
-        st.write("Carbonate Mass Balance:")
-        st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
-    elif model_type == "wdust":
-        st.write("Mass Balance Including dust, constrained by insoluble material mass balance")
-        st.latex(r"F_b + {\color{red}F_d} = {\color{grey}F_c} + {\color{pink}F_{f}} + {\color{blue}F_{dis}}")
-        st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and $F_f$ is the entire fine fraction of sediment. ")
-        st.write(f"Note that $F_f$ = $F_{{f,b}}$ + $F_d$, where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
-        st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
-        st.latex(r"X_b F_b + X_d F_d = X_c F_c + X_f F_f + X_{dis} F_{dis}")
-        st.write(f" where X represents the fraction of mass flux that is insoluble. Note that **$X_{{dis}}$** is 0, by definition (all dissolved material is soluble), so that term goes to 0. For each other component, the fraction of insoluble material can be determined by bulk geochemistry. ")
-        st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
-        st.write("Dissolved flux: ")
-        st.latex("F_{dis} = (X_{c}*F_{c} + X_{f}*F_{f} -X_{b}*F_{b})/X_{d}  - F_{f} - F_{c} + F_{b} ")
+        if model_type == "simple":
+            st.write("Model A: Simple Mass Balance Model")
+            st.latex(r"F_b = F_c + F_f + F_{dis}")
+        elif model_type == "carbbalance":
+            st.write("Carbonate Mass Balance:")
+            st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
+        elif model_type == "wdust":
+            st.write("Mass Balance Including dust, constrained by insoluble material mass balance")
+            st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")
+            st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and **$F_f$** is the entire fine fraction of sediment. ")
+            st.write(f"Note that:  ")
+            st.latex( r"{\color{red}F_f} = {\color{purple}F_{f,b}} + {\color{olive}F_d}")
+            st.write("where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
+            st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
+            st.latex(r"X_b F_b + {\color{olive}X_d F_d} = {\color{grey}X_c F_c} + {\color{red}X_f F_f} + {\color{teal}X_{dis} F_{dis}}")
+            st.write(f" where X represents the fraction of mass flux that is insoluble. Note that **$X_{{dis}}$** is 0, by definition (all dissolved material is soluble), so that term goes to 0. For each other component, the fraction of insoluble material can be determined by bulk geochemistry. ")
+            st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
+            st.write("Dissolved flux: ")
+            st.latex("{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
+    with rc:
+        url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+        pdf_viewer(url, width = 8000)
+        with open(url, "rb") as pdf_file:
+            PDFbyte = pdf_file.read()
 
-        # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf?raw=true"
-    # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/df_initialize.xlsx"
-# url = 'https://raw.githubusercontent.com/[username]/[repository]/main/[file].csv'
-    
-    # fn = r"https://raw.githubusercontent.com/narvhal/SoilsMassBalance/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+        st.download_button(label ="Download GSA 2024 Poster",
+                            data=PDFbyte,
+                            file_name="NMiller_GSA_2024.pdf",
+                            mime='application/octet-stream')    
 
-    # url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-
-
-
-    # url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-
-    url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-
-    pdf_viewer(url, width = 8000)
-    # fn = requests.get(url, stream = True)
-    # if response.status_code == 200:
-        # return pd.read_csv(StringIO(response.text))
-    # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
-
-    with open(url, "rb") as pdf_file:
-        PDFbyte = pdf_file.read()
-    # with open(url, "rb") as pdf_file:
-        # PDFbyte = base64.b64encode(pdf_file.read())
-
-    st.download_button(label ="Download GSA 2024 Poster",
-                        data=PDFbyte,
-                        file_name="NMiller_GSA_2024.pdf",
-                        mime='application/octet-stream')    
-
-    # st.download_button(label ="Download GSA 2024 Poster",
-    #                     data=fn,
-    #                     file_name="NMiller_GSA_2024.png",
-    #                     mime="image/png")
 
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
