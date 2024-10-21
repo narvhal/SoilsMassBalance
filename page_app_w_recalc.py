@@ -318,8 +318,15 @@ for six, samp in enumerate(si):
     count = 0
     with colll[count]:
         with st.expander(f"Sample {samp}", expanded = True):
-            with st.container(height=400):
-                st.write("Changes to the input variables will be incorporated to the plots.")
+
+            st.write("Changes to the input variables will be incorporated to the plots.")
+            flag_allow_scrolling_var_container_height = st.checkbox("Allow scrolling of input variables to view the flux results better", value = True, key = "flag_allow_scrolling_var_container_height" + samp)
+            if flag_allow_scrolling_var_container_height:
+                cont_h = 400
+            else: cont_h = None
+            
+            with st.container(height=cont_h):
+                
                 lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
                 with lc:
                     dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = ['C_br', 'C_c'],labellist = ['Bedrock Composition','Coarse Sediment Composition'],ft = ['F$_b$', 'F$_c$'], ec = 'k')
