@@ -176,7 +176,7 @@ with st.expander(f"**Display Mass Balance Equations**"):
             st.latex("{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
     with rc:
         url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-        pdf_viewer(url, width = 8000)
+        pdf_viewer(url)
         with open(url, "rb") as pdf_file:
             PDFbyte = pdf_file.read()
 
