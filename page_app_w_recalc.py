@@ -319,12 +319,12 @@ for six, samp in enumerate(si):
     with colll[count]:
         with st.expander(f"Sample {samp}", expanded = True):
 
-            st.write("Changes to the input variables will be incorporated to the plots.")
+            st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
             flag_allow_scrolling_var_container_height = st.checkbox("Allow scrolling of input variables to view the flux results better", value = True, key = "flag_allow_scrolling_var_container_height" + samp)
             if flag_allow_scrolling_var_container_height:
                 cont_h = 400
             else: cont_h = None
-            
+
             with st.container(height=cont_h):
                 
                 lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
