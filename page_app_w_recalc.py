@@ -162,7 +162,7 @@ with st.expander(f"**Display Mass Balance Equations**"):
         st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
     elif model_type == "wdust":
         st.write("Mass Balance Including dust, constrained by insoluble material mass balance")
-        st.latex(r"F_b + F_d = F_c + F_{f} + F_{dis}")
+        st.latex(r"F_b + {\color{red}F_d} = {\color{grey}F_c} + {\color{pink}F_{f}} + {\color{blue}F_{dis}}")
         st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and $F_f$ is the entire fine fraction of sediment. ")
         st.write(f"Note that $F_f$ = $F_{{f,b}}$ + $F_d$, where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
         st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
