@@ -178,25 +178,25 @@ with st.expander(f"**Display Mass Balance Equations**"):
     
     # fn = r"https://raw.githubusercontent.com/narvhal/SoilsMassBalance/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
-    url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+    # url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
 
     from streamlit_pdf_viewer import pdf_viewer
 
-    url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+    # url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
     url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
     pdf_viewer(url, width = 800)
-    fn = requests.get(url, stream = True)
+    # fn = requests.get(url, stream = True)
     # if response.status_code == 200:
         # return pd.read_csv(StringIO(response.text))
     # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
 
-    # with open(fn, "rb") as pdf_file:
-    #     PDFbyte = pdf_file.read()
-    with open(fn.content, "rb") as pdf_file:
-        PDFbyte = base64.b64encode(pdf_file.read())
+    with open(url, "rb") as pdf_file:
+        PDFbyte = pdf_file.read()
+    # with open(url, "rb") as pdf_file:
+        # PDFbyte = base64.b64encode(pdf_file.read())
 
     st.download_button(label ="Download GSA 2024 Poster",
                         data=PDFbyte,
