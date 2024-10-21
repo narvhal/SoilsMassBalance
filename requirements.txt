@@ -5,3 +5,10 @@ pyxlsb
 openpyxl
 matplotlib-scalebar
 uncertainties
+base64
+os
+json
+pickle
+uuid
+re
+streamlit-pdf-viewer

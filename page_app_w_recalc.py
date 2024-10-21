@@ -4,10 +4,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from py_functions.make_flux_boxes import *
-from io import BytesIO
+from io import BytesIO, StringIO
 import requests
-# from st_pages import add_page_title, get_nav_from_toml
+import base64
 
+# from st_pages import add_page_title, get_nav_from_toml
 # from py_functions.load_intro import *
 # from py_functions.load_prep_initial_df import *
 # from py_functions.load_wrap_plotting_funcs import *
@@ -171,24 +172,39 @@ with st.expander(f"**Display Mass Balance Equations**"):
         st.write("Dissolved flux: ")
         st.latex("F_{dis} = (X_{c}*F_{c} + X_{f}*F_{f} -X_{b}*F_{b})/X_{d}  - F_{f} - F_{c} + F_{b} ")
 
-        # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+        # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf?raw=true"
     # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/df_initialize.xlsx"
+# url = 'https://raw.githubusercontent.com/[username]/[repository]/main/[file].csv'
+    
+    # fn = r"https://raw.githubusercontent.com/narvhal/SoilsMassBalance/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
-    # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+    url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
-    fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
-    with open(fn, "rb") as pdf_file:
-        PDFbyte = pdf_file.read()
 
-    # st.download_button(label ="Download GSA 2024 Poster",
-    #                     data=PDFbyte,
-    #                     file_name="NMiller_GSA_2024.pdf",
-    #                     mime='application/octet-stream')    
+    from streamlit_pdf_viewer import pdf_viewer
+
+    url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+
+    pdf_viewer(url, width = 800)
+    fn = requests.get(url, stream = True)
+    # if response.status_code == 200:
+        # return pd.read_csv(StringIO(response.text))
+    # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
+
+    # with open(fn, "rb") as pdf_file:
+    #     PDFbyte = pdf_file.read()
+    with open(fn.content, "rb") as pdf_file:
+        PDFbyte = base64.b64encode(pdf_file.read())
 
     st.download_button(label ="Download GSA 2024 Poster",
                         data=PDFbyte,
-                        file_name="NMiller_GSA_2024.png",
-                        mime="image/png")
+                        file_name="NMiller_GSA_2024.pdf",
+                        mime='application/octet-stream')    
+
+    # st.download_button(label ="Download GSA 2024 Poster",
+    #                     data=fn,
+    #                     file_name="NMiller_GSA_2024.png",
+    #                     mime="image/png")
 
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
