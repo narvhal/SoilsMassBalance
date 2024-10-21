@@ -131,15 +131,6 @@ vars_dict_orig = {"Coarse_seds_subsurface":[0, 25, 50, 75],
 
 selval_dict = {}
 
-# Select Sample Name
-default_ix = list(siu).index("NQT0")
-bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
-with lc:
-    st.write("Choose samples: ")
-    keystr = "sample_id_selbox"
-    si = st.multiselect(" ", siu, default = ["NQT0"], key = keystr, on_change=proc, args = (keystr,))
-
-selval_dict['sample_id'] = si
 
 # Disable model selection for now, until I have a better wy of displaying the simple model violating the carbonate mass balance. 
 
@@ -149,7 +140,9 @@ selval_dict['sample_id'] = si
 model_type = 'wdust'
 selval_dict['model_type'] = model_type
 
-with st.expander(f"**Display Mass Balance Equations**"):
+st.write("This is an interactive supplement to my GSA poster. Explore the effects of input variables on the dust and dissolved material fluxes. ")
+with st.container(f"**Mass Balance Equations**"):
+
     # display_massbalance_equations()
     lc, rc = st.columns([0.5, 0.5])
     with lc:
@@ -185,6 +178,15 @@ with st.expander(f"**Display Mass Balance Equations**"):
                             file_name="NMiller_GSA_2024.pdf",
                             mime='application/octet-stream')    
 
+# Select Sample Name
+default_ix = list(siu).index("NQT0")
+bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
+with lc:
+    st.write("Choose samples: ")
+    keystr = "sample_id_selbox"
+    si = st.multiselect(" ", siu, default = ["NQT0"], key = keystr, on_change=proc, args = (keystr,))
+
+selval_dict['sample_id'] = si
 
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
