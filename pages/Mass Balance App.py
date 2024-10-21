@@ -34,7 +34,7 @@ else:
 df = pd.read_excel(fn)
 
 df_default =  pd.read_excel(fn2)
-st.write(fn3)
+
 df_chem =  pd.read_excel(fn3,sheet_name = 'Sheet2', skiprows = 1)
 
 # Title
