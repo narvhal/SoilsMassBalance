@@ -14,7 +14,7 @@ st.subheader("Nari Miller")
 lc, rc = st.columns([0.75, 0.25])
 with lc:
     # st.write("I like investigating open-ended problems, integrating disparate data sources, and making meaningful contributions. I am looking for a job that meets one or more of those . ")
-    st.write("This website is under construction!")
+    # st.write("This website is under construction!")
     st.write("I'm looking for a temporary job or research position, while I write a few fellowship applications to establish what is next. ")
     st.write("Feel free to contact me if you have questions or know of an interesting opportunity.")
     st.write("A paper is in the works, but for now, my 2024 GSA poster presents my work concisely.")
