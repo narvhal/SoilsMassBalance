@@ -17,11 +17,11 @@ st.set_page_config(layout="wide" )
 # flag_gh = False
 # if flag_gh:
 try:
-    fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/main/data_sources/df_initialize.xlsx"
+    fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/df_initialize.xlsx"
     #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
-    fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/main/data_sources/defaults_Tables.xlsx"
+    fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/defaults_Tables.xlsx"
     # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
-    fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/main/data_sources/SGS_geochem.xlsx"
+    fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/SGS_geochem.xlsx"
     # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
 except:
     fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\df_initialize.xlsx"
