@@ -113,7 +113,8 @@ SP_D_graly = D_graly(510, 39.1) # used to be 450 mm/yr precip...
 #lambda
 ltl = 5.1e-7 # , 7.20e-7]  #1/yr lambda [Nishiizumi et al., 2007], Korschinek et al. (2010)
 
-siu = df.sample_id.unique()
+# siu = df.sample_id.unique()
+siu_dict = {"Semi-Arid": "NQT0",  "Arid":"MT120"}
 selcolu = list(varnames_dict.keys()) # df.select_col.unique()
 vars_dict_orig = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "D": [ 0.5*AZ_D_graly, AZ_D_graly, 1.5*AZ_D_graly, 0.5*SP_D_graly, SP_D_graly, 1.5* SP_D_graly, 4*SP_D_graly],
@@ -185,14 +186,15 @@ with st.container():
 st.subheader("Modify Flux Inputs")
 
 # Select Sample Name
-default_ix = list(siu).index("NQT0")
+# default_ix = list(siu).index("NQT0")
+default_site = list(siu_dict.keys)[0]
 bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
 with lc:
     st.write("Choose samples: ")
     keystr = "sample_id_selbox"
-    si = st.multiselect(" ", siu, default = ["NQT0"], key = keystr, on_change=proc, args = (keystr,))
+    si = st.multiselect(" ", list(siu_dict.keys), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
 
-selval_dict['sample_id'] = si
+selval_dict['sample_id'] = siu_dict[si]
 
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
