@@ -139,35 +139,11 @@ selval_dict = {}
 #     model_type = st.radio("Model Type: ", ['simple','carbbalance', 'wdust'], format_func = mtfmt, index = 2, key = keystr, on_change=proc, args = (keystr,))
 model_type = 'wdust'
 selval_dict['model_type'] = model_type
-
-st.write("This is an interactive supplement to my GSA poster. Explore the effects of input variables on the dust and dissolved material fluxes. ")
-with st.container():
-    st.subheader(f"**Mass Balance Equations**")
-    # display_massbalance_equations()
-    lc, rc = st.columns([0.5, 0.5])
-    with lc:
-    # # Add default values
-    # with st.expander(f"Details of Model"):
-        if model_type == "simple":
-            st.write("Model A: Simple Mass Balance Model")
-            st.latex(r"F_b = F_c + F_f + F_{dis}")
-        elif model_type == "carbbalance":
-            st.write("Carbonate Mass Balance:")
-            st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
-        elif model_type == "wdust":
-            st.write("Mass Balance Including dust, constrained by insoluble material mass balance")
-            st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")
-            st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and **$F_f$** is the entire fine fraction of sediment. ")
-            st.write(f"Note that:  ")
-            st.latex( r"{\color{red}F_f} = {\color{purple}F_{f,b}} + {\color{olive}F_d}")
-            st.write("where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
-            st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
-            st.latex(r"X_b F_b + {\color{olive}X_d F_d} = {\color{grey}X_c F_c} + {\color{red}X_f F_f} + {\color{teal}X_{dis} F_{dis}}")
-            st.write(f" where X represents the fraction of mass flux that is insoluble. Note that **$X_{{dis}}$** is 0, by definition (all dissolved material is soluble), so that term goes to 0. For each other component, the fraction of insoluble material can be determined by bulk geochemistry. ")
-            st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
-            st.write("Dissolved flux: ")
-            st.latex("{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
-    with rc:
+lc, rc = st.columns([0.5, 0.5])
+with lc:
+    st.write("This is an interactive supplement to my GSA poster. Explore the effects of input variables on the dust and dissolved material fluxes. ")
+    st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
+with rc:
         url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
         pdf_viewer(url)
         with open(url, "rb") as pdf_file:
@@ -177,6 +153,36 @@ with st.container():
                             data=PDFbyte,
                             file_name="NMiller_GSA_2024.pdf",
                             mime='application/octet-stream')    
+
+with st.container():
+    st.subheader(f"**Mass Balance Equations**")
+    # display_massbalance_equations()
+    
+    # # Add default values
+    # with st.expander(f"Details of Model"):
+    if model_type == "simple":
+        st.write("Model A: Simple Mass Balance Model")
+        st.latex(r"F_b = F_c + F_f + F_{dis}")
+    elif model_type == "carbbalance":
+        st.write("Carbonate Mass Balance:")
+        st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
+    elif model_type == "wdust":
+        st.write("Mass Balance Including dust, constrained by insoluble material mass balance")
+        st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")
+        st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and **$F_f$** is the entire fine fraction of sediment. ")
+        st.write(f"Note that:  ")
+        st.latex( r"{\color{red}F_f} = {\color{purple}F_{f,b}} + {\color{olive}F_d}")
+        st.write("where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
+        st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
+        st.latex(r"X_b F_b + {\color{olive}X_d F_d} = {\color{grey}X_c F_c} + {\color{red}X_f F_f} + {\color{teal}X_{dis} F_{dis}}")
+        st.write(f" where X represents the fraction of mass flux that is insoluble. Note that **$X_{{dis}}$** is 0, by definition (all dissolved material is soluble), so that term goes to 0. For each other component, the fraction of insoluble material can be determined by bulk geochemistry. ")
+        st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
+        st.write("Dissolved flux: ")
+        st.latex("{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
+    
+
+
+st.subheader("Modify Flux Inputs")
 
 # Select Sample Name
 default_ix = list(siu).index("NQT0")
