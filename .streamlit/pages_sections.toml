@@ -1,0 +1,24 @@
+[[pages]]
+path = "main_page.py"
+name = "Home"
+icon = "🏠"
+
+[[pages]]
+path = "pages/page_app_w_recalc.py"
+name = "Mass Balance App"
+
+
+#[[pages]]
+#name = "Main Section"
+#is_section = true
+
+# Pages after an `is_section = true` will be indented
+#[[pages]]
+#name = "Another page"
+#icon = "💪"
+
+
+
+
+
+
