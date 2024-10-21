@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from py_functions.make_flux_boxes import *
 from io import BytesIO
 import requests
-from st_pages import add_page_title, get_nav_from_toml
+# from st_pages import add_page_title, get_nav_from_toml
 
 # from py_functions.load_intro import *
 # from py_functions.load_prep_initial_df import *
