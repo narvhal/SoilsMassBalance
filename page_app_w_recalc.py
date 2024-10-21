@@ -174,14 +174,21 @@ with st.expander(f"**Display Mass Balance Equations**"):
         # fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
     # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/df_initialize.xlsx"
 
-    fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+    # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+
+    fn = r"https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
     with open(fn, "rb") as pdf_file:
         PDFbyte = pdf_file.read()
 
+    # st.download_button(label ="Download GSA 2024 Poster",
+    #                     data=PDFbyte,
+    #                     file_name="NMiller_GSA_2024.pdf",
+    #                     mime='application/octet-stream')    
+
     st.download_button(label ="Download GSA 2024 Poster",
                         data=PDFbyte,
-                        file_name="NMiller_GSA_2024_CarbonateSoilsMassBalance.pdf",
-                        mime='application/octet-stream')
+                        file_name="NMiller_GSA_2024.png",
+                        mime="image/png")
 
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
