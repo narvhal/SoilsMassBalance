@@ -176,7 +176,7 @@ with st.expander(f"**Display Mass Balance Equations**"):
 
     # fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
-    fn = r"https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
+    fn = r"https://github.com/narvhal/SoilsMassBalance/blob/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller3.png?raw=true"
     with open(fn, "rb") as pdf_file:
         PDFbyte = pdf_file.read()
 
