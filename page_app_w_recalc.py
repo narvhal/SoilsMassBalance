@@ -185,6 +185,8 @@ with st.expander(f"**Display Mass Balance Equations**"):
 
     url = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/SoilsMassBalance_Poster_appx/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
+    url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+
     pdf_viewer(url, width = 800)
     fn = requests.get(url, stream = True)
     # if response.status_code == 200:
