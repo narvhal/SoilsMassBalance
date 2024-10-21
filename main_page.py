@@ -9,21 +9,6 @@ from py_functions.make_flux_boxes import *
 from io import BytesIO
 
 
-import streamlit as st
-from st_pages import add_page_title, get_nav_from_toml
-
-
-pages = {
-    " ": [
-        st.Page("main_page.py", title="About Me")
-    ],
-    "Web Apps": [
-        st.Page("pages/page_app_w_recalc.py", title="Interactive Mass Balance Model"),
-    ],
-}
-
-pg = st.navigation(pages)
-pg.run()
 
 st.set_page_config(layout="wide")
 # If you want to use the no-sections version, this
