@@ -171,7 +171,7 @@ with st.expander(f"**Display Mass Balance Equations**"):
         st.write("Dissolved flux: ")
         st.latex("F_{dis} = (X_{c}*F_{c} + X_{f}*F_{f} -X_{b}*F_{b})/X_{d}  - F_{f} - F_{c} + F_{b} ")
 
-    fn = r"https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf?raw=true"
+    fn = r"https://github.com/narvhal/SoilsMassBalance/blob/main/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
 
     with open(fn, "rb") as pdf_file:
         PDFbyte = pdf_file.read()
