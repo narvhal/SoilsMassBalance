@@ -5,3 +5,4 @@ pyxlsb
 openpyxl
 matplotlib-scalebar
 uncertainties
+st-pages

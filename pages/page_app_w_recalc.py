@@ -12,7 +12,7 @@ import requests
 # from py_functions.load_plotting_funcs import *       # map_cdict
 # from py_functions.load_plotting_funcs_02_13 import *
 # from uncertainties import ufloat_fromstr
-st.set_page_config(page_title='Mass Balance App', layout="wide" )
+# st.set_page_config(page_title='Mass Balance App', layout="wide" )
 
 flag_gh = True
 # if flag_gh:
@@ -38,7 +38,7 @@ df_default =  pd.read_excel(fn2)
 df_chem =  pd.read_excel(fn3,sheet_name = 'Sheet2', skiprows = 1)
 
 # Title
-st.subheader("Interactive Soil Mass Balance Models")
+st.title("Interactive Soil Mass Balance Models")
 # st.write("This work is based on the work done for the dissertation: ")
 
 varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
