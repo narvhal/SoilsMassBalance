@@ -12,7 +12,7 @@ import requests
 # from py_functions.load_plotting_funcs import *       # map_cdict
 # from py_functions.load_plotting_funcs_02_13 import *
 # from uncertainties import ufloat_fromstr
-st.set_page_config(layout="wide" )
+# st.set_page_config(page_title='Mass Balance App', layout="wide" )
 
 flag_gh = True
 # if flag_gh:
