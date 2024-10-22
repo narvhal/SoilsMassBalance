@@ -20,9 +20,11 @@ st.set_page_config( layout="wide" , initial_sidebar_state="collapsed")
 
 
 listtabs = ["Overview", "Mass Balance Equations", "Interactive App"]
-# tab1, tab2, tab3 = st.tabs([s.center(9, "\u2001") for s in listtabs])
+# tab1, tab2, tab3 = st.tabs([s.center(9, "\u2001") for s in listtabs])  # any change to session state, reverts back to tab1... BAD
 tabb = st_navbar(listtabs)
 # st.wrqu   ite(page)
+
+
 
 
 flag_gh = True
@@ -156,70 +158,70 @@ if tabb == "Overview":
     st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
 
 
-    # lc, rc = st.columns([0.3, 0.7])
-    # with lc:
+    lc, rc = st.columns([0.5, 0.5])
 
-        # with rc:
-    url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-    pdf_viewer(url, width = 900)
-    with open(url, "rb") as pdf_file:
-        PDFbyte = pdf_file.read()
+    with lc:
+        st.subheader(f"**Summary of Poster**")
 
-    st.download_button(label ="Download GSA 2024 Poster",
-                        data=PDFbyte,
-                        file_name="NMiller_GSA_2024.pdf",
-                        mime='application/octet-stream')    
+        # with st.expander(f"**Introduction**"):
+        st.write(f"**Introduction**")
+        st.write(f"Carbonate rocks can erode mechanically and through dissolution. In humid environments, carbonate rocks form landforms unique to chemical erosion. However, the extent to which chemical erosion acts in semi-arid and arid environments is poorly understood. Significant chemical erosion may reduce sediment flux, decoupling it from bedrock erosion. Another important factor in arid environments, windblown dust may enhance sediment flux as it accumulates. This study quantifies the mass fluxes of hilltop regolith to test whether chemical erosion and dust accumulation are necessary to reconcile the mass balance. ")
 
+        st.write(f"**Methods**")
+        st.write(f"A mass balance quantifies each component into and out of the volume of interest; here, a unit-volume patch on a hilltop.  In this work we consider the fluxes that compose regolith, the layer of mobile sediment on hillslopes. Flux, F (g/m2/yr), represents the amount of material moving across the boundaries of the unit-volume hilltop patch of regolith.")
+        st.write(f"Mechanical weathering of bedrock produces coarse (>2 mm) lithic clasts.  Windblown dust, accumulating in the regolith, adds to the fine sediment fraction ($F_{{fines}}$ = $F_{{dust}}$ + $F_{{fines, bedrock}}$).")
 
+        st.write(f"**Sample Sites**")
+        st.write(f"Two carbonate hillslopes were chosen: one in arid south-eastern Arizona and one in semi-arid zone south-eastern Spain.")
+        # with st.expander(f"**Conclusions**"):
+        st.write(f"**Conclusions**")
+        st.write(f"For both arid and semi-arid sites, the total mass flux is composed of more than 60% dissolved material. Even in arid and semi-arid regions, carbonate rocks may be subject to significant chemical erosion. Future work could identify whether additional chemical erosion occurs during clast transport, or if mineral precipitation inhibits transport out of the hillslope system (McFadden, 2013). ")
+        st.write(f"The proportion of dissolved flux at the arid site is less than at the other site.  Supports a direct correlation between chemical erosion and climate. More work quantifying chemical erosion in carbonate soils across aridity gradients would help test this hypothesis. ")
+        st.write(f"Dust flux was greater at the arid site. Besides climate, different local and regional dust sources, as well as variations in topography, might affect local dust accumulation (McClintock et al., 2015).  ")
+    with rc:
+        url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+        pdf_viewer(url, width = 900)
+        with open(url, "rb") as pdf_file:
+            PDFbyte = pdf_file.read()
 
-    st.subheader(f"**Summary of Poster**")
-
-    # with st.expander(f"**Introduction**"):
-    st.write(f"**Introduction**")
-    st.write(f"Carbonate rocks can erode mechanically and through dissolution. In humid environments, carbonate rocks form landforms unique to chemical erosion. However, the extent to which chemical erosion acts in semi-arid and arid environments is poorly understood. Significant chemical erosion may reduce sediment flux, decoupling it from bedrock erosion. Another important factor in arid environments, windblown dust may enhance sediment flux as it accumulates. This study quantifies the mass fluxes of hilltop regolith to test whether chemical erosion and dust accumulation are necessary to reconcile the mass balance. ")
-
-    st.write(f"**Methods**")
-    st.write(f"A mass balance quantifies each component into and out of the volume of interest; here, a unit-volume patch on a hilltop.  In this work we consider the fluxes that compose regolith, the layer of mobile sediment on hillslopes. Flux, F (g/m2/yr), represents the amount of material moving across the boundaries of the unit-volume hilltop patch of regolith.")
-    st.write(f"Mechanical weathering of bedrock produces coarse (>2 mm) lithic clasts.  Windblown dust, accumulating in the regolith, adds to the fine sediment fraction ($F_{{fines}}$ = $F_{{dust}}$ + $F_{{fines, bedrock}}$).")
-
-    st.write(f"**Sample Sites**")
-    st.write(f"Two carbonate hillslopes were chosen: one in arid south-eastern Arizona and one in semi-arid zone south-eastern Spain.")
-    # with st.expander(f"**Conclusions**"):
-    st.write(f"**Conclusions**")
-    st.write(f"For both arid and semi-arid sites, the total mass flux is composed of more than 60% dissolved material. Even in arid and semi-arid regions, carbonate rocks may be subject to significant chemical erosion. Future work could identify whether additional chemical erosion occurs during clast transport, or if mineral precipitation inhibits transport out of the hillslope system (McFadden, 2013). ")
-    st.write(f"The proportion of dissolved flux at the arid site is less than at the other site.  Supports a direct correlation between chemical erosion and climate. More work quantifying chemical erosion in carbonate soils across aridity gradients would help test this hypothesis. ")
-    st.write(f"Dust flux was greater at the arid site. Besides climate, different local and regional dust sources, as well as variations in topography, might affect local dust accumulation (McClintock et al., 2015).  ")
-
+        st.download_button(label ="Download GSA 2024 Poster",
+                            data=PDFbyte,
+                            file_name="NMiller_GSA_2024.pdf",
+                            mime='application/octet-stream')    
 
 
 
 
 elif tabb == "Mass Balance Equations":   #st.container():
-    st.subheader(f"**Mass Balance Equations**")
-    # display_massbalance_equations()
-    
-    # # Add default values
-    # with st.expander(f"Details of Model"):
-    if model_type == "simple":
-        st.write(f"Model A: Simple Mass Balance Model")
-        st.latex(r"F_b = F_c + F_f + F_{dis}")
-    elif model_type == "carbbalance":
-        st.write(f"Carbonate Mass Balance:")
-        st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
-    elif model_type == "wdust":
-        st.write(f"Mass Balance Including dust, constrained by insoluble material mass balance")
-        st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")
-        st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and **$F_f$** is the entire fine fraction of sediment. ")
-        st.write(f"Note that:  ")
-        st.latex( r"{\color{red}F_f} = {\color{purple}F_{f,b}} + {\color{olive}F_d}")
-        st.write("where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
-        st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
-        st.latex(r"X_b F_b + {\color{olive}X_d F_d} = {\color{grey}X_c F_c} + {\color{red}X_f F_f} + {\color{teal}X_{dis} F_{dis}}")
-        st.write(f" where X represents the fraction of mass flux that is insoluble. Note that **$X_{{dis}}$** is 0, by definition (all dissolved material is soluble), so that term goes to 0. For each other component, the fraction of insoluble material can be determined by bulk geochemistry. ")
-        st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
-        st.write(f"Dissolved flux: ")
-        st.latex(r"{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
-    
+
+
+    lc, cc, rc = st.columns([0.1, 0.8, 0.1])
+    with cc:
+        st.subheader(f"**Mass Balance Equations**")
+        # display_massbalance_equations()
+        
+        # # Add default values
+        # with st.expander(f"Details of Model"):
+        if model_type == "simple":
+            st.write(f"Model A: Simple Mass Balance Model")
+            st.latex(r"F_b = F_c + F_f + F_{dis}")
+        elif model_type == "carbbalance":
+            st.write(f"Carbonate Mass Balance:")
+            st.latex(r"F_b* \% CO_{3,b}^{-2} = F_c* \% CO_{3,c}^{-2}  + F_f* \% CO_{3,f}^{-2} + F_{dis}* \% CO_{3,dis}^{-2}")
+        elif model_type == "wdust":
+            st.write(f"Mass Balance Including dust, constrained by insoluble material mass balance")
+            st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")
+            st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and **$F_f$** is the entire fine fraction of sediment. ")
+            st.write(f"Note that:  ")
+            st.latex( r"{\color{red}F_f} = {\color{purple}F_{f,b}} + {\color{olive}F_d}")
+            st.write("where **$F_{{f,b}}$** is insoluble material derived from dissolved bedrock. The technique used here quantifies $F_f$ directly, and we calculate $F_{{f,b}}$ and $F_d$ using other constraints.")
+            st.write(r"Also consider an expression representing the conservation of insoluble (non-carbonate) mass. ")
+            st.latex(r"X_b F_b + {\color{olive}X_d F_d} = {\color{grey}X_c F_c} + {\color{red}X_f F_f} + {\color{teal}X_{dis} F_{dis}}")
+            st.write(f" where X represents the fraction of mass flux that is insoluble. Note that **$X_{{dis}}$** is 0, by definition (all dissolved material is soluble), so that term goes to 0. For each other component, the fraction of insoluble material can be determined by bulk geochemistry. ")
+            st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
+            st.write(f"Dissolved flux: ")
+            st.latex(r"{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
+        
 
 elif tabb == "Interactive App":
     st.subheader("Modify Flux Inputs")
