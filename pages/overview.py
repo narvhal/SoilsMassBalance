@@ -5,32 +5,13 @@ def show_overview():
     # if tabb == "Overview":
     # Title
 
-    st.subheader("Interactive Carbonate Regolith Mass Balance Model")
-    # st.write("This work is based on the work done for the dissertation: ")
-
+    st.header("Interactive Carbonate Regolith Mass Balance Model")
 
     st.write("This is an interactive supplement to my Geological Society of America poster. ")
     st.write("Explore the effects of input variables on the dust and dissolved material fluxes. ")
     st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
 
-
-    # lc, rc = st.columns([0.3, 0.7])
-    # with lc:
-
-    # with rc:
-
     lc, rc = st.columns([0.5, 0.5])
-    with rc:
-        url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-        pdf_viewer(url, width = 900)
-        with open(url, "rb") as pdf_file:
-            PDFbyte = pdf_file.read()
-
-        st.download_button(label ="Download GSA 2024 Poster",
-                            data=PDFbyte,
-                            file_name="NMiller_GSA_2024.pdf",
-                            mime='application/octet-stream')    
-
 
     with lc:
         st.subheader(f"**Summary of Poster**")
@@ -52,3 +33,16 @@ def show_overview():
         st.write(f"Dust flux was greater at the arid site. Besides climate, different local and regional dust sources, as well as variations in topography, might affect local dust accumulation (McClintock et al., 2015).  ")
 
 
+    with rc:
+        url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+        # pdf_viewer(url, width = 900)
+
+        st.image(r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller3.png")
+        
+        with open(url, "rb") as pdf_file:
+            PDFbyte = pdf_file.read()
+
+        st.download_button(label ="Download GSA 2024 Poster",
+                            data=PDFbyte,
+                            file_name="NMiller_GSA_2024.pdf",
+                            mime='application/octet-stream')    
