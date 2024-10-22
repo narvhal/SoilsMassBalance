@@ -4,7 +4,15 @@ import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
 import pages as pg
-
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from py_functions.make_flux_boxes import *
+from io import BytesIO, StringIO
+import requests
+import base64
+from streamlit_pdf_viewer import pdf_viewer
+from streamlit_navigation_bar import st_navbar
 
 st.set_page_config( layout="wide", initial_sidebar_state="collapsed")
 
@@ -54,3 +62,5 @@ functions = {
 go_to = functions.get(page)
 if go_to:
     go_to()
+else:
+    functions.get(pages[0])

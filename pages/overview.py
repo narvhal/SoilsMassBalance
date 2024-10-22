@@ -1,18 +1,10 @@
 import streamlit as st
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from py_functions.make_flux_boxes import *
-from io import BytesIO, StringIO
-import requests
-import base64
-from streamlit_pdf_viewer import pdf_viewer
-from streamlit_navigation_bar import st_navbar
+
 
 def show_overview():
     # if tabb == "Overview":
     # Title
-    
+
     st.subheader("Interactive Carbonate Regolith Mass Balance Model")
     # st.write("This work is based on the work done for the dissertation: ")
 
