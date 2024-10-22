@@ -192,9 +192,11 @@ bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
 with lc:
     st.write("Choose samples: ")
     keystr = "sample_id_selbox"
-    si = st.multiselect(" ", list(siu_dict.keys()), default = default_site, key = keystr, on_change=proc, args = (keystr,))
+    si = st.multiselect(" ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
 
-selval_dict['sample_id'] = siu_dict[si]
+
+list_of_sample_id = [siu_dict[ss] for ss in si]
+selval_dict['sample_id'] = list_of_sample_id
 
 if model_type == 'simple':
     fmcols = vcols([ 'F_br_g_m2_yr' , 'F_coarse_g_m2_yr' ,  'F_fines_boxmodel_g_m2_yr' ,'F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines_g_m2_yr'  ])
