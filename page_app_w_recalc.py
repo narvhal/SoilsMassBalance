@@ -155,7 +155,7 @@ with tab1:
     st.subheader(f"**Summary of Poster**")
 
     # with st.expander(f"**Introduction**"):
-    st.write(f"**Introduction**"):
+    st.write(f"**Introduction**")
     st.write(f"Carbonate rocks can erode mechanically and through dissolution. In humid environments, carbonate rocks form landforms unique to chemical erosion. However, the extent to which chemical erosion acts in semi-arid and arid environments is poorly understood. Significant chemical erosion may reduce sediment flux, decoupling it from bedrock erosion. Another important factor in arid environments, windblown dust may enhance sediment flux as it accumulates. This study quantifies the mass fluxes of hilltop regolith to test whether chemical erosion and dust accumulation are necessary to reconcile the mass balance. ")
 
     st.write(f"**Methods**")
