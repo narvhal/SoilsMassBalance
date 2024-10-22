@@ -152,6 +152,19 @@ with tab1:
     # lc, rc = st.columns([0.3, 0.7])
     # with lc:
 
+        # with rc:
+    url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+    pdf_viewer(url)
+    with open(url, "rb") as pdf_file:
+        PDFbyte = pdf_file.read()
+
+    st.download_button(label ="Download GSA 2024 Poster",
+                        data=PDFbyte,
+                        file_name="NMiller_GSA_2024.pdf",
+                        mime='application/octet-stream')    
+
+
+
     st.subheader(f"**Summary of Poster**")
 
     # with st.expander(f"**Introduction**"):
@@ -170,17 +183,6 @@ with tab1:
     st.write(f"The proportion of dissolved flux at the arid site is less than at the other site.  Supports a direct correlation between chemical erosion and climate. More work quantifying chemical erosion in carbonate soils across aridity gradients would help test this hypothesis. ")
     st.write(f"Dust flux was greater at the arid site. Besides climate, different local and regional dust sources, as well as variations in topography, might affect local dust accumulation (McClintock et al., 2015).  ")
 
-
-    # with rc:
-    url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-    pdf_viewer(url)
-    with open(url, "rb") as pdf_file:
-        PDFbyte = pdf_file.read()
-
-    st.download_button(label ="Download GSA 2024 Poster",
-                        data=PDFbyte,
-                        file_name="NMiller_GSA_2024.pdf",
-                        mime='application/octet-stream')    
 
 
 
