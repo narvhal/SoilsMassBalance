@@ -482,7 +482,7 @@ for six, samp in enumerate(list_of_sample_id):
             st.download_button(label ="Download Modified Input Mass Balance Fluxes",
                     data=buf,
                     file_name="Modified_Mass_Balance_Fluxes.png",
-                    mime="image/png")
+                    mime="image/png", key = "Download_modified_" + str(six))
 
             if st.checkbox("View Mass Balance with Default Variables"):
                 # st.header("Default inputs")
@@ -493,7 +493,7 @@ for six, samp in enumerate(list_of_sample_id):
                 st.download_button(label ="Download Default Input Mass Balance Fluxes",
                     data=buf,
                     file_name="Default_Mass_Balance_Fluxes.png",
-                    mime="image/png")
+                    mime="image/png",  key = "Download_default_" + str(six))
                         
             ###############
             if st.checkbox("See Default and Modified Input Values and Fluxes",key = "see_default_inputs" + str(samp)):
