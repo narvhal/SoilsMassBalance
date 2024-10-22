@@ -145,8 +145,8 @@ st.write("This is an interactive supplement to my Geological Society of America 
 st.write("Explore the effects of input variables on the dust and dissolved material fluxes. ")
 st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
 
-
-tab1, tab2, tab3 = st.tabs([f"Overview  ", f"Mass Balance Equations  ", f"Interactive App"])
+listtabs = [f"Overview  ", f"Mass Balance Equations  ", f"Interactive App"]
+tab1, tab2, tab3 = st.tabs([s.center(9, "\u2001") for s in listtabs])
 
 with tab1:
     # lc, rc = st.columns([0.3, 0.7])
@@ -532,7 +532,7 @@ with tab3:
 css = '''
 <style>
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
-    font-size:2rem;font-weight:bold;
+    font-size:1.7rem;font-weight:bold;
     }
 </style>
 '''
