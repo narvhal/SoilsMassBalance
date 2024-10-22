@@ -8,6 +8,7 @@ from io import BytesIO, StringIO
 import requests
 import base64
 from streamlit_pdf_viewer import pdf_viewer
+from streamlit_navigation_bar import st_navbar
 # from st_pages import add_page_title, get_nav_from_toml
 # from py_functions.load_intro import *
 # from py_functions.load_prep_initial_df import *
@@ -16,6 +17,13 @@ from streamlit_pdf_viewer import pdf_viewer
 # from py_functions.load_plotting_funcs_02_13 import *
 # from uncertainties import ufloat_fromstr
 st.set_page_config( layout="wide" )
+
+
+listtabs = [f"Overview", f"Mass Balance Equations", f"Interactive App"]
+# tab1, tab2, tab3 = st.tabs([s.center(9, "\u2001") for s in listtabs])
+tabb = st_navbar(listtabs)
+# st.wrqu   ite(page)
+
 
 flag_gh = True
 # if flag_gh:
@@ -40,10 +48,7 @@ df_default =  pd.read_excel(fn2)
 
 df_chem =  pd.read_excel(fn3,sheet_name = 'Sheet2', skiprows = 1)
 
-# Title
-st.title("Interactive Carbonate Regolith Mass Balance Model")
-# st.write("This work is based on the work done for the dissertation: ")
-
+    
 varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "DF":"Dissolution Factor",
                 "p_re": "Soil Density",
@@ -141,14 +146,16 @@ selval_dict = {}
 model_type = 'wdust'
 selval_dict['model_type'] = model_type
 
-st.write("This is an interactive supplement to my Geological Society of America poster. ")
-st.write("Explore the effects of input variables on the dust and dissolved material fluxes. ")
-st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
+if tabb == f"Overview":
+    # Title
+    st.title("Interactive Carbonate Regolith Mass Balance Model")
+    # st.write("This work is based on the work done for the dissertation: ")
 
-listtabs = [f"Overview  ", f"Mass Balance Equations  ", f"Interactive App"]
-tab1, tab2, tab3 = st.tabs([s.center(9, "\u2001") for s in listtabs])
+    st.write("This is an interactive supplement to my Geological Society of America poster. ")
+    st.write("Explore the effects of input variables on the dust and dissolved material fluxes. ")
+    st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
 
-with tab1:
+
     # lc, rc = st.columns([0.3, 0.7])
     # with lc:
 
@@ -187,7 +194,7 @@ with tab1:
 
 
 
-with tab2:   #st.container():
+elif tabb == f"Mass Balance Equations":   #st.container():
     st.subheader(f"**Mass Balance Equations**")
     # display_massbalance_equations()
     
@@ -214,7 +221,7 @@ with tab2:   #st.container():
         st.latex("{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
     
 
-with tab3:
+elif tabb == f"Interactive App":
     st.subheader("Modify Flux Inputs")
 
     # Select Sample Name

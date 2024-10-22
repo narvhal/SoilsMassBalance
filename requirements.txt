@@ -7,3 +7,4 @@ matplotlib-scalebar
 uncertainties
 pybase64
 streamlit-pdf-viewer
+streamlit-navigation-bar
