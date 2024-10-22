@@ -43,6 +43,7 @@ options = {
     "show_menu": False,
     "show_sidebar": False,
 }
+page = pages[0]
 
 page = st_navbar(
     pages,
