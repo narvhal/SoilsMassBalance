@@ -447,12 +447,12 @@ def show_app():
         # st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
 
 
-    css = '''
-    <style>
-        .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
-        font-size:1.7rem;font-weight:bold;
-        }
-    </style>
-    '''
+    # css = '''
+    # <style>
+    #     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
+    #     font-size:1.7rem;font-weight:bold;
+    #     }
+    # </style>
+    # '''
 
-    st.markdown(css, unsafe_allow_html=True)
+    # st.markdown(css, unsafe_allow_html=True)
