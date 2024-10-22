@@ -321,7 +321,7 @@ for six, samp in enumerate(list_of_sample_id):
 
     count = 0
     with colll[count]:
-        with st.expander(f"Sample {list(siu_dict.keys())[six]}", expanded = True):
+        with st.expander(f"{list(siu_dict.keys())[six]} Site", expanded = True):
 
             st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
             flag_allow_scrolling_var_container_height = st.checkbox("Allow scrolling of input variables to view the flux results better", value = True, key = "flag_allow_scrolling_var_container_height" + samp)
