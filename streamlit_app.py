@@ -43,7 +43,6 @@ options = {
     "show_menu": False,
     "show_sidebar": False,
 }
-page = pages[0]
 
 page = st_navbar(
     pages,
@@ -51,8 +50,9 @@ page = st_navbar(
     logo_path=logo_path,
 )
 
+if page == "Home":
+    pg.show_overview
 
-st.write(page)
 #     styles=styles,
     # 
     # urls=urls,
