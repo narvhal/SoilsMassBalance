@@ -335,7 +335,9 @@ for six, samp in enumerate(list_of_sample_id):
         coL, coM, coR = st.columns([0.33, 0.33, 0.33])
         colll = [ coL, coM, coR,  coL, coM, coR]
     elif len(si) == 2:
-        coL, coR = st.columns([0.5,  0.5])
+        coL = st.container()
+        coR = st.container()
+        # coL, coR = st.columns([0.5,  0.5])
         colll = [ coL,  coR,  coL, coR, coL,  coR,  coL, coR]
     elif len(si) == 1:
         coL = st.container()
