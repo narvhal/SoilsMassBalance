@@ -19,7 +19,7 @@ from streamlit_navigation_bar import st_navbar
 st.set_page_config( layout="wide" )
 
 
-listtabs = [f"Overview", f"Mass Balance Equations", f"Interactive App"]
+listtabs = ["Overview", "Mass Balance Equations", "Interactive App"]
 # tab1, tab2, tab3 = st.tabs([s.center(9, "\u2001") for s in listtabs])
 tabb = st_navbar(listtabs)
 # st.wrqu   ite(page)
@@ -146,7 +146,7 @@ selval_dict = {}
 model_type = 'wdust'
 selval_dict['model_type'] = model_type
 
-if tabb == f"Overview":
+if tabb == "Overview":
     # Title
     st.title("Interactive Carbonate Regolith Mass Balance Model")
     # st.write("This work is based on the work done for the dissertation: ")
@@ -194,7 +194,7 @@ if tabb == f"Overview":
 
 
 
-elif tabb == f"Mass Balance Equations":   #st.container():
+elif tabb == "Mass Balance Equations":   #st.container():
     st.subheader(f"**Mass Balance Equations**")
     # display_massbalance_equations()
     
@@ -221,7 +221,7 @@ elif tabb == f"Mass Balance Equations":   #st.container():
         st.latex(r"{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
     
 
-elif tabb == f"Interactive App":
+elif tabb == "Interactive App":
     st.subheader("Modify Flux Inputs")
 
     # Select Sample Name
