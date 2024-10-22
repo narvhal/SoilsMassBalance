@@ -49,6 +49,9 @@ page = st_navbar(
     options=options,
     logo_path=logo_path,
 )
+if page == None:
+    page = pages[0]
+    
 #     styles=styles,
     # 
     # urls=urls,
@@ -62,5 +65,3 @@ functions = {
 go_to = functions.get(page)
 if go_to:
     go_to()
-else:
-    functions.get(pages[0])
