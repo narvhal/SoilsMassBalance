@@ -181,7 +181,7 @@ def make_into_area_streamlit(df,selval_dict):
     return list_of_tuplelists, ft, fst, height, L, H, XC, fst, YC
 
 
-def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],labellist = ['Bedrock Composition','Coarse Sediment Composition','Fine Sediment Composition','Dust Composition'],ft = ['F$_b$', 'F$_c$','F$_f$','F$_{dust}$'], ec = 'k'):
+def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],labellist = ['Bedrock Composition','Coarse Sediment Composition','Fine Sediment Composition','Dust Composition'],ft = ['F$_b$', 'F$_c$','F$_f$','F$_{dust}$'], ec = 'k', six = 0):
     
     # lc, cc, rc,rc2,rc3 = st.columns([0.3,  0.15, .15,0.275, .175])
 
@@ -199,7 +199,7 @@ def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],lab
         labelname = labellist[i]
         # with lc:
         st.write(f"**{labelname}** ({ft[i]})  \n  \t   Percent Carbonate:")
-        pct_carb = st.slider("Change Percent Carbonate:", value = df[colname].iloc[0], format = "%0.1f", key = "slider_pct_carb" + colname, label_visibility = "collapsed")
+        pct_carb = st.slider("Change Percent Carbonate:", value = df[colname].iloc[0], format = "%0.1f", key = "slider_pct_carb" + colname + str(six), label_visibility = "collapsed")
 
         fig, ax = plt.subplots()
 

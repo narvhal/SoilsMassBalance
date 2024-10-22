@@ -162,7 +162,7 @@ with lc:
     st.write(f"The proportion of dissolved flux at the arid site is less than at the other site.  Supports a direct correlation between chemical erosion and climate. More work quantifying chemical erosion in carbonate soils across aridity gradients would help test this hypothesis. ")
     st.write(f"Dust flux was greater at the arid site. Besides climate, different local and regional dust sources, as well as variations in topography, might affect local dust accumulation (McClintock et al., 2015).  ")
 
-    
+
 with rc:
         url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
         pdf_viewer(url)
@@ -355,9 +355,9 @@ for six, samp in enumerate(list_of_sample_id):
                 
                 lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
                 with lc:
-                    dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = ['C_br', 'C_c'],labellist = ['Bedrock Composition','Coarse Sediment Composition'],ft = ['F$_b$', 'F$_c$'], ec = 'k')
+                    dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = ['C_br', 'C_c'],labellist = ['Bedrock Composition','Coarse Sediment Composition'],ft = ['F$_b$', 'F$_c$'], ec = 'k', six = six)
                 with rc:
-                    dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = [ 'C_f', 'C_dust'],labellist = ['Fine Sediment Composition','Dust Composition'],ft = ['F$_f$','F$_{dust}$'], ec = 'k')
+                    dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = [ 'C_f', 'C_dust'],labellist = ['Fine Sediment Composition','Dust Composition'],ft = ['F$_f$','F$_{dust}$'], ec = 'k',six = six)
                 # fig =plot_carb_pct(dft,'C_f','Fine Sediment Composition', ec = 'k')
                 # fig =plot_carb_pct(dft,'C_c','Coarse Sediment Composition', ec = 'k')
                 # fig =plot_carb_pct(dft,'C_dust','Dust Composition', ec = 'k')
