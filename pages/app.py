@@ -10,7 +10,6 @@ from streamlit_pdf_viewer import pdf_viewer
 from streamlit_navigation_bar import st_navbar
 
 def show_app():
-    st.set_page_config( layout="wide" )
     
     st.subheader("Modify Flux Inputs")
 
