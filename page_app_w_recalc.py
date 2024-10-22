@@ -222,7 +222,7 @@ def sliderrange(start, step, num):
 # Instructions & EXplanations:
 count = 0
 
-for six, samp in enumerate(si):
+for six, samp in enumerate(list_of_sample_id):
     dft = df[df['sample_id']== samp].copy()
     dft['Coarse_seds_subsurface'] = 0
     dft['z'] = dft['z_val'].astype(float).values[0]
