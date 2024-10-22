@@ -3,7 +3,7 @@ import os
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
-import pages as pg
+import pages_st_nav_bar as pg
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
