@@ -16,7 +16,7 @@ from streamlit_navigation_bar import st_navbar
 # from py_functions.load_plotting_funcs import *       # map_cdict
 # from py_functions.load_plotting_funcs_02_13 import *
 # from uncertainties import ufloat_fromstr
-st.set_page_config( layout="wide" )
+st.set_page_config( layout="wide" , initial_sidebar_state="collapsed")
 
 
 listtabs = ["Overview", "Mass Balance Equations", "Interactive App"]
