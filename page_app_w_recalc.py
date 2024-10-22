@@ -192,7 +192,7 @@ bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
 with lc:
     st.write("Choose samples: ")
     keystr = "sample_id_selbox"
-    si = st.multiselect(" ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
+    si = st.multiselect(" ", list(siu_dict.keys()), default = default_site, key = keystr, on_change=proc, args = (keystr,))
 
 selval_dict['sample_id'] = siu_dict[si]
 
