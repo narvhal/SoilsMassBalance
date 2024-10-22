@@ -154,7 +154,7 @@ with tab1:
 
         # with rc:
     url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-    pdf_viewer(url)
+    pdf_viewer(url, width = 900)
     with open(url, "rb") as pdf_file:
         PDFbyte = pdf_file.read()
 
