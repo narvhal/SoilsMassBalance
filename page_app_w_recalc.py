@@ -146,7 +146,7 @@ st.write("Explore the effects of input variables on the dust and dissolved mater
 st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
 
 
-tab1, tab2, tab3 = st.tabs("Overview", "Mass Balance Equations", "Interactive App")
+tab1, tab2, tab3 = st.tabs(["Overview", "Mass Balance Equations", "Interactive App"])
 
 with tab1:
     # lc, rc = st.columns([0.3, 0.7])
