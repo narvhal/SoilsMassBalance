@@ -146,7 +146,7 @@ st.write("Explore the effects of input variables on the dust and dissolved mater
 st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
 
 
-tab1, tab2, tab3 = st.tabs([f"Overview", f"Mass Balance Equations", f"Interactive App"])
+tab1, tab2, tab3 = st.tabs([f"Overview  ", f"Mass Balance Equations  ", f"Interactive App"])
 
 with tab1:
     # lc, rc = st.columns([0.3, 0.7])
@@ -532,7 +532,7 @@ with tab3:
 css = '''
 <style>
     .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
-    font-size:2rem;
+    font-size:2rem;font-weight:bold;
     }
 </style>
 '''
