@@ -187,12 +187,12 @@ st.subheader("Modify Flux Inputs")
 
 # Select Sample Name
 # default_ix = list(siu).index("NQT0")
-default_site = list(siu_dict.keys)[0]
+default_site = list(siu_dict.keys())[0]
 bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
 with lc:
     st.write("Choose samples: ")
     keystr = "sample_id_selbox"
-    si = st.multiselect(" ", list(siu_dict.keys), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
+    si = st.multiselect(" ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
 
 selval_dict['sample_id'] = siu_dict[si]
 
