@@ -50,8 +50,7 @@ page = st_navbar(
     logo_path=logo_path,
 )
 
-if page == "Home":
-    pg.show_overview
+
 
 #     styles=styles,
     # 
@@ -67,6 +66,7 @@ go_to = functions.get(page)
 if go_to:
     go_to()
 
-
+if page == "Home":
+    functions.get(pages[0])
 
 
