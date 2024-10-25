@@ -305,7 +305,7 @@ for six, samp in enumerate(list_of_sample_id):
                 #     vld.append(tempd)
                 # flag_expb = st.checkbox("More Explanation", key = "explaincheckbox_" + str(samp))
                 expb_d = {"Coarse_seds_subsurface": "What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)",
-                    "D":"Meteoric $^{10}$Be delivery rates (D) are site-specific. Graly et al 2010 provides an equation, which yields: \n$D_{AZ}$ = 5.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr\n$D_{SP}$ = 9.6e5 at $^{10}$Be$_{met}$/cm$^2$/yr",
+                    "D":"Meteoric $^{10}$Be delivery rates (D) are site-specific.",
                     "coarse_mass": "The mass of coarse sediment measured on the surface.",
                     "max_coarse_residence_time": "The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.",
                     "z": "Measured depth of the fine fraction of mobile regolith. ",
