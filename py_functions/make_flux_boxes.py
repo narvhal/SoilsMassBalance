@@ -348,9 +348,9 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
                 if isinstance(flag_sample_label_default, bool):
                     plt.annotate('\n {:0.1f}\n g/m$^2$/yr \n {:0.0f}%'.format(fst[i], fst_as_pct), npn, fontsize = medfont,  va = 'top', ha = 'center')
                 else:
-                    plt.annotate('\n {:0.1f}\n {:0.0f}\%'.format(fst[i], fst_as_pct), npn, fontsize = medfont,  va = 'top', ha = 'center')
+                    plt.annotate('\n {:0.1f}\n {:0.0f}%'.format(fst[i], fst_as_pct), npn, fontsize = medfont,  va = 'top', ha = 'center')
             else:
-                plt.annotate('\n {:0.1f}\n {:0.0f}\%'.format(fst[i], fst_as_pct), npn,fontsize = medfont, va = 'top', ha = 'center')
+                plt.annotate('\n {:0.1f}\n {:0.0f}%'.format(fst[i], fst_as_pct), npn,fontsize = medfont, va = 'top', ha = 'center')
 
             # npn2 = (npp[0][0] + (npp[3][0]-npp[0][0])/2,  (npp[0][1]+npp[1][1])/2 ) # Find x and y-midpoint
             # npn2 = (midx,  textht) # Find x midpoint and y below patch
@@ -395,8 +395,8 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
     maxx2 = np.max(np.array(mxx))
     frame1 = plt.gca()
 
-    xl = maxx2+1.5
-    yl = textht + sll_offset+0.2
+    xl = maxx2+2
+    yl = textht + sll_offset+0.3
     plt.xlim(-0.001, xl)
     plt.ylim(-0.01, yl )
 
