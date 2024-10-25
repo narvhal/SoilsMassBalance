@@ -1036,6 +1036,9 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
             st.write(f"Simplified, with constants removed:")
             st.latex(r"F_f = \frac{z}{-ln(1-z)}")
             # st.latex(r"F_f = z/ C\left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
+    if selcolkey == "max_coarse_residence_time":
+        st.write(f"Note: these are mass per collection area ({vars_dict['coarse_area']:0.1f} cm$^2$)")
+
     st.write(" " )
 
     # Assign un-formatted choice to selval_dict "selected values dictionary"
