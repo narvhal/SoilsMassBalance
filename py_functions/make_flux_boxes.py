@@ -1016,6 +1016,21 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
         key = keystr, on_change=proc, args = (keystr,), horizontal = True)
     # st.write("3, ")
     # st.dataframe( dft["D"])
+
+    if selcolkey == 'z':
+        with st.popover("How is the depth of the fine fraction of mobile regolith included in mass flux equations?"):
+            bems = f"$^{{10}}$Be$_m$"
+            st.write(f"The depth of the fine fraction of mobile regolith ($z$) is used to calculate the inventory of {bems}. We assume here that the concentration of {bems} ($N$) is constant with depth. Higher inventories ($I$) of  {bems} indicate longer residence times. ")
+            st.latex(r"I = \int_z N \rho_{re} dz")
+            st.write(f"Inventory is used to calculate the residence time (t) of the fine fraction: ")
+            st.latex(r"t = \left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambdaI_{Be}}{P_{Be}}\right)")
+            st.write(f"where $\lambda$ is the radioactive decay constant for {bems} (5.1 x 10$^{{-7}}$ yr${{-1}}$), and $P_{{Be}}$ is the delivery rate of {bems} from the atmosphere (at/cm$^2$/yr).")
+            st.write(f"Regolith depth is also used when calculating the mass flux ($F_f$): ")
+            st.latex(r"F_f = z$\rho_{re}$/t")
+            st.write(f"where z is soil depth, $\rho_{re}$ is bulk density of the regolith (\"fine\" fraction).  ")
+            st.write(f"In short, z controls $F_f$ in a complex way: ")
+            st.latex(r"F_f = z$\rho_{re}$/ \left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
+            # st.latex(r"F_f = z/ C\left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
     st.write(" " )
 
     # Assign un-formatted choice to selval_dict "selected values dictionary"
