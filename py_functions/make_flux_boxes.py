@@ -1027,7 +1027,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
             st.write(f"where $\lambda$ is the radioactive decay constant for {bems} (5.1 x 10$^{{-7}}$ yr${{-1}}$), and $P_{{Be}}$ is the delivery rate of {bems} from the atmosphere (at/cm$^2$/yr).")
             st.write(f"Regolith depth is also used when calculating the mass flux ($F_f$): ")
             st.latex(r"F_f = z$\rho_{re}$/t")
-            st.write(f"where z is soil depth, $\rho_{re}$ is bulk density of the regolith (\"fine\" fraction).  ")
+            st.write(f"where z is soil depth, $\rho_{{re}}$ is bulk density of the regolith (\"fine\" fraction).  ")
             st.write(f"In short, z controls $F_f$ in a complex way: ")
             st.latex(r"F_f = z$\rho_{re}$/ \left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
             # st.latex(r"F_f = z/ C\left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
