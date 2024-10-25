@@ -1028,8 +1028,10 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
             st.write(f"Regolith depth is also used when calculating the mass flux ($F_f$): ")
             st.latex(r"F_f = z\rho_{re}/t")
             st.write(f"where z is soil depth, $\rho_{{re}}$ is bulk density of the regolith (\"fine\" fraction).  ")
-            st.write(f"In short, z controls $F_f$ in a complex way: ")
-            st.latex(r"F_f = z\rho_{re}/ \left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
+            st.write(f"In short, z controls $F_f$ in a complex way, which can be seen by substituting the equations for I and t into the mass flux equation: ")
+            st.latex(r"F_f = z\rho_{re}/\left[ \left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right) \right]")
+            st.write(f"Simplified, with constants removed:")
+            st.latex(r"F_f = \frac{z}{-ln(1-z)}")
             # st.latex(r"F_f = z/ C\left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
     st.write(" " )
 
