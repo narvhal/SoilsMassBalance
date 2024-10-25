@@ -408,7 +408,7 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
     # fig.set_facecolor('grey')
     frame1.axis('off')
     # fig.set_layout('constrained')
-    fig.tight_layout()
+    # fig.tight_layout()  # Why does this produce erros?
     return
 
 
