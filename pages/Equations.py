@@ -10,12 +10,9 @@ from streamlit_pdf_viewer import pdf_viewer
 from streamlit_navigation_bar import st_navbar
 
 
-lc, cc, rc = st.columns([0.1, 0.8, 0.1])
+ cc, rc = st.columns([0.61,0.39])
 with cc:
     st.subheader(f"**Mass Balance Equations**")
-
-    diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
-    st.image(diag_name, output_format = 'PNG',width = 400, caption="Conceptual diagram")
 
     st.write(f"Mass Balance Including dust, constrained by insoluble material mass balance")
     st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")
@@ -30,4 +27,7 @@ with cc:
     st.write(f"Dissolved flux: ")
     st.latex(r"{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
 
-    
+with rc:
+
+    diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
+    st.image(diag_name, output_format = 'PNG',width = 400, caption="Conceptual diagram")
