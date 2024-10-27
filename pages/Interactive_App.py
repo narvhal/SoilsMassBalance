@@ -359,7 +359,7 @@ for six, samp in enumerate(list_of_sample_id):
 
                              # Width in px of image produced...
                             keystr = "boxscale_radio"+ str(samp)
-                            selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.2, 0.2, 19), value = 1,
+                            selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  np.arange(20)/5 + 0.2, value = 1,
                                 key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
                         with rc:
 
