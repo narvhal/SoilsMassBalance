@@ -464,9 +464,9 @@ for six, samp in enumerate(list_of_sample_id):
 
 
 
-# st.markdown(f'''
-#     <style>
-#         section[data-testid="stSidebar"] .css-ng1t4o {{width: 14rem;}}
-#         section[data-testid="stSidebar"] .css-1d391kg {{width: 14rem;}}
-#     </style>
-# ''',unsafe_allow_html=True)
+st.markdown(f'''
+    <style>
+        section[data-testid="stSidebar"] .css-ng1t4o {{width: 2rem;}}
+        section[data-testid="stSidebar"] .css-1d391kg {{width: 2rem;}}
+    </style>
+''',unsafe_allow_html=True)
