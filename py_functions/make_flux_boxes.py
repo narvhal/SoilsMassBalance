@@ -91,10 +91,14 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     plot_patches(list_of_tuplelists, selval_dict,dft, ft, L, H, XY,YC, fst, newfig = False,flag_annot = False, flag_sample_label_default = selval_dict["flag_sample_label_default"], medfont = selval_dict["medfont"], textht = selval_dict["textheight"])
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
-    fig.savefig(buf, format="png")
-    st.image(buf, width = selval_dict["pixelwidth"], output_format = 'PNG')
+    fig.savefig(buf, format="svg")
+    st.image(buf, width = selval_dict["pixelwidth"])
     return fig
 
+
+# with open("logo.svg") as logo_file:
+#     logo = logo_file.read()
+# st.image(logo, width=200)
 
 def deal_w_ustring(val):
     if isinstance(val, str):
