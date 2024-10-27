@@ -141,11 +141,11 @@ default_site = list(siu_dict.keys())[0]
 # with lc:[default_site]
 
 st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
-
+st.sidebar.write("Choose sample sites: ")
 keystr = "sample_id_selbox" + "0"
-si0 = st.sidebar.checkbox("Choose sample sites: ", list(siu_dict.keys())[0], value = True, key = keystr, on_change=proc, args = (keystr,))
+si0 = st.sidebar.checkbox( list(siu_dict.keys())[0], value = True, key = keystr, on_change=proc, args = (keystr,))
 keystr = "sample_id_selbox" + "1"
-si1 = st.sidebar.checkbox(" ", list(siu_dict.keys())[1], value = False, key = keystr , on_change=proc, args = (keystr,), label_visibility = "collapsed")
+si1 = st.sidebar.checkbox(list(siu_dict.keys())[1], value = False, key = keystr , on_change=proc, args = (keystr,), label_visibility = "collapsed")
 si = []
 if si0: si = [list(siu_dict.keys())[0]]
 if si1: si = si + [list(siu_dict.keys())[1]]
