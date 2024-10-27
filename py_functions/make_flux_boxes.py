@@ -92,9 +92,10 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="svg")
-    st.image(buf, width = selval_dict["pixelwidth"])
+    with open(buf) as buffile:
+        bufff = buffile.read()
+    st.image(bufff, width = selval_dict["pixelwidth"], output_format = )
     return fig
-
 
 # with open("logo.svg") as logo_file:
 #     logo = logo_file.read()
