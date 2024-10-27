@@ -469,15 +469,10 @@ st.markdown("""
     
            /* Remove blank space at top and bottom */ 
            .block-container {
-               padding-top: 0rem;
+               padding-top: 1rem;
                padding-bottom: 0rem;
             }
            
-           /* Remove blank space at the center canvas */ 
-           .st-emotion-cache-z5fcl4 {
-               position: relative;
-               top: -62px;
-               }
            
            /* Make the toolbar transparent and the content below it clickable */ 
            .st-emotion-cache-18ni7ap {
@@ -491,3 +486,10 @@ st.markdown("""
                }
     </style>
     """, unsafe_allow_html=True)
+
+
+           # /* Remove blank space at the center canvas */ 
+           # .st-emotion-cache-z5fcl4 {
+           #     position: relative;
+           #     top: -62px;
+           #     }
