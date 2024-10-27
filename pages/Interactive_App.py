@@ -138,12 +138,15 @@ selval_dict['model_type'] = model_type
 # default_ix = list(siu).index("NQT0")
 default_site = list(siu_dict.keys())[0]
 # bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
-# with lc:
+# with lc:[default_site]
 
 st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
 keystr = "sample_id_selbox"
-si = st.sidebar.multiselect("Choose sample sites: ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
-
+si0 = st.sidebar.checkbox("Choose sample sites: ", list(siu_dict.keys())[0], default = True, key = keystr + '0', on_change=proc, args = (keystr,))
+si1 = st.sidebar.checkbox("Choose sample sites: ", list(siu_dict.keys())[1], default = False, key = keystr + '1', on_change=proc, args = (keystr,))
+si = []
+if si0: si = [list(siu_dict.keys())[0]]
+if si1: si = si + [list(siu_dict.keys())[1]]
 
 # with rc:
 #     # Show diagram
@@ -469,7 +472,7 @@ st.markdown("""
     
            /* Remove blank space at top and bottom */ 
            .block-container {
-               padding-top: 10rem;
+               padding-top: 7.75rem;
                padding-bottom: 0rem;
             }
            
