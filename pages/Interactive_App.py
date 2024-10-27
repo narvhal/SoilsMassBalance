@@ -464,9 +464,30 @@ for six, samp in enumerate(list_of_sample_id):
 
 
 
-st.markdown(f'''
+st.markdown("""
     <style>
-        section[data-testid="stSidebar"] .css-ng1t4o {{width: 10rem;}}
-        section[data-testid="stSidebar"] .css-1d391kg {{width: 10rem;}}
+    
+           /* Remove blank space at top and bottom */ 
+           .block-container {
+               padding-top: 0rem;
+               padding-bottom: 0rem;
+            }
+           
+           /* Remove blank space at the center canvas */ 
+           .st-emotion-cache-z5fcl4 {
+               position: relative;
+               top: -62px;
+               }
+           
+           /* Make the toolbar transparent and the content below it clickable */ 
+           .st-emotion-cache-18ni7ap {
+               pointer-events: none;
+               background: rgb(255 255 255 / 0%)
+               }
+           .st-emotion-cache-zq5wmm {
+               pointer-events: auto;
+               background: rgb(255 255 255);
+               border-radius: 5px;
+               }
     </style>
-''',unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
