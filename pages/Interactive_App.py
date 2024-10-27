@@ -469,7 +469,7 @@ st.markdown("""
     
            /* Remove blank space at top and bottom */ 
            .block-container {
-               padding-top: 0.025rem;
+               padding-top: 10rem;
                padding-bottom: 0rem;
             }
            
