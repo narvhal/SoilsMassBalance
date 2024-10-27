@@ -484,6 +484,10 @@ st.markdown("""
                background: rgb(255 255 255);
                border-radius: 5px;
                }
+
+            .st-emotion-cache-vk3wp9 {
+               width: 150px;
+               }
     </style>
     """, unsafe_allow_html=True)
 
