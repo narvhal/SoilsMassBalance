@@ -412,7 +412,7 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
     frame1 = plt.gca()
 
     xl = maxx2+2
-    yl = textht + sll_offset+0.3
+    yl = textht + sll_offset+0.1
     plt.xlim(-0.001, xl)
     plt.ylim(-0.01, yl )
 
