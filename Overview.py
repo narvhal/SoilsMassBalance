@@ -22,7 +22,7 @@ st.header("Interactive Carbonate Regolith Mass Balance Model")
 
 st.write("This is an interactive supplement to my Geological Society of America poster. ")
 st.write("Explore the effects of input variables on the dust and dissolved material fluxes. ")
-st.write("Questions/Comments? Get in touch! nari.v.miller   a   t   gmail.com")
+st.write("Questions/Comments? Get in touch! nari.v.miller@gmail.com")
 
 lc, rc = st.columns([0.5, 0.5])
 

@@ -10,7 +10,7 @@ import base64
 from streamlit_pdf_viewer import pdf_viewer
 from streamlit_navigation_bar import st_navbar
     
-st.subheader("Modify Flux Inputs")
+# st.subheader("Modify Flux Inputs")
 
 
 flag_gh = True
@@ -136,11 +136,12 @@ selval_dict['model_type'] = model_type
 # Select Sample Name
 # default_ix = list(siu).index("NQT0")
 default_site = list(siu_dict.keys())[0]
-bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
-with lc:
-    st.write("Choose sample sites: ")
-    keystr = "sample_id_selbox"
-    si = st.multiselect(" ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
+# bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
+# with lc:
+
+st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
+keystr = "sample_id_selbox"
+si = st.multiselect("Choose sample sites: ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
 
 
 # with rc:
@@ -278,10 +279,9 @@ for six, samp in enumerate(list_of_sample_id):
     with colll[count]:
         with st.expander(f"{list(siu_dict.keys())[six]} Site", expanded = True):
 
-            st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
             flag_allow_scrolling_var_container_height = st.checkbox("Allow scrolling of input variables to view the flux results better", value = True, key = "flag_allow_scrolling_var_container_height" + samp)
             if flag_allow_scrolling_var_container_height:
-                cont_h = 400
+                cont_h = 300
             else: cont_h = None
 
             with st.container(height=cont_h):
@@ -335,48 +335,6 @@ for six, samp in enumerate(list_of_sample_id):
                         dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict)
                         # Add note defining DAz etc556495.6872
 
-            if six == 0:
-                if st.checkbox(f"See plot dimension options",  key='show_plot_dimensions'):
-                    # Select box model shape:
-                    keystr = "model_shape_radio_" + str(samp)
-                    model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 0, key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                    selval_dict['model_shape'] = model_shape
-
-                    # start, step, number
-                    hh = sliderrange(5, 1, 10)
-                    keystr = "figwidth_radio" + str(samp)
-                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 9,key = keystr, on_change = proc, args = (keystr,))
-
-                    keystr = "figheight_radio"+ str(samp)
-                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                    # height
-                    keystr = "pixelwidth_radio"+ str(samp)
-                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = 700,
-                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-
-                     # Width in px of image produced...
-                    keystr = "boxscale_radio"+ str(samp)
-                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.2, 0.2, 19), value = 1,
-                        key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-
-                    keystr = "shape_buffer_radio"+ str(samp)
-                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 20), value = 2, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-
-                    keystr = "boxheight_radio"+ str(samp)
-                    selval_dict['boxheight'] = st.select_slider("Scale box height: ", sliderrange(0.25, 0.25, 16),value = 2, key =keystr, on_change = proc, args = (keystr,))
-
-                    keystr = "medfont_radio"+ str(samp)
-                    selval_dict["medfont"]=st.select_slider("Scale label font size: ", sliderrange(6, 1, 15), value = 12, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-
-                    keystr = "textheight_radio"+ str(samp)
-
-                    selval_dict["textheight"]=st.select_slider("text height: ", sliderrange(0, 0.25, 28),value = 3, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-                        
-                    kk = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight', 'medfont', 'textheight']
-                    for k in kk:
-                        selval_dict_def[k] = selval_dict[k]
-
             #### Recalc
             ##############################
             # Whether this is plotting default values or modified depends whether dataframe dft has been modified. 
@@ -404,7 +362,7 @@ for six, samp in enumerate(list_of_sample_id):
 
             dft = modify_F_units(dft, to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust','F_dissolved', 'F_fines_from_br'])
 
-            st.write(f"**Modified inputs**")
+            # st.write(f"**Modified inputs**")
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
@@ -444,6 +402,48 @@ for six, samp in enumerate(list_of_sample_id):
             
             count +=1
 
+if six == 0:
+    if st.checkbox(f"See plot dimension options",  key='show_plot_dimensions'):
+        # Select box model shape:
+        keystr = "model_shape_radio_" + str(samp)
+        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 0, key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+        selval_dict['model_shape'] = model_shape
+
+        # start, step, number
+        hh = sliderrange(5, 1, 10)
+        keystr = "figwidth_radio" + str(samp)
+        selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 9,key = keystr, on_change = proc, args = (keystr,))
+
+        keystr = "figheight_radio"+ str(samp)
+        selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+        # height
+        keystr = "pixelwidth_radio"+ str(samp)
+        selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = 700,
+            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+
+         # Width in px of image produced...
+        keystr = "boxscale_radio"+ str(samp)
+        selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  sliderrange(0.2, 0.2, 19), value = 1,
+            key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
+        keystr = "shape_buffer_radio"+ str(samp)
+        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 20), value = 2, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
+        keystr = "boxheight_radio"+ str(samp)
+        selval_dict['boxheight'] = st.select_slider("Scale box height: ", sliderrange(0.25, 0.25, 16),value = 2, key =keystr, on_change = proc, args = (keystr,))
+
+        keystr = "medfont_radio"+ str(samp)
+        selval_dict["medfont"]=st.select_slider("Scale label font size: ", sliderrange(6, 1, 15), value = 12, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+
+        keystr = "textheight_radio"+ str(samp)
+
+        selval_dict["textheight"]=st.select_slider("text height: ", sliderrange(0, 0.25, 28),value = 3, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+            
+        kk = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight', 'medfont', 'textheight']
+        for k in kk:
+            selval_dict_def[k] = selval_dict[k]
+
 # st.dataframe(df_default)
 # df_defaultcols = df_default.columns.to_list()
 # for i in range(len(df_default)):
@@ -459,3 +459,12 @@ for six, samp in enumerate(list_of_sample_id):
 # '''
 
 # st.markdown(css, unsafe_allow_html=True)
+
+
+
+# st.markdown(f'''
+#     <style>
+#         section[data-testid="stSidebar"] .css-ng1t4o {{width: 14rem;}}
+#         section[data-testid="stSidebar"] .css-1d391kg {{width: 14rem;}}
+#     </style>
+# ''',unsafe_allow_html=True)
