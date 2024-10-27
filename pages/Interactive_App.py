@@ -11,6 +11,7 @@ from streamlit_pdf_viewer import pdf_viewer
 from streamlit_navigation_bar import st_navbar
     
 # st.subheader("Modify Flux Inputs")
+st.set_page_config( layout="wide" )
 
 
 flag_gh = True
@@ -141,7 +142,7 @@ default_site = list(siu_dict.keys())[0]
 
 st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
 keystr = "sample_id_selbox"
-si = st.multiselect("Choose sample sites: ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
+si = st.sidebar.multiselect("Choose sample sites: ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
 
 
 # with rc:
