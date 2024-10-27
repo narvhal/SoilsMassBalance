@@ -90,11 +90,17 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     list_of_tuplelists,ft,fst, height , L, H, XY, fst, YC = make_into_area_streamlit(dft, selval_dict)
     plot_patches(list_of_tuplelists, selval_dict,dft, ft, L, H, XY,YC, fst, newfig = False,flag_annot = False, flag_sample_label_default = selval_dict["flag_sample_label_default"], medfont = selval_dict["medfont"], textht = selval_dict["textheight"])
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
-    buf = BytesIO()
+
+    fn = r"/mount/src/soilsmassbalance/data_sources/temp_flux_img.svg"
     fig.savefig(buf, format="svg")
-    with open(buf) as buffile:
-        bufff = buffile.read()
-    st.image(bufff, width = selval_dict["pixelwidth"] )
+    st.image(fn, width = selval_dict["pixelwidth"])
+    
+
+    # buf = BytesIO()
+    # fig.savefig(buf, format="svg")
+    # with open(buf) as buffile:
+    #     bufff = buffile.read()
+    # st.image(bufff, width = selval_dict["pixelwidth"] )
     return fig
 
 # with open("logo.svg") as logo_file:
