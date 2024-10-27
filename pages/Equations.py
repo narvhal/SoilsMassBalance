@@ -10,7 +10,7 @@ from streamlit_pdf_viewer import pdf_viewer
 from streamlit_navigation_bar import st_navbar
 
 
- cc, rc = st.columns([0.61,0.39])
+cc, rc = st.columns([0.61,0.39])
 with cc:
     st.subheader(f"**Mass Balance Equations**")
 
