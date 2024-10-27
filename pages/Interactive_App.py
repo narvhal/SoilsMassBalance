@@ -143,6 +143,11 @@ with lc:
     si = st.multiselect(" ", list(siu_dict.keys()), default = [default_site], key = keystr, on_change=proc, args = (keystr,))
 
 
+with rc:
+    # Show diagram
+    diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
+    st.image(diag_name, output_format = 'PNG')
+
 list_of_sample_id = [siu_dict[ss] for ss in si]
 selval_dict['sample_id'] = list_of_sample_id
 

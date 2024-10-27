@@ -14,6 +14,9 @@ lc, cc, rc = st.columns([0.1, 0.8, 0.1])
 with cc:
     st.subheader(f"**Mass Balance Equations**")
 
+    diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
+    st.image(diag_name, output_format = 'PNG', caption="Conceptual diagram")
+
     st.write(f"Mass Balance Including dust, constrained by insoluble material mass balance")
     st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")
     st.write(f"where **$F_b$** is bedrock mass flux, **$F_d$** is dust mass flux, **$F_c$** is coarse fraction of sediment mass flux, **$F_{{dis}}$** is dissolved material mass flux, and **$F_f$** is the entire fine fraction of sediment. ")
@@ -26,3 +29,5 @@ with cc:
     st.write(f"By solving both the mass balance and the insoluble fraction mass balance for $F_d$, and setting them equal to each other, we arrive at an expression for $F_{{dis}}$. Then, $F_d$ can be found using the mass balance equation.")
     st.write(f"Dissolved flux: ")
     st.latex(r"{\color{teal}F_{dis}} = ({\color{grey}X_{c} F_{c}} + {\color{red} X_{f} F_{f}} - X_{b} F_{b})/{\color{olive}X_{d}}  - {\color{red}F_{f}} - {\color{grey}F_{c}} + F_{b} ")
+
+    

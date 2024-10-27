@@ -92,7 +92,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
     buf = BytesIO()
     fig.savefig(buf, format="png")
-    st.image(buf, width = selval_dict["pixelwidth"])
+    st.image(buf, width = selval_dict["pixelwidth"], output_format = 'PNG')
     return fig
 
 
@@ -1037,7 +1037,7 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
             st.latex(r"F_f = \frac{z}{-ln(1-z)}")
             # st.latex(r"F_f = z/ C\left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
     if selcolkey == "coarse_mass":
-        valarea = np.round(vars_dict['coarse_area'][0],0)
+        valarea = int(np.round(vars_dict['coarse_area'][0],0))
         st.write(f"Note: coarse mass is mass per collection area ({valarea} cm$^2$)")
 
     st.write(" " )
