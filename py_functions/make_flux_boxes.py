@@ -259,9 +259,14 @@ def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],lab
         # fig.set_layout('constrained')
         fig.tight_layout()
 
-        buf = BytesIO()
-        fig.savefig(buf, format="png")
-        st.image(buf, width = 350)
+
+        fn = r"/mount/src/soilsmassbalance/data_sources/temp_composition_img.svg"
+        fig.savefig(fn, format="svg")
+        st.image(fn, width = 350)
+
+        # buf = BytesIO()
+        # fig.savefig(buf, format="png")
+        # st.image(buf, width = 350)
         st.write('  ')
         df[colname] = pct_carb
         selval_dict[colname] = pct_carb
