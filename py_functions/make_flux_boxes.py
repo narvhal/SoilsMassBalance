@@ -94,7 +94,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig.savefig(buf, format="svg")
     with open(buf) as buffile:
         bufff = buffile.read()
-    st.image(bufff, width = selval_dict["pixelwidth"], output_format = )
+    st.image(bufff, width = selval_dict["pixelwidth"] )
     return fig
 
 # with open("logo.svg") as logo_file:
