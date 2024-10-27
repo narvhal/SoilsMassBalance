@@ -473,20 +473,7 @@ st.markdown("""
                padding-bottom: 0rem;
             }
            
-           
-           /* Make the toolbar transparent and the content below it clickable */ 
-           .st-emotion-cache-18ni7ap {
-               pointer-events: none;
-               background: rgb(255 255 255 / 0%)
-               }
-           .st-emotion-cache-zq5wmm {
-               pointer-events: auto;
-               background: rgb(255 255 255);
-               border-radius: 5px;
-               }
 
-            .st-emotion-cache-vk3wp9 {
-               width: 150px;
                }
     </style>
     """, unsafe_allow_html=True)
@@ -497,3 +484,18 @@ st.markdown("""
            #     position: relative;
            #     top: -62px;
            #     }
+
+                      
+           # /* Make the toolbar transparent and the content below it clickable */ 
+           # .st-emotion-cache-18ni7ap {
+           #     pointer-events: none;
+           #     background: rgb(255 255 255 / 0%)
+           #     }
+           # .st-emotion-cache-zq5wmm {
+           #     pointer-events: auto;
+           #     background: rgb(255 255 255);
+           #     border-radius: 5px;
+           #     }
+
+           #  .st-emotion-cache-vk3wp9 {
+           #     width: 150px;
