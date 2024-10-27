@@ -469,7 +469,7 @@ st.markdown("""
     
            /* Remove blank space at top and bottom */ 
            .block-container {
-               padding-top: 1rem;
+               padding-top: 1.5rem;
                padding-bottom: 0rem;
             }
            
@@ -485,7 +485,7 @@ st.markdown("""
            #     top: -62px;
            #     }
 
-                      
+
            # /* Make the toolbar transparent and the content below it clickable */ 
            # .st-emotion-cache-18ni7ap {
            #     pointer-events: none;

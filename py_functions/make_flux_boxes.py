@@ -421,7 +421,7 @@ def plot_patches(list_of_tuplelist, selval_dict,df, ft, L, H, XC, YC, fst,add_co
     #     astyle = f']-, widthA={height}, lengthA=0.1'  # arrowprops=dict(arrowstyle=astyle, lw=1.0, color='k'),
         ax.annotate('height is {:0.1f} units'.format(height), xy=((xl-0.75), height/2), xytext=((xl-0.75), height/2), xycoords='data', fontsize=8, ha='center', va='center', rotation = 90)
 
-    # fig.set_facecolor('grey')
+    fig.set_facecolor('red')
     frame1.axis('off')
     # fig.set_layout('constrained')
     fig.tight_layout()  # Why does this produce erros?
