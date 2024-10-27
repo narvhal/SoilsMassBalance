@@ -15,7 +15,7 @@ with cc:
     st.subheader(f"**Mass Balance Equations**")
 
     diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
-    st.image(diag_name, output_format = 'PNG', caption="Conceptual diagram")
+    st.image(diag_name, output_format = 'PNG',width = 400, caption="Conceptual diagram")
 
     st.write(f"Mass Balance Including dust, constrained by insoluble material mass balance")
     st.latex(r"F_b + {\color{olive}F_d} = {\color{grey}F_c} + {\color{red}F_{f}} + {\color{teal}F_{dis}}")

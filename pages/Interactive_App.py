@@ -146,7 +146,7 @@ with lc:
 with rc:
     # Show diagram
     diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
-    st.image(diag_name, output_format = 'PNG')
+    st.image(diag_name, output_format = 'PNG', width = 300)
 
 list_of_sample_id = [siu_dict[ss] for ss in si]
 selval_dict['sample_id'] = list_of_sample_id
