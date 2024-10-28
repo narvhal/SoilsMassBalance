@@ -45,7 +45,8 @@ st.markdown("""
            
             /* moves menu up a little */
             [data-testid="stSidebarNavItems"] {
-            padding-top: 3rem;}
+            padding-top: 3rem;
+            }
     </style>
     """, unsafe_allow_html=True)
 
