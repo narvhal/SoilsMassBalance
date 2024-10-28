@@ -94,7 +94,7 @@ varvalues_dict_orig= {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "coarse_area": [1, 100, 1000],
                 "coarse_mass": [.75, 1.5, 2.25,3],
                 "max_coarse_residence_time":[2, 5.5, 11., 16.5, 20],
-                "N": ["0.5x $N_{AZ}$", "$N_{AZ}$","1.5x $N_{AZ}$",  "0.5 x $N_{Sp}$", "$N_{Sp}$", "1.5x $N_{Sp}$", "4x $N_{Sp}$"],
+                "N": ["0.5x $N_{AZ}$", "$N_{AZ}$","1.5x $N_{AZ}$",  "0.5 x $N_{SP}$", "$N_{SP}$", "1.5x $N_{SP}$", "4x $N_{SP}$"],
                 "z": [ 5, 10, 20, 50],
                 "C_br": [50, 90, 100],
                 "C_f": [0, 5, 10, 15, 20, 25, 30, 90],
@@ -352,8 +352,8 @@ for six, samp in enumerate(list_of_sample_id):
                 fmtfc = ['.2e', '.0f', '.0f', '.1f', '.1f', '.1f']
                 user_option_keys = sorted(list(set(list(expb_d.keys())) - set(['Coarse_seds_subsurface', 'C_br', 'C_c', 'C_f', 'C_dust'])))
                 selval_dict['Coarse_seds_subsurface'] = selval_dict_def['Coarse_seds_subsurface']
-                # Move D option to last in line
-                user_option_keys = user_option_keys[1:] + [user_option_keys[0]]
+                # Move D and N option to last in line
+                user_option_keys = user_option_keys[2:] + user_option_keys[0:2]
                 len_user_optionk = len(user_option_keys)
                 for sck, selcolkey in enumerate(user_option_keys):
                     if sck < (np.floor(len_user_optionk/2)-1):
