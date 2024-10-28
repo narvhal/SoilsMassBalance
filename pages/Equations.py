@@ -31,8 +31,8 @@ with rc:
     st.write(" ")
     st.write(" ")
 
-    diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
-    st.image(diag_name, output_format = 'PNG',width = 400, caption="Conceptual diagram")
+    diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.svg"
+    st.image(diag_name,width = 400, caption="Conceptual diagram")
 
 
 
