@@ -356,7 +356,7 @@ for six, samp in enumerate(list_of_sample_id):
                 user_option_keys = user_option_keys[2:] + user_option_keys[0:2]
                 len_user_optionk = len(user_option_keys)
                 for sck, selcolkey in enumerate(user_option_keys):
-                    if sck < (np.floor(len_user_optionk/2)-1):
+                    if sck < (np.floor(len_user_optionk/2)):
                         sck_col = lc  
                     else: sck_col = rc   
                     with sck_col:
