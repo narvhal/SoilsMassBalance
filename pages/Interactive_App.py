@@ -45,6 +45,7 @@ varnames_dict = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "coarse_mass": "Coarse Fraction ($F_c$) Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                 "D":"Atoms $^{10}$Be$_{met}$ Delivered to Surface",
+                "N": "Concentration of $^{10}$Be$_{met}$ in Fine Fraction",
                 "z": "Fine Fraction of Regolith Depth",
                 "C_br": "Bedrock Carbonate",
                 "C_f": "Fine Fraction Carbonate",
@@ -58,6 +59,7 @@ varnames_dict2 = {"Coarse_seds_subsurface":"Coarse Sediment % in subsurface",
                 "coarse_mass": "Coarse Fraction Mass",
                 "max_coarse_residence_time":"Maximum Coarse Fraction Residence Time",
                 "D":"Atoms <sup>10</sup>Be<sub>met</sub> Delivered to Surface",
+                "N": "Concentration of <sup>10</sup>Be<sub>met</sub> in Fine Fraction",
                 "z": "Fine Fraction of Regolith Depth",
                 "C_br": "Percent carbonate in bedrock",
                 "C_f": "Percent carbonate in fine sediments",
@@ -71,7 +73,8 @@ varunits_dict = {"Coarse_seds_subsurface":"%",
                 "br_E_rate": "mm/ky",
                 "coarse_mass": "kg",
                 "max_coarse_residence_time":"kyr",
-                "D":"Atoms/cm$^2$/yr",
+                "D":"atoms/cm$^2$/yr",
+                "N": "atoms/g",
                 "z": "cm",
                 "C_br": "%",
                 "C_f": "%",
@@ -91,6 +94,7 @@ varvalues_dict_orig= {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "coarse_area": [1, 100, 1000],
                 "coarse_mass": [.75, 1.5, 2.25,3],
                 "max_coarse_residence_time":[2, 5.5, 11., 16.5, 20],
+                "N": ["0.5x $N_{AZ}$", "$N_{AZ}$","1.5x $N_{AZ}$",  "0.5 x $N_{Sp}$", "$N_{Sp}$", "1.5x $N_{Sp}$", "4x $N_{Sp}$"],
                 "z": [ 5, 10, 20, 50],
                 "C_br": [50, 90, 100],
                 "C_f": [0, 5, 10, 15, 20, 25, 30, 90],
@@ -104,12 +108,23 @@ lamba = 5.1e-7 # 1/yr
 atom10Bemass = 1.6634e-23 #g/at
 AZ_D_graly = D_graly(400, 31.2)
 SP_D_graly = D_graly(510, 39.1) # used to be 450 mm/yr precip...
+
+
+
 #lambda
 ltl = 5.1e-7 # , 7.20e-7]  #1/yr lambda [Nishiizumi et al., 2007], Korschinek et al. (2010)
 
-# siu = df.sample_id.unique()
+#
 siu_dict = {"Semi-Arid": "NQT0",  "Arid":"MT120"}
 selcolu = list(varnames_dict.keys()) # df.select_col.unique()
+si_id = list(varnames_dict.values()) # df.select_col.unique()
+
+dft = df[df['sample_id']== si_id[0]].copy()
+N_SP = dft['N_val'].astype(float).values[0]
+dft = df[df['sample_id']== si_id[1]].copy()
+N_AZ = dft['N_val'].astype(float).values[0]
+
+
 vars_dict_orig = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "D": [ 0.5*AZ_D_graly, AZ_D_graly, 1.5*AZ_D_graly, 0.5*SP_D_graly, SP_D_graly, 1.5* SP_D_graly, 4*SP_D_graly],
                 "DF":[2.5, 5, 7.5, 15, 22.5],
@@ -118,6 +133,7 @@ vars_dict_orig = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "coarse_mass": [.75e3, 1.5e3, 2.25e3,3e3],
                 "coarse_area": [1, 100, 1000],
                 "max_coarse_residence_time":[2e3, 5.5e3, 11.0e3, 16.5e3,20e3],
+                "N": [ 0.5*N_AZ, N_AZ, 1.5*N_AZ, 0.5*N_SP, N_SP, 1.5* N_SP, 4*N_SP],
                 "z": [5, 10, 20, 50, 100],
                 "C_br": [50, 90, 100],
                 "C_f": [0, 5, 10, 15, 20, 25, 30, 90],
@@ -221,6 +237,7 @@ for six, samp in enumerate(list_of_sample_id):
             "coarse_mass":  dft_def['coarse_mass'].astype(float).values[0],
             "coarse_area":  dft_def['coarse_area'].astype(float).values[0],
             "max_coarse_residence_time":dft_def['max_coarse_residence_time'].astype(float).values[0],
+            "N": dft_def['N'].astype(float).values[0],
             "z": dft_def['z'].astype(float).values[0],
             "C_br": (100-Xbr*100),
             "C_c": (100-Xbr*100),
@@ -236,6 +253,7 @@ for six, samp in enumerate(list_of_sample_id):
             "coarse_mass":  f'{vars_dict_def["coarse_mass"]/1e3:0.0f}',
             "coarse_area":  f'{vars_dict_def["coarse_area"]:0.0f}',
             "max_coarse_residence_time":f'{vars_dict_def["max_coarse_residence_time"]/1e3:0.1f}',
+            "N":f'{vars_dict_def["N"]:0.2e}',
             "z": f'{vars_dict_def["z"]:0.1f}',
             "C_br": f'{vars_dict_def["C_br"]:0.1f}',
             "C_c": f'{vars_dict_def["C_c"]:0.1f}',
@@ -319,6 +337,7 @@ for six, samp in enumerate(list_of_sample_id):
                     "D":"Meteoric $^{10}$Be delivery rates (D) are site-specific.",
                     "coarse_mass": "The mass of coarse sediment measured on the surface.",
                     "max_coarse_residence_time": "The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.",
+                    "N": "Measured concentration of $^{10}$Be$_{m}$ in fine fraction.",
                     "z": "Measured depth of the fine fraction of mobile regolith. ",
                     "p_re": "Dust is assumed to have the same density as the fine fraction of mobile regolith.",
                     "br_E_rate": "Bedrock erosion rate and flux of bedrock are directly related by the density of the material.",
@@ -330,14 +349,14 @@ for six, samp in enumerate(list_of_sample_id):
                 fmtfc = ['.2e', '.0f', '.0f', '.1f', '.1f', '.1f']
                 user_option_keys = sorted(list(set(list(expb_d.keys())) - set(['Coarse_seds_subsurface', 'C_br', 'C_c', 'C_f', 'C_dust'])))
                 selval_dict['Coarse_seds_subsurface'] = selval_dict_def['Coarse_seds_subsurface']
+                # Move D option to last in line
                 user_option_keys = user_option_keys[1:] + [user_option_keys[0]]
                 len_user_optionk = len(user_option_keys)
                 for sck, selcolkey in enumerate(user_option_keys):
-                    if sck < (np.floor(len_user_optionk/2)):
+                    if sck < (np.floor(len_user_optionk/2)-1):
                         sck_col = lc  
                     else: sck_col = rc   
                     with sck_col:
-                        # selcolkey = "Coarse_seds_subsurface"
                         dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict)
                         # Add note defining DAz etc556495.6872
 

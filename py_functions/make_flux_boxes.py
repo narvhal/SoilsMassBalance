@@ -451,10 +451,10 @@ def f_rest(Inv, D, ltl):
 def f_Inv(N,p_re,z):
     # Inventory = Integral(zb-z)(N*density)dz
 
-    # N is conc Be in at/cm2
-    # p_re is density of soil
+    # N is conc Be in at/g
+    # p_re is density of soil g/cm3
     # z is soil depth (cm)
-    # Inv is at/cm2
+    # Inv is at/cm2 = at/g * g/cm3 * cm
     Inv = N*p_re*z
     return Inv
 
@@ -1052,10 +1052,11 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
             st.write(f"Simplified, with constants removed:")
             st.latex(r"F_f = \frac{z}{-ln(1-z)}")
             # st.latex(r"F_f = z/ C\left(\frac{-1}{\lambda} \right) ln\left(1-\frac{\lambda z N \rho_{re}}{P_{Be}}\right)")
-    if selcolkey == "coarse_mass":
+    elif selcolkey == "coarse_mass":
         valarea = int(np.round(vars_dict['coarse_area'][0],0))
         st.write(f"Note: coarse mass is mass per collection area ({valarea} cm$^2$)")
-
+    elif selcolkey == "N":
+        st.write(f"Measured value: {vars_dict[selcolkey][0]:0.2e} at/g")
     st.write(" " )
 
     # Assign un-formatted choice to selval_dict "selected values dictionary"
