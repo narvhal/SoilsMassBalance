@@ -478,8 +478,9 @@ st.markdown("""
                padding-bottom: 0rem;
             }
            
-
-               }
+            # moves menu up a little
+            .st-emotion-cache-1oe5cao {
+            padding-top: 3rem;}
     </style>
     """, unsafe_allow_html=True)
 
@@ -504,3 +505,6 @@ st.markdown("""
 
            #  .st-emotion-cache-vk3wp9 {
            #     width: 150px;
+
+           # .st-emotion-cache-1oe5cao
+           # padding-top: 3rem
