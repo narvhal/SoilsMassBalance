@@ -479,7 +479,7 @@ st.markdown("""
             }
            
             # moves menu up a little
-            .st-emotion-cache-1oe5cao {
+            [data-testid="stSidebarNavItems"] {
             padding-top: 3rem;}
     </style>
     """, unsafe_allow_html=True)
