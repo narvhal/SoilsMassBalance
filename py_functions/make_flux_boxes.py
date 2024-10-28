@@ -1056,7 +1056,8 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
         valarea = int(np.round(vars_dict['coarse_area'][0],0))
         st.write(f"Note: coarse mass is mass per collection area ({valarea} cm$^2$)")
     elif selcolkey == "N":
-        st.write(f"Measured value: {vars_dict[selcolkey][0]:0.2e} at/g")
+        st.write(f"Semi-Arid site measured value ($N_{Sp}$: {selval_dict{"N_SP"}:0.2e} at/g")
+        st.write(f"Arid site measured value ($N_{AZ}$: {selval_dict{"N_AZ"}:0.2e} at/g")
     st.write(" " )
 
     # Assign un-formatted choice to selval_dict "selected values dictionary"

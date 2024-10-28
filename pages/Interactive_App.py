@@ -141,7 +141,10 @@ vars_dict_orig = {"Coarse_seds_subsurface":[0, 25, 50, 75],
                 "C_dust": [1, 10, 20, 30, 40, 50, 90]}
 
 selval_dict = {}
-
+selval_dict{"AZ_D_graly"} = AZ_D_graly
+selval_dict{"SP_D_graly"} = SP_D_graly
+selval_dict{"N_SP"} = N_SP
+selval_dict{"N_AZ"} = N_AZ
 
 # Disable model selection for now, until I have a better wy of displaying the simple model violating the carbonate mass balance. 
 
