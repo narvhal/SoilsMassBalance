@@ -59,3 +59,21 @@ with rc:
                         data=PDFbyte,
                         file_name="NMiller_GSA_2024.pdf",
                         mime='application/octet-stream')    
+
+
+
+st.markdown("""
+    <style>
+    
+           /* Remove blank space at top and bottom */ 
+           .block-container {
+               padding-top: 7.75rem;
+               padding-bottom: 0rem;
+            }
+           
+            # moves menu up a little
+            .st-emotion-cache-1oe5cao {
+            padding-top: 3rem;}
+    </style>
+    """, unsafe_allow_html=True)
+

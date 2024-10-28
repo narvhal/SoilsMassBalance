@@ -31,3 +31,21 @@ with rc:
 
     diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
     st.image(diag_name, output_format = 'PNG',width = 400, caption="Conceptual diagram")
+
+
+
+st.markdown("""
+    <style>
+    
+           /* Remove blank space at top and bottom */ 
+           .block-container {
+               padding-top: 7.75rem;
+               padding-bottom: 0rem;
+            }
+           
+            # moves menu up a little
+            .st-emotion-cache-1oe5cao {
+            padding-top: 3rem;}
+    </style>
+    """, unsafe_allow_html=True)
+
