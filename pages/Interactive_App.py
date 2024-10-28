@@ -430,7 +430,7 @@ for six, samp in enumerate(list_of_sample_id):
 
                 buf = BytesIO()
                 fig_def.savefig(buf, format="png")
-                st.download_button(label ="Download Default Input Mass Balance Fluxes",
+                st.download_button(label ="Download Figure",
                     data=buf,
                     file_name="Default_Mass_Balance_Fluxes.png",
                     mime="image/png",  key = "Download_default_" + str(six))
