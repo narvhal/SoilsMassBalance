@@ -482,6 +482,11 @@ st.markdown("""
             [data-testid="stSidebarNavItems"] {
             padding-top: 3rem;
             }
+
+            /* make sidebar narrower */
+            [data-testid="stSidebar"] {
+            min-width: 194px;
+            }
     </style>
     """, unsafe_allow_html=True)
 
