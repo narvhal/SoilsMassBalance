@@ -478,7 +478,7 @@ st.markdown("""
                padding-bottom: 0rem;
             }
            
-            # moves menu up a little
+            /* moves menu up a little
             [data-testid="stSidebarNavItems"] {
             padding-top: 3rem;}
     </style>
