@@ -119,9 +119,9 @@ siu_dict = {"Semi-Arid": "NQT0",  "Arid":"MT120"}
 selcolu = list(varnames_dict.keys()) # df.select_col.unique()
 si_id = list(varnames_dict.values()) # df.select_col.unique()
 
-dft = df[df['sample_id']== si_id[0]].copy()
+dft = df[df['sample_id']== "NQT0"].copy()
 N_SP = dft['N_val'].astype(float).values[0]
-dft = df[df['sample_id']== si_id[1]].copy()
+dft = df[df['sample_id']== "MT120"].copy()
 N_AZ = dft['N_val'].astype(float).values[0]
 
 
