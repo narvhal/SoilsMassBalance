@@ -1059,7 +1059,8 @@ def Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, 
         st.write(f"Semi-Arid site measured value ($N_{{SP}}$): {selval_dict["N_SP"]:0.2e} at/g")
         st.write(f"Arid site measured value ($N_{{AZ}}$): {selval_dict["N_AZ"]:0.2e} at/g")
 
-    st.write(" " )
+    st.divider()
+    # st.write(" " )
 
     # Assign un-formatted choice to selval_dict "selected values dictionary"
     v2vdt = {vvd[ii]:vars_dict[selcolkey][ii] for ii in range(len(vvd))}
