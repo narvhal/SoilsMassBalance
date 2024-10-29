@@ -322,7 +322,20 @@ for six, samp in enumerate(list_of_sample_id):
                 # fig =plot_carb_pct(dft,'C_c','Coarse Sediment Composition', ec = 'k')
                 # fig =plot_carb_pct(dft,'C_dust','Dust Composition', ec = 'k')
 
-                
+
+                with lc1:
+                    st.html(
+                        '''
+                            <div class="divider-vertical-line"></div>
+                            <style>
+                                .divider-vertical-line {
+                                    border-left: 2px solid rgba(49, 51, 63, 0.2);
+                                    height: 320px;
+                                    margin: auto;
+                                }
+                            </style>
+                        ''')
+
                 lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
 
                 # lc, rc = st.columns([0.5, 0.5])
