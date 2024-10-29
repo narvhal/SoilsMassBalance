@@ -267,7 +267,7 @@ def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],lab
         # buf = BytesIO()
         # fig.savefig(buf, format="png")
         # st.image(buf, width = 350)
-        st.write('  ')
+        st.divider()
         df[colname] = pct_carb
         selval_dict[colname] = pct_carb
     return df,selval_dict

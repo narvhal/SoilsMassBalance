@@ -322,8 +322,10 @@ for six, samp in enumerate(list_of_sample_id):
                 # fig =plot_carb_pct(dft,'C_c','Coarse Sediment Composition', ec = 'k')
                 # fig =plot_carb_pct(dft,'C_dust','Dust Composition', ec = 'k')
 
+                
+                lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
 
-                lc, rc = st.columns([0.5, 0.5])
+                # lc, rc = st.columns([0.5, 0.5])
                 # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
                 # for k, vlist in vars_dict.items():
