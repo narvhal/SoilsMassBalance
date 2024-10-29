@@ -313,7 +313,7 @@ for six, samp in enumerate(list_of_sample_id):
 
             with st.container(height=cont_h):
                 
-                lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
+                lc,lc1,rc, rc1 = st.columns([0.3, 0.2, 0.3, 0.2])
                 with lc:
                     dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = ['C_br', 'C_c'],labellist = ['Bedrock Composition','Coarse Sediment Composition'],ft = ['F$_b$', 'F$_c$'], ec = 'k', six = six)
                 with rc:
@@ -323,22 +323,22 @@ for six, samp in enumerate(list_of_sample_id):
                 # fig =plot_carb_pct(dft,'C_dust','Dust Composition', ec = 'k')
 
 
-                with lc1:
-                    st.html(
-                        '''
-                            <div class="divider-vertical-line"></div>
-                            <style>
-                                .divider-vertical-line {
-                                    border-left: 2px solid rgba(49, 51, 63, 0.2);
-                                    height: 320px;
-                                    margin: auto;
-                                }
-                            </style>
-                        ''')
+                # with lc1:
+                #     st.html(
+                #         '''
+                #             <div class="divider-vertical-line"></div>
+                #             <style>
+                #                 .divider-vertical-line {
+                #                     border-left: 2px solid rgba(49, 51, 63, 0.2);
+                #                     height: 320px;
+                #                     margin: auto;
+                #                 }
+                #             </style>
+                #         ''')
 
-                lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
+                # lc,lc1,rc, rc1 = st.columns([0.4, 0.1, 0.4, 0.1])
 
-                # lc, rc = st.columns([0.5, 0.5])
+                lc, rc = st.columns([0.5, 0.5])
                 # colll = [lc,  lc, lc, lc, lc, lc,  rc, lc, lc, lc, lc, lc,  lc, lc, lc, lc, rc,lc,  rc, lc, rc, lc, rc]
 
                 # for k, vlist in vars_dict.items():
