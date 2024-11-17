@@ -13,6 +13,7 @@ from streamlit_navigation_bar import st_navbar
 # st.subheader("Modify Flux Inputs")
 st.set_page_config( layout="wide" )
 
+# Want to add organic matter as well. 
 
 flag_gh = True
 # if flag_gh:
@@ -452,7 +453,7 @@ for six, samp in enumerate(list_of_sample_id):
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-
+            st.write(f"F$_f$ (alternative method) = D/N x 10000 = {dft['D']/dft['N']*10000:0.2f} g/m$^2$/yr")
             buf = BytesIO()
             fig.savefig(buf, format="png")
             # st.image(buf, width = selval_dict["pixelwidth"])
