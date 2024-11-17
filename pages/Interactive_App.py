@@ -427,7 +427,7 @@ for six, samp in enumerate(list_of_sample_id):
             # Whether this is plotting default values or modified depends whether dataframe dft has been modified. 
             dft, selval_dict = partial_recalc(dft, selval_dict)
             key = "st_check_CoarseResTime"
-            st_check_CoarseResTime =  st.checkbox(f"Set Coarse sediment residence time to equal Fine sediment residence time {np.round(dft['rt'].iloc[0]*1000, 2)} ky", key = key, on_change = proc, args = (key,))
+            st_check_CoarseResTime =  st.checkbox(f"Set Coarse sediment residence time to equal Fine sediment residence time {np.round(dft['rt'].iloc[0]/1000, 2)} ky", key = key, on_change = proc, args = (key,))
             if st_check_CoarseResTime:
                 # Snippet taken from partial recalc func
                 v1 = dft['coarse_mass']
