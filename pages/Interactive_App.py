@@ -427,6 +427,13 @@ for six, samp in enumerate(list_of_sample_id):
             # Whether this is plotting default values or modified depends whether dataframe dft has been modified. 
             dft, selval_dict = partial_recalc(dft, selval_dict)
 
+            if st.checkbox(f"Set Coarse sediment residence time to equal Fine sediment residence time {np.round(dft['rt'].iloc[0]*1000, 2)} ky"):
+                # Snippet taken from partial recalc func
+                v1 = dft['coarse_mass']
+                v2 = dft['coarse_area']
+                v3 = dft['rt']   # This is the fine sediment fraction
+                dft['F_coarse'] = f_coarse_flux(v1, v2, v3)
+
             # Load modified values from dft, convert to g/cm2/yr
             F_fines =dft['F_fines_boxmodel'].astype(float).values[0]
             F_coarse = dft['F_coarse'].astype(float).values[0]
@@ -446,6 +453,9 @@ for six, samp in enumerate(list_of_sample_id):
             dft['F_dust'] = F_dust 
             dft['F_dissolved'] = F_diss
             dft['F_fines_from_br'] =f_f_from_br(dft)
+
+
+
 
             dft = modify_F_units(dft, to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust','F_dissolved', 'F_fines_from_br'])
 
