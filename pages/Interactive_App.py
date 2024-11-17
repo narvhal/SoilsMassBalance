@@ -453,7 +453,8 @@ for six, samp in enumerate(list_of_sample_id):
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-            st.write(f"F$_f$ (alternative method) = D/N x 10000 = {dft['D']/dft['N']*10000:0.2f} g/m$^2$/yr")
+            st.write(f"F$_f$ (alternative method) = D/N x 10000 = {np.round(dft['D']/dft['N']*10000,1)} g/m$^2$/yr")
+
             buf = BytesIO()
             fig.savefig(buf, format="png")
             # st.image(buf, width = selval_dict["pixelwidth"])
