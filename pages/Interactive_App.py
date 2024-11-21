@@ -16,7 +16,7 @@ st.set_page_config( layout="wide" )
 # Want to add organic matter as well. 
 
 flag_gh = True
-gh_branchname = "smb_layout"  # or SoilsMassBalance_Poster_appx
+gh_branchname = "main"  # or SoilsMassBalance_Poster_appx or main
 if flag_gh:
     fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/df_initialize.xlsx"
     #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
