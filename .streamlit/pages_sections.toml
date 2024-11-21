@@ -1,0 +1,13 @@
+[[pages]]
+path = "main_page.py"
+name = "Home"
+
+[[pages]]
+path = "pages/page_app_w_recalc.py"
+name = "Mass Balance App"
+
+
+
+
+
+

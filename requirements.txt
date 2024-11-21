@@ -1,7 +1,10 @@
-streamlit>=1.13.0
+streamlit==1.33.0
 unidecode
 matplotlib
 pyxlsb
 openpyxl
 matplotlib-scalebar
 uncertainties
+pybase64
+streamlit-pdf-viewer
+streamlit-navigation-bar==3.3.0
