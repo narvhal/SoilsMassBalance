@@ -149,9 +149,6 @@ selval_dict["N_AZ"] = N_AZ
 
 # Disable model selection for now, until I have a better wy of displaying the simple model violating the carbonate mass balance. 
 
-# with rc:
-#     keystr = "model_type_radio"
-#     model_type = st.radio("Model Type: ", ['simple','carbbalance', 'wdust'], format_func = mtfmt, index = 2, key = keystr, on_change=proc, args = (keystr,))
 model_type = 'wdust'
 selval_dict['model_type'] = model_type
 # Select Sample Name

@@ -1,3 +1,4 @@
+## Functions tailored to Soils Mass Balance Web App (poster version)
 
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -18,70 +19,70 @@ import copy
 
 
 
-def fltr(df, scenario, selcol, selcolval, sample_id = None):
-    dft = df[(df.default_scenario == scenario) & (df.select_col == selcol) & (df.select_col_val == selcolval)  ].copy()
-    if sample_id != None:
-        dft = dft[dft.sample_id.isin(sample_id)].copy()
-    return dft
-def fltr2(df,  selcol, selcolval, sample_id = None):
-    # dft = df[(df.select_col == selcol) & (df.select_col_val == selcolval)  ].copy()
-    # if sample_id != None:
-    dft = df[df.sample_id.isin(sample_id)].copy()
-    return dft
+# def fltr(df, scenario, selcol, selcolval, sample_id = None):
+#     dft = df[(df.default_scenario == scenario) & (df.select_col == selcol) & (df.select_col_val == selcolval)  ].copy()
+#     if sample_id != None:
+#         dft = dft[dft.sample_id.isin(sample_id)].copy()
+#     return dft
+# def fltr2(df,  selcol, selcolval, sample_id = None):
+#     # dft = df[(df.select_col == selcol) & (df.select_col_val == selcolval)  ].copy()
+#     # if sample_id != None:
+#     dft = df[df.sample_id.isin(sample_id)].copy()
+#     return dft
 
-def vcols(listofcols):
-    return [c + '_val' for c in listofcols]
+# def vcols(listofcols):
+#     return [c + '_val' for c in listofcols]
 
-def findcols(df, schstr, notstr = None):
-    lst = df.columns.to_list()
-    if notstr != None:
-        for ns in notstr:
-            lst = [c for c in lst if not (ns in c)]
-    return [c for c in lst if schstr in c]
+# def findcols(df, schstr, notstr = None):
+#     lst = df.columns.to_list()
+#     if notstr != None:
+#         for ns in notstr:
+#             lst = [c for c in lst if not (ns in c)]
+#     return [c for c in lst if schstr in c]
 
-def wrap_flux_box_visual(df, saveloc , scenario ,selcol,selcolval):
-    saveloc2 = saveloc + '\\flux_box_figs_'+ scenario + '_'+selcol+ '_'+ str(selcolval)
-    if not os.path.exists(saveloc2):
-        os.mkdir(saveloc2)
-    for si in ['MT120', 'MT130', 'MT140',  'NQT0', 'NQCC2']:
-        dft = fltr(df, scenario, selcol, selcolval, sample_id = [si])
-        list_of_tuplelists,ft,fst = make_into_area(dft, flag_model = 'not', height = 3)
+# def wrap_flux_box_visual(df, saveloc , scenario ,selcol,selcolval):
+#     saveloc2 = saveloc + '\\flux_box_figs_'+ scenario + '_'+selcol+ '_'+ str(selcolval)
+#     if not os.path.exists(saveloc2):
+#         os.mkdir(saveloc2)
+#     for si in ['MT120', 'MT130', 'MT140',  'NQT0', 'NQCC2']:
+#         dft = fltr(df, scenario, selcol, selcolval, sample_id = [si])
+#         list_of_tuplelists,ft,fst = make_into_area(dft, flag_model = 'not', height = 3)
 
-        plot_patches(list_of_tuplelists, dft, ft,fst, height = 3)
-        filenametag = si +'_boxflux_w_dust'
+#         plot_patches(list_of_tuplelists, dft, ft,fst, height = 3)
+#         filenametag = si +'_boxflux_w_dust'
 
-        savefig(filenametag,
-            saveloc2,
-            [],
-            [],
-            (1,2),
-            w_legend=False,
-            prefixtag='')
-    for si in ['MT120', 'MT130', 'MT140',  'NQT0', 'NQCV2']:
-        dft = fltr(df, scenario, selcol, selcolval, sample_id = [si])
+#         savefig(filenametag,
+#             saveloc2,
+#             [],
+#             [],
+#             (1,2),
+#             w_legend=False,
+#             prefixtag='')
+#     for si in ['MT120', 'MT130', 'MT140',  'NQT0', 'NQCV2']:
+#         dft = fltr(df, scenario, selcol, selcolval, sample_id = [si])
 
-        list_of_tuplelists,ft,fst = make_into_area(dft, flag_model = 'simple', height = 3)
+#         list_of_tuplelists,ft,fst = make_into_area(dft, flag_model = 'simple', height = 3)
 
-        plot_patches(list_of_tuplelists, dft, ft,fst, height = 3)
-        filenametag = si +'_boxflux_simple'
+#         plot_patches(list_of_tuplelists, dft, ft,fst, height = 3)
+#         filenametag = si +'_boxflux_simple'
 
-        savefig(filenametag,
-            saveloc2,
-            [],
-            [],
-            (1,2),
-            w_legend=False,
-            prefixtag='')
+#         savefig(filenametag,
+#             saveloc2,
+#             [],
+#             [],
+#             (1,2),
+#             w_legend=False,
+#             prefixtag='')
 
 def proc(key):
     st.info(st.session_state[key])
 
 
-def mtfmt(mt):   # functions to provide vals for 'model_type'
-    mtd = {'simple':"Model A: Solve for dissolved flux, mass balance, no dust ('simple')",
-    'wdust':  "Mass Balance Model: Solve for dust flux, maintaining mass and carbonate balance ",
-    'carbbalance': "Model C: Solve for dissolved flux, carbonate balance" }
-    return mtd[mt]
+# def mtfmt(mt):   # functions to provide vals for 'model_type'
+#     mtd = {'simple':"Model A: Solve for dissolved flux, mass balance, no dust ('simple')",
+#     'wdust':  "Mass Balance Model: Solve for dust flux, maintaining mass and carbonate balance ",
+#     'carbbalance': "Model C: Solve for dissolved flux, carbonate balance" }
+#     return mtd[mt]
 
 
 def wrap_flux_box_streamlit(dft, selval_dict):
@@ -193,19 +194,7 @@ def make_into_area_streamlit(df,selval_dict):
 
 
 def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],labellist = ['Bedrock Composition','Coarse Sediment Composition','Fine Sediment Composition','Dust Composition'],ft = ['F$_b$', 'F$_c$','F$_f$','F$_{dust}$'], ec = 'k', six = 0):
-    
-    # lc, cc, rc,rc2,rc3 = st.columns([0.3,  0.15, .15,0.275, .175])
-
-    # with lc:
-    #     st.write("  ")
-    # with rc2:
-    #     st.write(" ")
-        # fig, axs = plt.subplots(nrows = len(collist))
-    # with cc:
-        # st.write(f"**Soluble**")
-    # with rc:
-    #     st.write(f"**Insoluble**")
-
+    # Plot interactive carbonate composition boxes. 
     for i, colname in enumerate(collist):
         labelname = labellist[i]
         # with lc:
@@ -490,7 +479,7 @@ def f_erate_unc(z, D, N, ltl, p_re, z_unc, D_unc, N_unc, p_re_unc):
 
 # Volumetric Flux -- West, Eqn 26, w my modification
 # Cre is conc, mass 10Be/mass sample
-# Is (x-x0) dx here? It's what she says. So not distance downslope…
+# (x-x0) is dx here
 # West 14, Eq 26.
 # q = D*m_a*(x-x0)/(Cre*pre)
 # at/cm2/yr * g/at *cm/ (g/g * g/cm3)
@@ -545,9 +534,6 @@ def f_noncarb_mass_balance_for_dust(F_fines, F_coarse, F_br, X_coarse,X_fines, X
     F_dust = (X_coarse*F_coarse + X_fines*F_fines -X_br*F_br)/X_dust
     return F_dust 
 
-
-
-
 def f_f_from_br(dft):
     F_fines_from_br = dft['F_fines_boxmodel'] - dft['F_dust']
     return F_fines_from_br
@@ -596,7 +582,6 @@ def f_br_flux_unc(br_E_rate, p_br, br_E_rate_unc):
     return generic_squares(list_of_partials, list_of_uncerts)
 
 
-
 def get_nomval(uf):
     # returns val, stdev
     if isinstance(uf, uncertainties.core.Variable) | isinstance(uf, uncertainties.core.AffineScalarFunc):
@@ -624,51 +609,51 @@ def get_vals_uf(uf):
 
 
 
-def set_up_df_for_flux_results(df, Ncol, N_unc_col, zcol, z_unc, I_desc, p_re, p_re_unc,p_br,  D_Desc, D, D_unc, DF,DF_unc, br_E_rate, br_E_rate_unc, coarse_mass, coarse_mass_unc, coarse_area,coarse_area_unc, max_coarse_residence_time,max_coarse_residence_time_unc):
+# def set_up_df_for_flux_results(df, Ncol, N_unc_col, zcol, z_unc, I_desc, p_re, p_re_unc,p_br,  D_Desc, D, D_unc, DF,DF_unc, br_E_rate, br_E_rate_unc, coarse_mass, coarse_mass_unc, coarse_area,coarse_area_unc, max_coarse_residence_time,max_coarse_residence_time_unc):
 
-    # Flat values for all rows
-    dd = {'N_col': Ncol,  'N_unc_col': N_unc_col, 'z_col': zcol, 'z_unc': z_unc, 'Inv_Desc': I_desc, 'p_re': p_re, 'p_re_unc': p_re_unc,'p_br': p_br,  'D_Desc': D_Desc, 'D': D, 'D_unc': D_unc, 'DF': DF, 'DF_unc': DF_unc, 'br_E_rate':br_E_rate, 'br_E_rate_unc': br_E_rate_unc, 'coarse_mass':coarse_mass, 'coarse_mass_unc': coarse_mass_unc, 'coarse_area': coarse_area, 'coarse_area_unc': coarse_area_unc, 'max_coarse_residence_time': max_coarse_residence_time, 'max_coarse_residence_time_unc': max_coarse_residence_time_unc }
-    if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
-        dft = df[['sample_region', 'sample_location', 'sample_position','sample_id','s_dx (cm)','s_dx (cm) upslope','inv_sum_flag','flow acc m2', Ncol,N_unc_col, zcol]].copy()
+#     # Flat values for all rows
+#     dd = {'N_col': Ncol,  'N_unc_col': N_unc_col, 'z_col': zcol, 'z_unc': z_unc, 'Inv_Desc': I_desc, 'p_re': p_re, 'p_re_unc': p_re_unc,'p_br': p_br,  'D_Desc': D_Desc, 'D': D, 'D_unc': D_unc, 'DF': DF, 'DF_unc': DF_unc, 'br_E_rate':br_E_rate, 'br_E_rate_unc': br_E_rate_unc, 'coarse_mass':coarse_mass, 'coarse_mass_unc': coarse_mass_unc, 'coarse_area': coarse_area, 'coarse_area_unc': coarse_area_unc, 'max_coarse_residence_time': max_coarse_residence_time, 'max_coarse_residence_time_unc': max_coarse_residence_time_unc }
+#     if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
+#         dft = df[['sample_region', 'sample_location', 'sample_position','sample_id','s_dx (cm)','s_dx (cm) upslope','inv_sum_flag','flow acc m2', Ncol,N_unc_col, zcol]].copy()
 
-    else:
-        dft = df[['sample_region', 'sample_location', 'sample_position','sample_id','s_dx (cm)','s_dx (cm) upslope','inv_sum_flag','flow acc m2', Ncol,N_unc_col]].copy()
+#     else:
+#         dft = df[['sample_region', 'sample_location', 'sample_position','sample_id','s_dx (cm)','s_dx (cm) upslope','inv_sum_flag','flow acc m2', Ncol,N_unc_col]].copy()
 
-    for i, di in enumerate(dd.keys()):
-        dft[di] = dd[di]
+#     for i, di in enumerate(dd.keys()):
+#         dft[di] = dd[di]
 
-    if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
-        SD = dft[zcol]
-    else:
-        SD = zcol
-    dft['z'] = SD
-    dft['z_unc'] = z_unc
+#     if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
+#         SD = dft[zcol]
+#     else:
+#         SD = zcol
+#     dft['z'] = SD
+#     dft['z_unc'] = z_unc
 
-    if I_desc == 'site':
-        sitecols = []
-        dft['z_site'] = dft.groupby('inv_sum_flag')['z'].transform('sum')
-    #         dft['Inv_site'] = dft.groupby('inv_sum_flag')['Inv'].transform('sum')
-    #         dft['Inv'] = dft['Inv_site']
-    #         if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
-    #             SD = dft.groupby('inv_sum_flag')[zcol].transform('sum')
-        dft['N_site'] = dft.groupby('inv_sum_flag')[Ncol].transform('mean')
-        dft['N_site_unc'] = dft.groupby('inv_sum_flag')[N_unc_col].transform('mean')
-        dft['N'] = dft.apply(lambda x: ufloat(x['N_site'], x['N_site_unc'], "N"), axis = 1)
-        N = dft['N']
-        dft['N_unc'] = dft['N_site_unc']
+#     if I_desc == 'site':
+#         sitecols = []
+#         dft['z_site'] = dft.groupby('inv_sum_flag')['z'].transform('sum')
+#     #         dft['Inv_site'] = dft.groupby('inv_sum_flag')['Inv'].transform('sum')
+#     #         dft['Inv'] = dft['Inv_site']
+#     #         if zcol in ['local_sd_min', 'local_sd_max', 'local_sd_avg']:
+#     #             SD = dft.groupby('inv_sum_flag')[zcol].transform('sum')
+#         dft['N_site'] = dft.groupby('inv_sum_flag')[Ncol].transform('mean')
+#         dft['N_site_unc'] = dft.groupby('inv_sum_flag')[N_unc_col].transform('mean')
+#         dft['N'] = dft.apply(lambda x: ufloat(x['N_site'], x['N_site_unc'], "N"), axis = 1)
+#         N = dft['N']
+#         dft['N_unc'] = dft['N_site_unc']
 
-        dft['z'] = dft['z_site']
+#         dft['z'] = dft['z_site']
 
-    else:
-        dft['N'] = dft.apply(lambda x: ufloat(x[Ncol], x[N_unc_col], "N"), axis = 1)
-        N = dft['N']
+#     else:
+#         dft['N'] = dft.apply(lambda x: ufloat(x[Ncol], x[N_unc_col], "N"), axis = 1)
+#         N = dft['N']
 
-    zl = []
-    for r, ro in enumerate(dft['z']):
-        zl.append(ufloat(ro, dft['z_unc'].iloc[r]))
-    dft['z'] = zl
+#     zl = []
+#     for r, ro in enumerate(dft['z']):
+#         zl.append(ufloat(ro, dft['z_unc'].iloc[r]))
+#     dft['z'] = zl
 
-    return dft, SD, N
+#     return dft, SD, N
 
 # PDE
 def solve_rt(dft, flag_pde = False, ltl = 5.1e-7):
@@ -764,21 +749,21 @@ def solve_F_dust(dft):  # dft, F_dust  = solve_F_dust(dft)
 
     return dft, F_dust
 
-def set_up_df_for_flux_results3(df,Ncol = 'calc-10Be_at_g', N_unc_col = 'calc-uncert_10Be_at-g'):
-    # not updating z_unc
+# def set_up_df_for_flux_results3(df,Ncol = 'calc-10Be_at_g', N_unc_col = 'calc-uncert_10Be_at-g'):
+#     # not updating z_unc
 
-    sitecols = []
-    dft['z_site'] = dft.groupby('inv_sum_flag')['z'].transform('sum')
-    dft['N_site'] = dft.groupby('inv_sum_flag')[Ncol].transform('mean')
-    dft['N_site_unc'] = dft.groupby('inv_sum_flag')[N_unc_col].transform('mean')
-    dft['N'] = dft.apply(lambda x: ufloat(x['N_site'], x['N_site_unc'], "N"), axis = 1)
-    N = dft['N']
-    dft['N_unc'] = dft['N_site_unc']
+#     sitecols = []
+#     dft['z_site'] = dft.groupby('inv_sum_flag')['z'].transform('sum')
+#     dft['N_site'] = dft.groupby('inv_sum_flag')[Ncol].transform('mean')
+#     dft['N_site_unc'] = dft.groupby('inv_sum_flag')[N_unc_col].transform('mean')
+#     dft['N'] = dft.apply(lambda x: ufloat(x['N_site'], x['N_site_unc'], "N"), axis = 1)
+#     N = dft['N']
+#     dft['N_unc'] = dft['N_site_unc']
 
-    dft['z'] = dft['z_site']
+#     dft['z'] = dft['z_site']
 
 
-    return dft, SD, N
+#     return dft, SD, N
 
 
 
@@ -804,122 +789,122 @@ def D_graly(P,L, flag_P_is_mm_per_yr = True):
     flux = P*(1.44/(1+np.exp((30.7-L)/4.36))+0.63)*10**4
     return flux
 
-def htcvstuff():
-        # F:\Ch4_Soils\hilltop_cv_recalc
-    dict_nh_6 = {'MT120': -0.038960774739689605, 'MT130': -0.014048258463692646, 'MT140': -0.0039367675781761475, 'MT150': -0.02202351888028153, 'MT160': -0.002990722656353995, 'MT170': 0.0003051757813126851, 'NQT0': -0.025085449218782006, 'NQCC2': 0.019994099934862595, 'NQCV2': 0.01474761962887685, 'NQCV4': 0.04274241129554823, 'NQPR0': 0.1418329874674209}
-    dict_nh_10 ={'MT120': -0.03911655970982906, 'MT130': -0.012145996093766386, 'MT140': -0.0047119140625133905, 'MT150': -0.015209089006695816, 'MT160': -0.004703194754474845, 'MT170': -0.004143415178590641, 'NQT0': -0.01717158726283599, 'NQCC2': -0.0025072370256786973, 'NQCV2': -0.00048522949219118776, 'NQCV4': -0.007194301060272058, 'NQPR0': 0.06417105538504028}
-    dict_nh_18={'MT120': -0.03511895073784176, 'MT130': -0.012553271449137033, 'MT140': -0.004107586749181472, 'MT150': -0.010360974655399313, 'MT160': -0.00732709582806795, 'MT170': -0.006098664225488383, 'NQT0': -0.0171899561586119, 'NQCC2': -0.005148413778781948, 'NQCV2': -0.008519760285962767, 'NQCV4': -0.006003663768096233, 'NQPR0': 0.0159514345992028}
-    dict_nh_26={'MT120': -0.03135276963871658, 'MT130': -0.01397734158119797, 'MT140': -0.004119676053365337, 'MT150': -0.007644201876851472, 'MT160': -0.007458052389321181, 'MT170': -0.006491658506760771, 'NQT0': -0.015380514636356259, 'NQCC2': -0.0003897803903206735, 'NQCV2': -0.012826356570488513, 'NQCV4': -0.0012080726749591534, 'NQPR0': 0.008571178882152648}
-    dict_nh_30={'MT120': -0.029847367789513832, 'MT130': -0.014693424460757123, 'MT140': -0.00437018984840149, 'MT150': -0.0072553227364439395, 'MT160': -0.0073637722535687036, 'MT170': -0.006574322092870191, 'NQT0': -0.014767275964152931, 'NQCC2': -0.0004559564374692479, 'NQCV2': -0.01396707100386399, 'NQCV4': 0.00022294262929375627, 'NQPR0': 0.009526058312917179}
+# def htcvstuff():
+#         # F:\Ch4_Soils\hilltop_cv_recalc
+#     dict_nh_6 = {'MT120': -0.038960774739689605, 'MT130': -0.014048258463692646, 'MT140': -0.0039367675781761475, 'MT150': -0.02202351888028153, 'MT160': -0.002990722656353995, 'MT170': 0.0003051757813126851, 'NQT0': -0.025085449218782006, 'NQCC2': 0.019994099934862595, 'NQCV2': 0.01474761962887685, 'NQCV4': 0.04274241129554823, 'NQPR0': 0.1418329874674209}
+#     dict_nh_10 ={'MT120': -0.03911655970982906, 'MT130': -0.012145996093766386, 'MT140': -0.0047119140625133905, 'MT150': -0.015209089006695816, 'MT160': -0.004703194754474845, 'MT170': -0.004143415178590641, 'NQT0': -0.01717158726283599, 'NQCC2': -0.0025072370256786973, 'NQCV2': -0.00048522949219118776, 'NQCV4': -0.007194301060272058, 'NQPR0': 0.06417105538504028}
+#     dict_nh_18={'MT120': -0.03511895073784176, 'MT130': -0.012553271449137033, 'MT140': -0.004107586749181472, 'MT150': -0.010360974655399313, 'MT160': -0.00732709582806795, 'MT170': -0.006098664225488383, 'NQT0': -0.0171899561586119, 'NQCC2': -0.005148413778781948, 'NQCV2': -0.008519760285962767, 'NQCV4': -0.006003663768096233, 'NQPR0': 0.0159514345992028}
+#     dict_nh_26={'MT120': -0.03135276963871658, 'MT130': -0.01397734158119797, 'MT140': -0.004119676053365337, 'MT150': -0.007644201876851472, 'MT160': -0.007458052389321181, 'MT170': -0.006491658506760771, 'NQT0': -0.015380514636356259, 'NQCC2': -0.0003897803903206735, 'NQCV2': -0.012826356570488513, 'NQCV4': -0.0012080726749591534, 'NQPR0': 0.008571178882152648}
+#     dict_nh_30={'MT120': -0.029847367789513832, 'MT130': -0.014693424460757123, 'MT140': -0.00437018984840149, 'MT150': -0.0072553227364439395, 'MT160': -0.0073637722535687036, 'MT170': -0.006574322092870191, 'NQT0': -0.014767275964152931, 'NQCC2': -0.0004559564374692479, 'NQCV2': -0.01396707100386399, 'NQCV4': 0.00022294262929375627, 'NQPR0': 0.009526058312917179}
 
-    dft['ht_cv_actual_topo_nh6m'] = dft.sample_id.map(dict_nh_6)  # from Ch 3 table 1
-    dft['ht_cv_actual_topo_nh10m'] = dft.sample_id.map(dict_nh_10)  # from Ch 3 table 1
-    dft['ht_cv_actual_topo_nh18m'] = dft.sample_id.map(dict_nh_18)  # from Ch 3 table 1
-    dft['ht_cv_actual_topo_nh26m'] = dft.sample_id.map(dict_nh_26)  # from Ch 3 table 1
-    dft['ht_cv_actual_topo_nh30m'] = dft.sample_id.map(dict_nh_30)  # from Ch 3 table 1
-    dft['ht_cv_actual_topo'] = dft['ht_cv_actual_topo_nh18m'].copy()
-    # dft['ht_cv_actual_topo'] = dft.sample_id.map( {'MT120':0.06, 'MT130': 0.0067, 'MT150': 0.0004, 'NQT0':0.02, 'NQCV2':0.0021, 'NQCV4': 0.0026})
+#     dft['ht_cv_actual_topo_nh6m'] = dft.sample_id.map(dict_nh_6)  # from Ch 3 table 1
+#     dft['ht_cv_actual_topo_nh10m'] = dft.sample_id.map(dict_nh_10)  # from Ch 3 table 1
+#     dft['ht_cv_actual_topo_nh18m'] = dft.sample_id.map(dict_nh_18)  # from Ch 3 table 1
+#     dft['ht_cv_actual_topo_nh26m'] = dft.sample_id.map(dict_nh_26)  # from Ch 3 table 1
+#     dft['ht_cv_actual_topo_nh30m'] = dft.sample_id.map(dict_nh_30)  # from Ch 3 table 1
+#     dft['ht_cv_actual_topo'] = dft['ht_cv_actual_topo_nh18m'].copy()
+#     # dft['ht_cv_actual_topo'] = dft.sample_id.map( {'MT120':0.06, 'MT130': 0.0067, 'MT150': 0.0004, 'NQT0':0.02, 'NQCV2':0.0021, 'NQCV4': 0.0026})
 
-    # These are from cv8sm: {'MT120':0.009, 'MT130': 0.0067, 'MT150': 0.0004, 'NQT0':0.0075, 'NQCV2':0.0021, 'NQCV4': 0.0026})    # Slightly diff locations... these are from Ch 3 --- super high compared to profile curvature... from col DV in 10Be Data reduction....{'MT120': 0.058, 'NQT0': 0.018, 'NQCV2': 0.018})  # from Ch 3 table 1
+#     # These are from cv8sm: {'MT120':0.009, 'MT130': 0.0067, 'MT150': 0.0004, 'NQT0':0.0075, 'NQCV2':0.0021, 'NQCV4': 0.0026})    # Slightly diff locations... these are from Ch 3 --- super high compared to profile curvature... from col DV in 10Be Data reduction....{'MT120': 0.058, 'NQT0': 0.018, 'NQCV2': 0.018})  # from Ch 3 table 1
 
-    # Amtof br that goes to dissolved   / total input
-    # dft['CDF'] = ( (dft['F_br'] - dft['F_coarse'])*(1-1/dft['DF'])  - dft['F_coarse'])/dft['F_br']  ##  ## Scaling by density ratios,  needs to incorporate coarse sediment as well
-    # dft['CDF_dust'] = ( (dft['F_br'] - dft['F_coarse'])*(1-1/dft['DF'])  - dft['F_coarse'] - dft['F_dust'])/(dft['F_br'] + dft['F_dust'])
-    # new CDF Formulation
-    dft['CDF'] = dft['F_dissolved'] /dft['F_br']
-    dft['CDF_dust'] = dft['F_dissolved'] /(dft['F_br'] + dft['F_dust'])
-
-
-    # IF FLUXES ARE IN g/m2/yr
-    #g/m2/yr/cm2*yr*cm3/g = cm/m2 = cm*1m/100cm/m2 = 1/m/100
-
-    ## IF FLUXES ARE IN g/cm2/yr
-    # K is in cm2/yr so it's OK that Fluxes are in g/cm2/yr as well // actually need x100
-    # g/cm2/yr / (g/cm3) / (cm2/yr) = cm/yr / (cm2/yr) = 1/cm
-    # if ht cv should be in m, then 1/cm * 100 cm/1m = 100 / m
-    # p_re should incorporate the coarse sediments as well....
-    ht_cv = -(dft['F_br'] + dft['F_dust'])*(1-dft['CDF'] )/p_re / dft['K']
-
-    dft['ht_cv_BenAsher'] = ht_cv*100
-
-    dft['ht_cv_nodust'] = -(dft['F_br'] )*(1-dft['CDF'] )/p_re / dft['K'] * 100
-    # This one makes no sense: CDF already takes into account the dissolutb dft['ht_cv_dust_minus_dissolution'] = -(dft['F_br']+ dft['F_dust'] - dft['F_dissolved'] )*(1-dft['CDF'] )/p_re / dft['K'] * 100
-
-    dft['ht_cv_noCDF_noDust'] =  -(dft['F_br'] )/p_re / dft['K'] * 100
-
-    dft['ht_cv_dustnoCDF'] = -(dft['F_br']*(1-dft['CDF'] ) +  dft['F_dust'])  /p_re / dft['K'] * 100
+#     # Amtof br that goes to dissolved   / total input
+#     # dft['CDF'] = ( (dft['F_br'] - dft['F_coarse'])*(1-1/dft['DF'])  - dft['F_coarse'])/dft['F_br']  ##  ## Scaling by density ratios,  needs to incorporate coarse sediment as well
+#     # dft['CDF_dust'] = ( (dft['F_br'] - dft['F_coarse'])*(1-1/dft['DF'])  - dft['F_coarse'] - dft['F_dust'])/(dft['F_br'] + dft['F_dust'])
+#     # new CDF Formulation
+#     dft['CDF'] = dft['F_dissolved'] /dft['F_br']
+#     dft['CDF_dust'] = dft['F_dissolved'] /(dft['F_br'] + dft['F_dust'])
 
 
-    dft['ht_cv_br_dust_nocdf'] =  -(dft['F_br'] + dft['F_dust'])/p_re / dft['K'] * 100
+#     # IF FLUXES ARE IN g/m2/yr
+#     #g/m2/yr/cm2*yr*cm3/g = cm/m2 = cm*1m/100cm/m2 = 1/m/100
 
-    # See excel sheet --- these simplify the CDF * solid matl as above so probably same
-    dft['ht_cv_v1_dust'] = -(dft['F_coarse'] + dft['F_fines_from_br'] + dft['F_dust'] )/ dft['K'] / p_re *100
-    dft['ht_cv_v2_brwx'] = -(dft['F_coarse'] + dft['F_fines_from_br'])/ dft['K'] / p_re *100
-    dft['ht_cv_v3_nowx_dust'] = -(dft['F_br'] + dft['F_dust'])/ dft['K'] / p_re *100
+#     ## IF FLUXES ARE IN g/cm2/yr
+#     # K is in cm2/yr so it's OK that Fluxes are in g/cm2/yr as well // actually need x100
+#     # g/cm2/yr / (g/cm3) / (cm2/yr) = cm/yr / (cm2/yr) = 1/cm
+#     # if ht cv should be in m, then 1/cm * 100 cm/1m = 100 / m
+#     # p_re should incorporate the coarse sediments as well....
+#     ht_cv = -(dft['F_br'] + dft['F_dust'])*(1-dft['CDF'] )/p_re / dft['K']
 
-    ht_cv = -(dft['F_br'] + dft['F_dust'])*(1-dft['CDF_dust'] )/p_re / dft['K']
+#     dft['ht_cv_BenAsher'] = ht_cv*100
 
-    dft['ht_cv_BenAsher_CDF_dust'] = ht_cv*100
+#     dft['ht_cv_nodust'] = -(dft['F_br'] )*(1-dft['CDF'] )/p_re / dft['K'] * 100
+#     # This one makes no sense: CDF already takes into account the dissolutb dft['ht_cv_dust_minus_dissolution'] = -(dft['F_br']+ dft['F_dust'] - dft['F_dissolved'] )*(1-dft['CDF'] )/p_re / dft['K'] * 100
 
-    dft['ht_cv_nodust_CDF_dust'] = -(dft['F_br'] )*(1-dft['CDF_dust'] )/p_re / dft['K'] * 100
-    # This one makes no sense: CDF already takes into account the dissolutb dft['ht_cv_dust_minus_dissolution'] = -(dft['F_br']+ dft['F_dust'] - dft['F_dissolved'] )*(1-dft['CDF'] )/p_re / dft['K'] * 100
+#     dft['ht_cv_noCDF_noDust'] =  -(dft['F_br'] )/p_re / dft['K'] * 100
 
-    dft['ht_cv_dustnoCDF_CDF_dust'] = -(dft['F_br']*(1-dft['CDF_dust'] ) +  dft['F_dust'])  /p_re / dft['K'] * 100
-
-
-
-    # Simple mass balance model:
-    # Fbr = Fcoarse + Ffines + Fdissolved, ---> Fbr and Fcoarse and Ffines are the same as in more complexs model, but LHS is smaller so RHS also has to be smaller...
-    # RHS simple mass balance model:
-    dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']  =dft['F_br']  - dft['F_coarse'] - dft['F_fines_boxmodel']
+#     dft['ht_cv_dustnoCDF'] = -(dft['F_br']*(1-dft['CDF'] ) +  dft['F_dust'])  /p_re / dft['K'] * 100
 
 
-    dft['ht_cv_actual_minus_nodustcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_nodust']
-    dft['ht_cv_actual_minus_dustcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_BenAsher']
-    dft['ht_cv_actual_minus_dustnoCDFcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_dustnoCDF']
-    dft['ht_cv_actual_minus_noCDFcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_noCDF_noDust']
-    # dft['ht_cv_actual_minus_simpledissolutioncv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_F_br_minus_simpledissolution']
+#     dft['ht_cv_br_dust_nocdf'] =  -(dft['F_br'] + dft['F_dust'])/p_re / dft['K'] * 100
 
-    dft['ht_cv_diff2_nodustcv_dust_cv'] = dft['ht_cv_actual_minus_nodustcv'] -dft['ht_cv_actual_minus_dustcv']
-    dft['ht_cv_diff2_nodustcv_dustnoCDF_cv'] =  dft['ht_cv_actual_minus_nodustcv'] - dft['ht_cv_actual_minus_dustnoCDFcv']
-    dft['ht_cv_diff2_dustcv_dustnoCDF_cv'] =  dft['ht_cv_actual_minus_dustcv'] - dft['ht_cv_actual_minus_dustnoCDFcv']
+#     # See excel sheet --- these simplify the CDF * solid matl as above so probably same
+#     dft['ht_cv_v1_dust'] = -(dft['F_coarse'] + dft['F_fines_from_br'] + dft['F_dust'] )/ dft['K'] / p_re *100
+#     dft['ht_cv_v2_brwx'] = -(dft['F_coarse'] + dft['F_fines_from_br'])/ dft['K'] / p_re *100
+#     dft['ht_cv_v3_nowx_dust'] = -(dft['F_br'] + dft['F_dust'])/ dft['K'] / p_re *100
 
-    #  ['ht_cv_diff2_nodustcv_dust_cv', 'ht_cv_diff2_nodustcv_dustnoCDF_cv', 'ht_cv_diff2_dustcv_dustnoCDF_cv']
+#     ht_cv = -(dft['F_br'] + dft['F_dust'])*(1-dft['CDF_dust'] )/p_re / dft['K']
 
-    # ht_cv_dust_minus_dissolution_val  ht_cv_F_br_minus_simpledissolution_val
-    # Simple nodust model : (F_dissolved + F_fines)/F_fines
+#     dft['ht_cv_BenAsher_CDF_dust'] = ht_cv*100
 
-    dft['Simple_model_apparent_DF'] = (dft['F_br']  - dft['F_coarse'] )/ dft['F_fines_boxmodel']
-    dft['Dust_model_apparent_DF'] = (dft['F_br']  - dft['F_coarse'] )/ dft['F_fines_from_br']
+#     dft['ht_cv_nodust_CDF_dust'] = -(dft['F_br'] )*(1-dft['CDF_dust'] )/p_re / dft['K'] * 100
+#     # This one makes no sense: CDF already takes into account the dissolutb dft['ht_cv_dust_minus_dissolution'] = -(dft['F_br']+ dft['F_dust'] - dft['F_dissolved'] )*(1-dft['CDF'] )/p_re / dft['K'] * 100
 
-    # Can solve for DF if we assume Fd:
-    # (F_dust - F_fines) (DF + 1) = F_coarse - F_br
-    # F_dust*DF - F_fines*DF + F_dust -F_fines = F_coarse - F_br
-    # DF(F_dust - F_fines) + F_dust - F_fines = F_coarse - F_br
-    # F_br + F_dust = F_coarse  + F_fines + DF(F_fines-F_dust )
-        #DF = (F_coarse - F_br)/(F_dust - F_fines) - 1
-    dft['DF_if_Fd_is_set_to_1'] = (F_coarse - F_br)/(1/10000 - F_fines) -1     # g/m2/yr
-    dft['DF_if_Fd_is_set_to_5'] = (F_coarse - F_br)/(5/10000 - F_fines) -1     # g/m2/yr
-    dft['DF_if_Fd_is_set_to_10'] = (F_coarse - F_br)/(10/10000 - F_fines) -1
-    dft['DF_if_Fd_is_set_to_15'] = (F_coarse - F_br)/(15/10000 - F_fines) -1
-    dft['DF_if_Fd_is_set_to_20'] = (F_coarse - F_br)/(20/10000 - F_fines) -1
+#     dft['ht_cv_dustnoCDF_CDF_dust'] = -(dft['F_br']*(1-dft['CDF_dust'] ) +  dft['F_dust'])  /p_re / dft['K'] * 100
 
-def prep_initial_df(df):
-    cols = ['calc-uncert_10Be_at-g', 'calc-10Be_at_g', 'inv_sum_flag', 'sample_region', 'sample_location', 'sample_position', 'sample_top', 'sample_bot', 'sample_vol_cm', 'sample_type', 'sample_id', 'sample_is_transect', 'sample_is_profile', 'local_soildepth1','local_soildepth2', 'local_soildepth3', 'local_soildepth4','local_soildepth_avg', 's_lat', 's_lon', 's_elev', 's_elev_src', 'slpcombined', 's_cv', 's_dx', 's_dx (cm)', 'Inventory (at/cm2) each site', 'cv_prof_sm8m', 'cv_prof_sm30m','cv_tot_sm30m', 'gradient_sm8_in_degrees', 's_dx (cm) upslope', 'Inventory each site_localdepth', 'depth_avg_conc_each_site', 'Inventory[at/cm2]']
-    dft = df[cols].copy()
-    # local soildepth min/max
-    loc_sd = ['local_soildepth1','local_soildepth2', 'local_soildepth3', 'local_soildepth4']
-    loc_sd_agg  = ['local_sd_avg', 'local_sd_min', 'local_sd_max']
 
-    df['local_sd_avg'] = df[loc_sd].mean(axis=1)
-    df['local_sd_min'] = df[loc_sd].min(axis=1)
-    df['local_sd_max'] = df[loc_sd].max(axis=1)
-    # df[['local_sd_avg','local_sd_min', 'local_sd_max']]
-    df['local_sd_avg'] = df['local_sd_avg'].fillna(df['local_soildepth_avg']).fillna(df['sample_vol_cm'])
-    df['local_sd_min'] = df['local_sd_min'].fillna(df['local_soildepth_avg']).fillna(df['sample_vol_cm'])
-    df['local_sd_max'] = df['local_sd_max'].fillna(df['local_soildepth_avg']).fillna(df['sample_vol_cm'])
-    # df[['local_sd_avg','local_sd_min', 'local_sd_max']]
-    return df
+
+#     # Simple mass balance model:
+#     # Fbr = Fcoarse + Ffines + Fdissolved, ---> Fbr and Fcoarse and Ffines are the same as in more complexs model, but LHS is smaller so RHS also has to be smaller...
+#     # RHS simple mass balance model:
+#     dft['F_dissolved_simple_nodust_F_br_minus_F_coarse_minus_F_fines']  =dft['F_br']  - dft['F_coarse'] - dft['F_fines_boxmodel']
+
+
+#     dft['ht_cv_actual_minus_nodustcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_nodust']
+#     dft['ht_cv_actual_minus_dustcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_BenAsher']
+#     dft['ht_cv_actual_minus_dustnoCDFcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_dustnoCDF']
+#     dft['ht_cv_actual_minus_noCDFcv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_noCDF_noDust']
+#     # dft['ht_cv_actual_minus_simpledissolutioncv'] = dft['ht_cv_actual_topo'] - dft['ht_cv_F_br_minus_simpledissolution']
+
+#     dft['ht_cv_diff2_nodustcv_dust_cv'] = dft['ht_cv_actual_minus_nodustcv'] -dft['ht_cv_actual_minus_dustcv']
+#     dft['ht_cv_diff2_nodustcv_dustnoCDF_cv'] =  dft['ht_cv_actual_minus_nodustcv'] - dft['ht_cv_actual_minus_dustnoCDFcv']
+#     dft['ht_cv_diff2_dustcv_dustnoCDF_cv'] =  dft['ht_cv_actual_minus_dustcv'] - dft['ht_cv_actual_minus_dustnoCDFcv']
+
+#     #  ['ht_cv_diff2_nodustcv_dust_cv', 'ht_cv_diff2_nodustcv_dustnoCDF_cv', 'ht_cv_diff2_dustcv_dustnoCDF_cv']
+
+#     # ht_cv_dust_minus_dissolution_val  ht_cv_F_br_minus_simpledissolution_val
+#     # Simple nodust model : (F_dissolved + F_fines)/F_fines
+
+#     dft['Simple_model_apparent_DF'] = (dft['F_br']  - dft['F_coarse'] )/ dft['F_fines_boxmodel']
+#     dft['Dust_model_apparent_DF'] = (dft['F_br']  - dft['F_coarse'] )/ dft['F_fines_from_br']
+
+#     # Can solve for DF if we assume Fd:
+#     # (F_dust - F_fines) (DF + 1) = F_coarse - F_br
+#     # F_dust*DF - F_fines*DF + F_dust -F_fines = F_coarse - F_br
+#     # DF(F_dust - F_fines) + F_dust - F_fines = F_coarse - F_br
+#     # F_br + F_dust = F_coarse  + F_fines + DF(F_fines-F_dust )
+#         #DF = (F_coarse - F_br)/(F_dust - F_fines) - 1
+#     dft['DF_if_Fd_is_set_to_1'] = (F_coarse - F_br)/(1/10000 - F_fines) -1     # g/m2/yr
+#     dft['DF_if_Fd_is_set_to_5'] = (F_coarse - F_br)/(5/10000 - F_fines) -1     # g/m2/yr
+#     dft['DF_if_Fd_is_set_to_10'] = (F_coarse - F_br)/(10/10000 - F_fines) -1
+#     dft['DF_if_Fd_is_set_to_15'] = (F_coarse - F_br)/(15/10000 - F_fines) -1
+#     dft['DF_if_Fd_is_set_to_20'] = (F_coarse - F_br)/(20/10000 - F_fines) -1
+
+# def prep_initial_df(df):
+#     cols = ['calc-uncert_10Be_at-g', 'calc-10Be_at_g', 'inv_sum_flag', 'sample_region', 'sample_location', 'sample_position', 'sample_top', 'sample_bot', 'sample_vol_cm', 'sample_type', 'sample_id', 'sample_is_transect', 'sample_is_profile', 'local_soildepth1','local_soildepth2', 'local_soildepth3', 'local_soildepth4','local_soildepth_avg', 's_lat', 's_lon', 's_elev', 's_elev_src', 'slpcombined', 's_cv', 's_dx', 's_dx (cm)', 'Inventory (at/cm2) each site', 'cv_prof_sm8m', 'cv_prof_sm30m','cv_tot_sm30m', 'gradient_sm8_in_degrees', 's_dx (cm) upslope', 'Inventory each site_localdepth', 'depth_avg_conc_each_site', 'Inventory[at/cm2]']
+#     dft = df[cols].copy()
+#     # local soildepth min/max
+#     loc_sd = ['local_soildepth1','local_soildepth2', 'local_soildepth3', 'local_soildepth4']
+#     loc_sd_agg  = ['local_sd_avg', 'local_sd_min', 'local_sd_max']
+
+#     df['local_sd_avg'] = df[loc_sd].mean(axis=1)
+#     df['local_sd_min'] = df[loc_sd].min(axis=1)
+#     df['local_sd_max'] = df[loc_sd].max(axis=1)
+#     # df[['local_sd_avg','local_sd_min', 'local_sd_max']]
+#     df['local_sd_avg'] = df['local_sd_avg'].fillna(df['local_soildepth_avg']).fillna(df['sample_vol_cm'])
+#     df['local_sd_min'] = df['local_sd_min'].fillna(df['local_soildepth_avg']).fillna(df['sample_vol_cm'])
+#     df['local_sd_max'] = df['local_sd_max'].fillna(df['local_soildepth_avg']).fillna(df['sample_vol_cm'])
+#     # df[['local_sd_avg','local_sd_min', 'local_sd_max']]
+#     return df
 
 def D_graly(P,L, flag_P_is_mm_per_yr = True):
     # Graly 2010a
@@ -1096,7 +1081,7 @@ def partial_recalc(dft, selval_dict, ltl = 5.1e-7):
     dft['rt'] = (-1.0/ ltl) * log(1 - (ltl* dft['Inv']/ dft['D']))
 
     v1 = dft['z']
-    v2 = dft['rt']# is this supposed to be in *yrs* or ky?
+    v2 = dft['rt']# is this supposed to be in *yrs* -- yes bc D is yrs
     v3 = dft['p_re']
     # SD, res_t, ps)
     dft['F_fines_boxmodel'] =  flux_boxmodel(v1, v2, v3)
@@ -1204,95 +1189,95 @@ def display_massbalance_equations():
     # tx = '''Substituting Equation \ref{eq:dissolutionfactorbalance} into Equation \ref{eq:fluxes_balance_nodust} yields:'''
     # st.write(tx)
 
-def write_postscript():
-    tx = r'''    F_b = F_c + F_{fb}*(1+DF)'''
-    st.latex(tx)
+# def write_postscript():
+#     tx = r'''    F_b = F_c + F_{fb}*(1+DF)'''
+#     st.latex(tx)
 
-    tx = "Rearrange to isolate $F_{fb}$:"
-    st.write(tx)
+#     tx = "Rearrange to isolate $F_{fb}$:"
+#     st.write(tx)
 
-    tx = r''' -F_{fb} = \frac{F_c -F_b}{(1+DF)}'''
-    st.latex(tx)
+#     tx = r''' -F_{fb} = \frac{F_c -F_b}{(1+DF)}'''
+#     st.latex(tx)
 
-    tx = "Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:"
-    st.write(tx)
+#     tx = "Add unknown dust flux ($F_d$) to both sides, where $F_{d}$ is the mass flux of aeolian material, of any origin outside the hillslope and rearrange again:"
+#     st.write(tx)
 
-    tx = r''' F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}'''
-    st.latex(tx)
+#     tx = r''' F_d = F_d+ F_{fb} + \frac{F_c -F_b}{(1+DF)}'''
+#     st.latex(tx)
 
-    tx = "Note that we do not include the dissolution of dust in this model."
-    st.write(tx)
-    tx = r"$F_f$ represents the total flux of fine sediment (<2mm) out of the control volume, which is the sum of fine sediments produced by bedrock and those deposited by dust:"
-    st.write(tx)
+#     tx = "Note that we do not include the dissolution of dust in this model."
+#     st.write(tx)
+#     tx = r"$F_f$ represents the total flux of fine sediment (<2mm) out of the control volume, which is the sum of fine sediments produced by bedrock and those deposited by dust:"
+#     st.write(tx)
 
-    tx = r'''   F_f =   F_{d} + F_{fb}   '''
-    st.latex(tx)
+#     tx = r'''   F_f =   F_{d} + F_{fb}   '''
+#     st.latex(tx)
 
-    tx = '''Then, substituting Equation \ref{eq:define_Ff} into the unknown dust flux in Equation \ref{eq:unknown_dust_both_sides} :'''
-    st.write(tx)
-
-
-    tx =r'''F_{d}  = F_f + \frac{F_c  -F_b}{(1+DF)}'''
-    st.latex(tx)
+#     tx = '''Then, substituting Equation \ref{eq:define_Ff} into the unknown dust flux in Equation \ref{eq:unknown_dust_both_sides} :'''
+#     st.write(tx)
 
 
-    tx = r'''In Equation \ref{eq:fluxes_dust_isolated}, the measurable quantities are isolated on the right side. Equations \ref{eq:fluxes_balance_nodust} and \ref{eq:fluxes_dust_isolated} are represented in Figure \ref{fig:fluxes_balanced_boxes}. The fluxes of fine sediment, coarse sediment, and bedrock can be evaluated through a combination of techniques, briefly described below and in more detail in Sections \ref{sec:Ffo}, \ref{sec:Fb}, and \ref{sec:Fc}.'''
-    st.write(tx)
-
-    tx = r'''The mass flux from bedrock is estimated from the \cosmoCl{} in bedrock.  Mass flux (g/cm$^2$/yr) is related to lowering rate of bedrock ($E_b$, L/T, mm/kyr) by the density (g/cm$^3$), and so the flux of material released by the bedrock as it erodes can be calculated.'''
-    st.write(tx)
-
-    tx = r'''F_b = E_b*\rho_b'''
-    st.latex(tx)
-
-    tx = r'''\begin{equation}
-        I_{Be} = \int^z_{z_b} N \rho_{re} dz
-    \end{equation}'''
-    st.latex(tx)
+#     tx =r'''F_{d}  = F_f + \frac{F_c  -F_b}{(1+DF)}'''
+#     st.latex(tx)
 
 
-    tx = r'''where I$_{Be}$ is the total inventory of \Be\ calculated for a given sample (at/cm$^2$), $z$ is the elevation of the surface, and $z_b$ is the elevation of the bedrock-soil interface. \textit{N} is the \Be\ concentration (at/g), $\rho_{re}$ is the depth-averaged regolith density of the sample (g/cm$^3$).
+#     tx = r'''In Equation \ref{eq:fluxes_dust_isolated}, the measurable quantities are isolated on the right side. Equations \ref{eq:fluxes_balance_nodust} and \ref{eq:fluxes_dust_isolated} are represented in Figure \ref{fig:fluxes_balanced_boxes}. The fluxes of fine sediment, coarse sediment, and bedrock can be evaluated through a combination of techniques, briefly described below and in more detail in Sections \ref{sec:Ffo}, \ref{sec:Fb}, and \ref{sec:Fc}.'''
+#     st.write(tx)
 
-        Residence times assume the soil depth is stable through time and describe how long that sample would need to be exposed to the delivery rate to be in secular equilibrium, given that \Be{} decays and the soil is eroding. Residence times are dependent on the inventory of \Be{}, which in turn is dependent on the soil depth.  Soil residence time is the duration of an average particle of soil  on the hillslope \autocites{Jungers_2009, west_regolith_2013}, and to elucidate the processes involved in moving soil on the hillslope. For example, \textcite{Jungers_2009} identifies the zone where hillslope transport transitions from creep into advective transport by ephemeral channels.
-        '''
+#     tx = r'''The mass flux from bedrock is estimated from the \cosmoCl{} in bedrock.  Mass flux (g/cm$^2$/yr) is related to lowering rate of bedrock ($E_b$, L/T, mm/kyr) by the density (g/cm$^3$), and so the flux of material released by the bedrock as it erodes can be calculated.'''
+#     st.write(tx)
 
-    st.write(tx)
+#     tx = r'''F_b = E_b*\rho_b'''
+#     st.latex(tx)
 
-    tx = r'''\begin{equation}
-        t=\left(\frac{-1}{\lambda}\right) ln\left(1-\frac{\lambda I_{{Be}}}{P_{^{10}Be}}\right)
-    \end{equation}'''
-    st.latex(tx)
-
-
-    tx = r'''where $t$ is time in years, $\lambda$ is the radioactive decay constant for \Be{} (5.1 x 10$^{-7}$ yr$^{-1}$), $I_{Be}$ is the inventory of atoms of \Be{} in the soil at a site on a ridgetop (at/cm$^2$), and $P_{^{10}Be}$ is the delivery rate of \Be{} from the atmosphere (at/cm$^2$/yr).'''
-    st.write(tx)
-
-    tx = r'''\begin{equation}
-        E=\frac{D-\lambda I_{Be}}{N_{surface}}    \end{equation}'''
-    st.latex(tx)
+#     tx = r'''\begin{equation}
+#         I_{Be} = \int^z_{z_b} N \rho_{re} dz
+#     \end{equation}'''
+#     st.latex(tx)
 
 
-    tx =r'''where E is erosion rate (cm/yr), $N_{surface}$ is the \Be{} concentration of the eroding material, i.e. the surface soil (at/cm$^3$) \autocite{West_2014}.
-    '''
+#     tx = r'''where I$_{Be}$ is the total inventory of \Be\ calculated for a given sample (at/cm$^2$), $z$ is the elevation of the surface, and $z_b$ is the elevation of the bedrock-soil interface. \textit{N} is the \Be\ concentration (at/g), $\rho_{re}$ is the depth-averaged regolith density of the sample (g/cm$^3$).
 
-    st.write(tx)
+#         Residence times assume the soil depth is stable through time and describe how long that sample would need to be exposed to the delivery rate to be in secular equilibrium, given that \Be{} decays and the soil is eroding. Residence times are dependent on the inventory of \Be{}, which in turn is dependent on the soil depth.  Soil residence time is the duration of an average particle of soil  on the hillslope \autocites{Jungers_2009, west_regolith_2013}, and to elucidate the processes involved in moving soil on the hillslope. For example, \textcite{Jungers_2009} identifies the zone where hillslope transport transitions from creep into advective transport by ephemeral channels.
+#         '''
 
-    tx = r'''This erosion rate is independent of the assumptions involved in calculating bedrock erosion rates from \cosmoCl.
-    '''
-    st.write(tx)
+#     st.write(tx)
 
-    tx =r'''\Be{} provides an estimate of the residence time ($t_f$) of the fine fraction of regolith, because the accumulation of \Be{} is primarily in the soil, and is eroded with the soil \autocite{Brown_1992}. Combined with observations of soil depth, a simple model of mass flux of fine sediments can be created:'''
-    st.write(tx)
+#     tx = r'''\begin{equation}
+#         t=\left(\frac{-1}{\lambda}\right) ln\left(1-\frac{\lambda I_{{Be}}}{P_{^{10}Be}}\right)
+#     \end{equation}'''
+#     st.latex(tx)
 
-    tx = r'''\begin{equation}
-        F_f = h_f*\rho_f / t_f
-            \end{equation}'''
-    st.latex(tx)
 
-    tx = r'''where $h_f$ represents the depth of fine sediment and pore space, measured in the field, $\rho_f$ is the density of the fine fraction of sediment, and $t_f$ is the residence time of the fine fraction.
-    '''
+#     tx = r'''where $t$ is time in years, $\lambda$ is the radioactive decay constant for \Be{} (5.1 x 10$^{-7}$ yr$^{-1}$), $I_{Be}$ is the inventory of atoms of \Be{} in the soil at a site on a ridgetop (at/cm$^2$), and $P_{^{10}Be}$ is the delivery rate of \Be{} from the atmosphere (at/cm$^2$/yr).'''
+#     st.write(tx)
 
-    st.write(tx)
+#     tx = r'''\begin{equation}
+#         E=\frac{D-\lambda I_{Be}}{N_{surface}}    \end{equation}'''
+#     st.latex(tx)
+
+
+#     tx =r'''where E is erosion rate (cm/yr), $N_{surface}$ is the \Be{} concentration of the eroding material, i.e. the surface soil (at/cm$^3$) \autocite{West_2014}.
+#     '''
+
+#     st.write(tx)
+
+#     tx = r'''This erosion rate is independent of the assumptions involved in calculating bedrock erosion rates from \cosmoCl.
+#     '''
+#     st.write(tx)
+
+#     tx =r'''\Be{} provides an estimate of the residence time ($t_f$) of the fine fraction of regolith, because the accumulation of \Be{} is primarily in the soil, and is eroded with the soil \autocite{Brown_1992}. Combined with observations of soil depth, a simple model of mass flux of fine sediments can be created:'''
+#     st.write(tx)
+
+#     tx = r'''\begin{equation}
+#         F_f = h_f*\rho_f / t_f
+#             \end{equation}'''
+#     st.latex(tx)
+
+#     tx = r'''where $h_f$ represents the depth of fine sediment and pore space, measured in the field, $\rho_f$ is the density of the fine fraction of sediment, and $t_f$ is the residence time of the fine fraction.
+#     '''
+
+#     st.write(tx)
 
 def get_X_vals(dft, list_of_carbcols = ['C_br', 'C_c', 'C_f', 'C_dust']):
     # from percent carbs, returns fraction (of 1) of insoluble material.
