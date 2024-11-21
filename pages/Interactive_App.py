@@ -262,8 +262,8 @@ for six, samp in enumerate(list_of_sample_id):
             "C_dust": f'{vars_dict_def["C_dust"]:0.1f}'
             }
     selval_dict_def = {}
-    kk = ["fmtcols", "ft", "ftexp", 'fmcols', 'flag_sample_label_default', 'model_type']
-    for k in kk:
+    kki = ["fmtcols", "ft", "ftexp", 'fmcols', 'flag_sample_label_default', 'model_type']
+    for k in kki:
         selval_dict_def[k] = selval_dict[k]
 
     # Calculate and plot default values: 
@@ -280,7 +280,7 @@ for six, samp in enumerate(list_of_sample_id):
     dfti, selval_dict_def = simple_recalc(dft_def, selval_dict_def)
 
     # Provide plot dimension defaults early
-    kk = {'model_shape':"Uniform height", 'figwidth':5, 'figheight':2, 'pixelwidth':300, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
+    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':450, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
     for ki, key in enumerate(list(kk.keys())):
         selval_dict[key] = kk[key]
         selval_dict_def[key] = kk[key]
@@ -362,35 +362,35 @@ for six, samp in enumerate(list_of_sample_id):
                     # start, step, number
                     hh = sliderrange(5, 1, 10)
                     keystr = "figwidth_radio" + str(samp)
-                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 9,key = keystr, on_change = proc, args = (keystr,))
+                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = kk['figwidth'],key = keystr, on_change = proc, args = (keystr,))
 
                     keystr = "figheight_radio"+ str(samp)
-                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = kk['figheight'],
                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
                     # height
                     keystr = "pixelwidth_radio"+ str(samp)
-                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = 700,
+                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = kk['pixelwidth'],
                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
 
                      # Width in px of image produced...
                     keystr = "boxscale_radio"+ str(samp)
-                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  np.arange(20)/5 + 0.2, value = 1,
+                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  np.arange(20)/5 + 0.2, value = kk['boxscale'],
                         key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
                     keystr = "shape_buffer_radio"+ str(samp)
-                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 20), value = 2, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 20), value = kk['shape_buffer'], key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
                     keystr = "boxheight_radio"+ str(samp)
-                    selval_dict['boxheight'] = st.select_slider("Scale box height: ", sliderrange(0.25, 0.25, 16),value = 2, key =keystr, on_change = proc, args = (keystr,))
+                    selval_dict['boxheight'] = st.select_slider("Scale box height: ", sliderrange(0.25, 0.25, 16),value = kk['boxheight'], key =keystr, on_change = proc, args = (keystr,))
 
                     keystr = "medfont_radio"+ str(samp)
-                    selval_dict["medfont"]=st.select_slider("Scale label font size: ", sliderrange(6, 1, 15), value = 12, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    selval_dict["medfont"]=st.select_slider("Scale label font size: ", sliderrange(6, 1, 15), value = kk['medfont'], key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
                     keystr = "textheight_radio"+ str(samp)
-                    selval_dict["textheight"]=st.select_slider("text height: ", sliderrange(0, 0.25, 28),value = 3, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    selval_dict["textheight"]=st.select_slider("text height: ", sliderrange(0, 0.25, 28),value = kk['textheight'], key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
                         
-                    kk = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight', 'medfont', 'textheight']
-                    for k in kk:
+                    kki = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight', 'medfont', 'textheight']
+                    for k in kki:
                         selval_dict_def[k] = selval_dict[k]
 
             #### Recalc
