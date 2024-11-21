@@ -322,76 +322,76 @@ for six, samp in enumerate(list_of_sample_id):
             with exp_f:
                 dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = [ 'C_f', 'C_dust'],labellist = ['Fine Sediment Composition', 'Dust Composition'],ft = ['F$_f$','F$_{dust}$'], ec = 'k',six = six)
                 
-                expb_d = {"Coarse_seds_subsurface": "What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)",
-                    "D":"Meteoric $^{10}$Be delivery rates (D) are site-specific.",
-                    "coarse_mass": "The mass of coarse sediment measured on the surface.",
-                    "max_coarse_residence_time": "The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.",
-                    "N": "Measured concentration of $^{10}$Be$_{m}$ in fine fraction.",
-                    "z": "Measured depth of the fine fraction of mobile regolith. ",
-                    "p_re": "Dust is assumed to have the same density as the fine fraction of mobile regolith.",
-                    "br_E_rate": "Bedrock erosion rate and flux of bedrock are directly related by the density of the material.",
-                    "C_br": "Percent of bedrock that is soluble (e.g. CaCO3).",
-                    "C_c": "Percent of coarse sediments that are soluble (e.g. CaCO3).",
-                    "C_f": "Percent of fine sediments that are soluble (e.g. CaCO3).",
-                    "C_dust": "Percent of dust that is soluble (e.g. CaCO3)."
-                }
-                fmtfc = ['.2e', '.0f', '.0f', '.1f', '.1f', '.1f']
-                user_option_keys = sorted(list(set(list(expb_d.keys())) - set(['Coarse_seds_subsurface', 'C_br', 'C_c', 'C_f', 'C_dust'])))
-                selval_dict['Coarse_seds_subsurface'] = selval_dict_def['Coarse_seds_subsurface']
-                # Move D and N option to last in line
-                user_option_keys = user_option_keys[2:] + user_option_keys[0:2]
-                len_user_optionk = len(user_option_keys)
-                for sck, selcolkey in enumerate(user_option_keys):
-                    if sck < 1:
-                        sck_col = exp_br
-                    elif sck <(np.floor(len_user_optionk/2)):
-                        sck_col = exp_c  
-                    else : 
-                        sck_col = exp_f   
-                    
-                    with sck_col:
-                        dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict)
+            expb_d = {"Coarse_seds_subsurface": "What if regolith contains coarse sediments? (Only coarse sediments were measured, this variable is likely NOT zero.)",
+                "D":"Meteoric $^{10}$Be delivery rates (D) are site-specific.",
+                "coarse_mass": "The mass of coarse sediment measured on the surface.",
+                "max_coarse_residence_time": "The maximum additional exposure time coarse sediments could endure while sharing the erosion history of the bedrock.",
+                "N": "Measured concentration of $^{10}$Be$_{m}$ in fine fraction.",
+                "z": "Measured depth of the fine fraction of mobile regolith. ",
+                "p_re": "Dust is assumed to have the same density as the fine fraction of mobile regolith.",
+                "br_E_rate": "Bedrock erosion rate and flux of bedrock are directly related by the density of the material.",
+                "C_br": "Percent of bedrock that is soluble (e.g. CaCO3).",
+                "C_c": "Percent of coarse sediments that are soluble (e.g. CaCO3).",
+                "C_f": "Percent of fine sediments that are soluble (e.g. CaCO3).",
+                "C_dust": "Percent of dust that is soluble (e.g. CaCO3)."
+            }
+            fmtfc = ['.2e', '.0f', '.0f', '.1f', '.1f', '.1f']
+            user_option_keys = sorted(list(set(list(expb_d.keys())) - set(['Coarse_seds_subsurface', 'C_br', 'C_c', 'C_f', 'C_dust'])))
+            selval_dict['Coarse_seds_subsurface'] = selval_dict_def['Coarse_seds_subsurface']
+            # Move D and N option to last in line
+            user_option_keys = user_option_keys[2:] + user_option_keys[0:2]
+            len_user_optionk = len(user_option_keys)
+            for sck, selcolkey in enumerate(user_option_keys):
+                if sck < 1:
+                    sck_col = exp_br
+                elif sck <(np.floor(len_user_optionk/2)):
+                    sck_col = exp_c  
+                else : 
+                    sck_col = exp_f   
+                
+                with sck_col:
+                    dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict)
 
-                if six == 0:
-                    with st.expander(f"See plot dimension options"): #,  key='exp_show_plot_dimensions'):
-                        # Select box model shape:
-                        keystr = "model_shape_radio_" + str(samp)
-                        model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 0, key = keystr, on_change=proc, args = (keystr,), horizontal = True)
-                        selval_dict['model_shape'] = model_shape
+            if six == 0:
+                with st.expander(f"See plot dimension options"): #,  key='exp_show_plot_dimensions'):
+                    # Select box model shape:
+                    keystr = "model_shape_radio_" + str(samp)
+                    model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 0, key = keystr, on_change=proc, args = (keystr,), horizontal = True)
+                    selval_dict['model_shape'] = model_shape
 
-                        # start, step, number
-                        hh = sliderrange(5, 1, 10)
-                        keystr = "figwidth_radio" + str(samp)
-                        selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 9,key = keystr, on_change = proc, args = (keystr,))
+                    # start, step, number
+                    hh = sliderrange(5, 1, 10)
+                    keystr = "figwidth_radio" + str(samp)
+                    selval_dict['figwidth'] = st.select_slider("Scale figure width: ", options = hh, value = 9,key = keystr, on_change = proc, args = (keystr,))
 
-                        keystr = "figheight_radio"+ str(samp)
-                        selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
-                            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
-                        # height
-                        keystr = "pixelwidth_radio"+ str(samp)
-                        selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = 700,
-                            key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                    keystr = "figheight_radio"+ str(samp)
+                    selval_dict['figheight']  = st.select_slider("Scale figure height: ",  sliderrange(1, 1,7), value = 3,
+                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
+                    # height
+                    keystr = "pixelwidth_radio"+ str(samp)
+                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = 700,
+                        key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
 
-                         # Width in px of image produced...
-                        keystr = "boxscale_radio"+ str(samp)
-                        selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  np.arange(20)/5 + 0.2, value = 1,
-                            key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                     # Width in px of image produced...
+                    keystr = "boxscale_radio"+ str(samp)
+                    selval_dict["boxscale"] = st.select_slider("Scale boxes within plot: ",  np.arange(20)/5 + 0.2, value = 1,
+                        key = keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                        keystr = "shape_buffer_radio"+ str(samp)
-                        selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 20), value = 2, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    keystr = "shape_buffer_radio"+ str(samp)
+                    selval_dict["shape_buffer"] =st.select_slider("Scale space between boxes within plot: ", sliderrange(0.5, 0.25, 20), value = 2, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                        keystr = "boxheight_radio"+ str(samp)
-                        selval_dict['boxheight'] = st.select_slider("Scale box height: ", sliderrange(0.25, 0.25, 16),value = 2, key =keystr, on_change = proc, args = (keystr,))
+                    keystr = "boxheight_radio"+ str(samp)
+                    selval_dict['boxheight'] = st.select_slider("Scale box height: ", sliderrange(0.25, 0.25, 16),value = 2, key =keystr, on_change = proc, args = (keystr,))
 
-                        keystr = "medfont_radio"+ str(samp)
-                        selval_dict["medfont"]=st.select_slider("Scale label font size: ", sliderrange(6, 1, 15), value = 12, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                    keystr = "medfont_radio"+ str(samp)
+                    selval_dict["medfont"]=st.select_slider("Scale label font size: ", sliderrange(6, 1, 15), value = 12, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
 
-                        keystr = "textheight_radio"+ str(samp)
-                        selval_dict["textheight"]=st.select_slider("text height: ", sliderrange(0, 0.25, 28),value = 3, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
-                            
-                        kk = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight', 'medfont', 'textheight']
-                        for k in kk:
-                            selval_dict_def[k] = selval_dict[k]
+                    keystr = "textheight_radio"+ str(samp)
+                    selval_dict["textheight"]=st.select_slider("text height: ", sliderrange(0, 0.25, 28),value = 3, key =keystr, on_change = proc, args = (keystr,)) #, horizontal = True) # width
+                        
+                    kk = ['model_shape', 'figwidth', 'figheight', 'pixelwidth', 'boxscale', 'shape_buffer', 'boxheight', 'medfont', 'textheight']
+                    for k in kk:
+                        selval_dict_def[k] = selval_dict[k]
 
             #### Recalc
             ##############################
