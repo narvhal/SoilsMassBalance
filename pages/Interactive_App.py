@@ -280,7 +280,7 @@ for six, samp in enumerate(list_of_sample_id):
     dfti, selval_dict_def = simple_recalc(dft_def, selval_dict_def)
 
     # Provide plot dimension defaults early
-    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':700, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
+    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':400, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
     for ki, key in enumerate(list(kk.keys())):
         selval_dict[key] = kk[key]
         selval_dict_def[key] = kk[key]
@@ -429,7 +429,7 @@ for six, samp in enumerate(list_of_sample_id):
             dft = modify_F_units(dft, to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust','F_dissolved', 'F_fines_from_br'])
 
     with right_results:
-        with st.container(border = True): # , key = "left_vars"+str(count)):
+        with st.container(border = False): # , key = "left_vars"+str(count)):
             st.write(f"**{list(siu_dict.keys())[six]} Site**")
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
