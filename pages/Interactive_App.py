@@ -303,7 +303,7 @@ for six, samp in enumerate(list_of_sample_id):
     left_vars, right_results = st.columns([0.5, 0.5])
     count = 0
     with left_vars:
-        with st.container(height = 800, border = True, key = "left_vars"+str(count)):
+        with st.container(height = 800, border = True, key = "left_vars"):
         # with st.expander(f"{list(siu_dict.keys())[six]} Site", expanded = True):
 
             flag_allow_scrolling_var_container_height = st.checkbox("Allow scrolling of input variables to view the flux results better", value = True, key = "flag_allow_scrolling_var_container_height" + samp)
