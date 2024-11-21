@@ -300,7 +300,7 @@ for six, samp in enumerate(list_of_sample_id):
         coL = st.container()
         colll = [ coL]
 
-    left_vars, right_results = st.columns([0.5, 0.5])
+    left_vars, right_results = st.columns([0.35, 0.65])
     count = 0
     with left_vars:
         with st.container(height = 800, border = True):
