@@ -35,7 +35,7 @@ def wrap_flux_box_streamlit(dft, selval_dict):
     fig.set_size_inches(selval_dict['figwidth'], selval_dict['figheight'])
 
     fn = r"/mount/src/soilsmassbalance/data_sources/temp_flux_img.svg"
-    fig.savefig(fn, format="svg",pad_inches = 0, bbox_inches='tight',transparent=True)
+    fig.savefig(fn, format="svg",pad_inches = 0, transparent=True)
     st.image(fn, width = selval_dict["pixelwidth"])
     
     return fig
