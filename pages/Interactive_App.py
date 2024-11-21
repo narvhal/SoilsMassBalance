@@ -430,6 +430,7 @@ for six, samp in enumerate(list_of_sample_id):
 
     with right_results:
         with st.container(border = True): # , key = "left_vars"+str(count)):
+            st.write(f"**{list(siu_dict.keys())[six]} Site**")
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
             st.write(f"F$_f$ (alternative method) = D/N x 10000 = {np.round(dft['D'].iloc[0]/dft['N'].iloc[0]*10000,1)} g/m$^2$/yr")
@@ -442,7 +443,7 @@ for six, samp in enumerate(list_of_sample_id):
                     file_name="Modified_Mass_Balance_Fluxes.png",
                     mime="image/png", key = "Download_modified_" + str(six))
 
-            if st.checkbox("View Mass Balance with Default Variables", key ="chkbx_Download_default_" + str(six)):
+            if st.checkbox("View Mass Balance with Default Variables", value = True, key ="chkbx_Download_default_" + str(six)):
                 # st.header("Default inputs")
                 fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
 
