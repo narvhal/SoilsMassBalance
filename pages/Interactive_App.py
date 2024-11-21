@@ -429,7 +429,7 @@ for six, samp in enumerate(list_of_sample_id):
             dft = modify_F_units(dft, to_m2_cols = ['F_fines_boxmodel', 'F_coarse', 'F_br', 'F_dust','F_dissolved', 'F_fines_from_br'])
 
     with right_results:
-        with st.container(border = True, key = "left_vars"+str(count)):
+        with st.container(border = True): # , key = "left_vars"+str(count)):
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
             st.write(f"F$_f$ (alternative method) = D/N x 10000 = {np.round(dft['D'].iloc[0]/dft['N'].iloc[0]*10000,1)} g/m$^2$/yr")
