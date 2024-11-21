@@ -169,7 +169,7 @@ def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],lab
 
 
         fn = r"/mount/src/soilsmassbalance/data_sources/temp_composition_img.svg"
-        fig.savefig(fn, format="svg")
+        fig.savefig(fn, format="svg",pad_inches = 0, bbox_inches='tight')
         st.image(fn, width = 350)
 
         # buf = BytesIO()
