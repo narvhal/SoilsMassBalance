@@ -422,8 +422,9 @@ for six, samp in enumerate(list_of_sample_id):
     with right_results:
         with st.container(border = False): # , key = "left_vars"+str(count)):
             st.write(f"**{list(siu_dict.keys())[six]} Site**")
-
-            st.markdown("*Modified Input*")
+            lct, rct = st.columns([0.3, 0.7])
+            with lct:
+                st.markdown("*Modified Input*")
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
@@ -431,7 +432,7 @@ for six, samp in enumerate(list_of_sample_id):
 
             buf = BytesIO()
             fig.savefig(buf, format="png")
-            lct, rct= st.columns([0.3, 0.7])
+            # lct, rct= st.columns([0.3, 0.7])
             # st.image(buf, width = selval_dict["pixelwidth"])
             with rct:
                 st.download_button(label ="Download Modified-Input Mass Balance Fluxes",
@@ -440,12 +441,13 @@ for six, samp in enumerate(list_of_sample_id):
                     mime="image/png", key = "Download_modified_" + str(six))
 
             # if st.checkbox("View Mass Balance with Default Variables", value = True, key ="chkbx_Download_default_" + str(six)):
-            st.write(f"*Default inputs*")
+            lct, rct = st.columns([0.3, 0.7])
+            with lct:
+                st.write(f"*Default inputs*")
             fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
 
             buf = BytesIO()
             fig_def.savefig(buf, format="png")
-            lct, rct = st.columns([0.3, 0.7])
             with rct:
                 st.download_button(label ="Download Default-Input Mass Balance Fluxes",
                     data=buf,
