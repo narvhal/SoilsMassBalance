@@ -376,7 +376,7 @@ for six, samp in enumerate(list_of_sample_id):
                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
                     # height
                     keystr = "pixelwidth_radio"+ str(samp)
-                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(500, 50, 15), value = kk['pixelwidth'],
+                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(200, 50, 15), value = kk['pixelwidth'],
                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
 
                      # Width in px of image produced...
