@@ -455,18 +455,19 @@ for six, samp in enumerate(list_of_sample_id):
                     mime="image/png",  key = "Download_default_" + str(six))
                         
             ###############
-            if st.checkbox("See Default and Modified Input Values and Fluxes",key = "see_default_inputs" + str(samp)):
-                lc, rc = st.columns([0.5, 0.5])
-                with lc:
-                    st.write(f"**Default values**")
-                    dfti['X_c'] = X_c
-                    dfti['X_f'] = X_f
-                    dfti['X_br'] = X_br  
-                    dfti['X_dust'] = X_dust
-                    add_val_report(dfti, user_option_keys,selval_dict)
-                with rc:
-                    st.write(f"**Modified Values**")
-                    add_val_report(dft,user_option_keys, selval_dict)
+            # need to pretty-fy this report
+            # if st.checkbox("See Default and Modified Input Values and Fluxes",key = "see_default_inputs" + str(samp)):
+            #     lc, rc = st.columns([0.5, 0.5])
+            #     with lc:
+            #         st.write(f"**Default values**")
+            #         dfti['X_c'] = X_c
+            #         dfti['X_f'] = X_f
+            #         dfti['X_br'] = X_br  
+            #         dfti['X_dust'] = X_dust
+            #         add_val_report(dfti, user_option_keys,selval_dict)
+            #     with rc:
+            #         st.write(f"**Modified Values**")
+            #         add_val_report(dft,user_option_keys, selval_dict)
             
             count +=1
 
