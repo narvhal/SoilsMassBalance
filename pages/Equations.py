@@ -44,26 +44,5 @@ with rc:
     st.image(diag_name,width = 400, caption="Conceptual diagram")
 
 
+run_mkdn_style()
 
-st.markdown("""
-    <style>
-    
-           /* Remove blank space at top and bottom */ 
-           .block-container {
-               padding-top: 2.5rem;
-               padding-bottom: 0rem;
-            }
-           
-            /* moves menu up a little */
-            [data-testid="stSidebarNavItems"] {
-            padding-top: 3rem;
-            }
-
-            /* make sidebar narrower */
-            [data-testid="stSidebar"] {
-            min-width: 194px;
-            }
-    </style>
-    """, unsafe_allow_html=True)
-
-#[data-testid="stSidebarNavItems"] { data-testid="stSidebarNavItems"

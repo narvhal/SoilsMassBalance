@@ -8,13 +8,7 @@ import requests
 import base64
 from streamlit_pdf_viewer import pdf_viewer
 from streamlit_navigation_bar import st_navbar
-# from st_pages import add_page_title, get_nav_from_toml
-# from py_functions.load_intro import *
-# from py_functions.load_prep_initial_df import *
-# from py_functions.load_wrap_plotting_funcs import *
-# from py_functions.load_plotting_funcs import *       # map_cdict
-# from py_functions.load_plotting_funcs_02_13 import *
-# from uncertainties import ufloat_fromstr
+
 st.set_page_config( layout="wide" )
 
 
@@ -61,25 +55,4 @@ with rc:
                         mime='application/octet-stream')    
 
 
-
-st.markdown("""
-    <style>
-    
-           /* Remove blank space at top and bottom */ 
-           .block-container {
-               padding-top: 2.5rem;
-               padding-bottom: 0rem;
-            }
-           
-            /* moves menu up a little */
-            [data-testid="stSidebarNavItems"] {
-            padding-top: 3rem;
-            }
-            
-            /* make sidebar narrower */
-            [data-testid="stSidebar"] {
-            min-width: 194px;
-            }
-    </style>
-    """, unsafe_allow_html=True)
-
+run_mkdn_style()

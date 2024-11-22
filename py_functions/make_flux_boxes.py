@@ -16,6 +16,38 @@ from uncertainties import  ufloat_fromstr
 import copy
 
 
+def run_mkdn_style():
+    st.markdown("""
+        <style>
+        
+               /* Remove blank space at top and bottom */ 
+               .block-container {
+                   padding-top: 3rem;
+                   padding-bottom: 0rem;
+                   padding-left: 3rem;
+                   padding-right: 3rem;
+                }
+               
+                /* moves menu up a little */
+                [data-testid="stSidebarNavItems"] {
+                    padding-top: 3rem;
+                }
+
+                /* make sidebar narrower */
+                [data-testid="stSidebar"] {
+                    min-width: 174px;
+                    width: 180px;
+                    max-width: 180px;
+                }
+
+                /* make sidebar narrower */
+                .stSidebar {
+                    min-width: 174px;
+                    max-width: 180px;
+                    width: 200px;
+                }
+        </style>
+        """, unsafe_allow_html=True)
 
 
 def vcols(listofcols):
