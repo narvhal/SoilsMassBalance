@@ -152,29 +152,25 @@ selval_dict["N_SP"] = N_SP
 selval_dict["N_AZ"] = N_AZ
 
 # Disable model selection for now, until I have a better wy of displaying the simple model violating the carbonate mass balance. 
-
 model_type = 'wdust'
 selval_dict['model_type'] = model_type
-# Select Sample Name
-# default_ix = list(siu).index("NQT0")
-default_site = list(siu_dict.keys())[0]
-# bc1, lc, rc= st.columns([0.2, 0.3, 0.5])
-# with lc:[default_site]
 
-st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
-st.sidebar.write("Choose sample sites: ")
+# Select Sample Site 
+default_site = list(siu_dict.keys())[0]
+
+# st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
 keystr = "sample_id_selbox" + "0"
-si0 = st.sidebar.checkbox( list(siu_dict.keys())[0], value = True, key = keystr, on_change=proc, args = (keystr,))
+lc, rc, ec, tc = st.columns([0.3, 0.15,0.15, 0.4)])
+with lc:
+    st.write("Choose sample sites: ")
+with rc:
+    si0 = st.checkbox( list(siu_dict.keys())[0], value = True, key = keystr, on_change=proc, args = (keystr,))
 keystr = "sample_id_selbox" + "1"
-si1 = st.sidebar.checkbox(list(siu_dict.keys())[1], value = False, key = keystr , on_change=proc, args = (keystr,))
+with ec:
+    si1 = st.checkbox(list(siu_dict.keys())[1], value = False, key = keystr , on_change=proc, args = (keystr,))
 si = []
 if si0: si = [list(siu_dict.keys())[0]]
 if si1: si = si + [list(siu_dict.keys())[1]]
-
-# with rc:
-#     # Show diagram
-#     diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.png"
-#     st.image(diag_name, output_format = 'PNG', width = 300)
 
 list_of_sample_id = [siu_dict[ss] for ss in si]
 selval_dict['sample_id'] = list_of_sample_id
@@ -198,8 +194,7 @@ fmtcols = ['br_E_rate','F_br', 'F_br_g_m2_yr']
 selval_dict["fmtcols"] = fmtcols
 selval_dict["flag_sample_label_default"] = True
 
-def sliderrange(start, step, num):
-    return start + np.arange(num)*step
+
 # Instructions & EXplanations:
 count = 0
 
@@ -286,8 +281,6 @@ for six, samp in enumerate(list_of_sample_id):
     # Provide plot dimension defaults early
     kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':450, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
 
-    st.write(kk['pixelwidth'])
-
     for ki, key in enumerate(list(kk.keys())):
         selval_dict[key] = kk[key]
         selval_dict_def[key] = kk[key]
@@ -295,9 +288,6 @@ for six, samp in enumerate(list_of_sample_id):
     varvalues_dict = varvalues_dict_def
     vars_dict = vars_dict_def2
 
-    # if len(si) == 3:
-    #     coL, coM, coR = st.columns([0.33, 0.33, 0.33])
-    #     colll = [ coL, coM, coR,  coL, coM, coR]
     if len(si) >1:
         coL = st.container()
         coR = st.container()
@@ -311,12 +301,6 @@ for six, samp in enumerate(list_of_sample_id):
     count = 0
     with left_vars:
         with st.container(height = 800, border = True):
-        # with st.expander(f"{list(siu_dict.keys())[six]} Site", expanded = True):
-
-            flag_allow_scrolling_var_container_height = st.checkbox("Allow scrolling of input variables to view the flux results better", value = True, key = "flag_allow_scrolling_var_container_height" + samp)
-            if flag_allow_scrolling_var_container_height:
-                cont_h = 300
-            else: cont_h = None
 
             exp_br = st.expander("Modify Bedrock Inputs") #, key = "expand_carb_comp_br"+str(count))
             exp_c = st.expander("Modify Coarse Sediment Inputs")#, key = "expand_carb_comp_c"+str(count))

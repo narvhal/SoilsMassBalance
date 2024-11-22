@@ -25,7 +25,8 @@ def vcols(listofcols):
 def proc(key):
     st.info(st.session_state[key])
 
-
+def sliderrange(start, step, num):
+    return start + np.arange(num)*step
 
 def wrap_flux_box_streamlit(dft, selval_dict):
     fig, ax = plt.subplots()
