@@ -440,11 +440,11 @@ for six, samp in enumerate(list_of_sample_id):
                     mime="image/png", key = "Download_modified_" + str(six))
 
             # if st.checkbox("View Mass Balance with Default Variables", value = True, key ="chkbx_Download_default_" + str(six)):
-                st.write(f"*Default inputs*")
-                fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
+            st.write(f"*Default inputs*")
+            fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
 
-                buf = BytesIO()
-                fig_def.savefig(buf, format="png")
+            buf = BytesIO()
+            fig_def.savefig(buf, format="png")
             lct, rct = st.columns([0.3, 0.7])
             with rct:
                 st.download_button(label ="Download Default-Input Mass Balance Fluxes",
