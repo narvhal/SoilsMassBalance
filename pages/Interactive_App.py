@@ -21,12 +21,12 @@ if flag_gh:
     try:
         fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/df_initialize.xlsx"
         #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
-        fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/defaults_Tables.xlsx"
+        # fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/defaults_Tables.xlsx"
         # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
         fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/SGS_geochem.xlsx"
     except: 
         fn = r"/mount/src/soilsmassbalance/data_sources/df_initialize.xlsx"
-        fn2 = r"/mount/src/soilsmassbalance/data_sources/defaults_Tables.xlsx"
+        # fn2 = r"/mount/src/soilsmassbalance/data_sources/defaults_Tables.xlsx"
         fn3 = r"/mount/src/soilsmassbalance/data_sources/SGS_geochem.xlsx"
         # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
 else:
@@ -38,8 +38,7 @@ else:
 
 # data_sources/df_initialize.xlsx
 df = pd.read_excel(fn)
-st.write(fn2)
-df_default =  pd.read_excel(fn2)
+# df_default =  pd.read_excel(fn2)
 
 df_chem =  pd.read_excel(fn3,sheet_name = 'Sheet2', skiprows = 1)
 
@@ -477,11 +476,6 @@ for six, samp in enumerate(list_of_sample_id):
                     add_val_report(dft,user_option_keys, selval_dict)
             
             count +=1
-
-# st.dataframe(df_default)
-# df_defaultcols = df_default.columns.to_list()
-# for i in range(len(df_default)):
-    # st.write(f"{df_defaultcols[i]} {df_default[df_defaultcols[i]].to_}")
 
 
 # css = '''
