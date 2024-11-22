@@ -388,7 +388,7 @@ for six, samp in enumerate(list_of_sample_id):
             ##############################
             # Whether this is plotting default values or modified depends whether dataframe dft has been modified. 
             dft, selval_dict = partial_recalc(dft, selval_dict)
-            key = "st_check_CoarseResTime"
+            key = "st_check_CoarseResTime" + str(six)
             st_check_CoarseResTime =  st.checkbox(f"Set Coarse sediment residence time to equal Fine sediment residence time {np.round(dft['rt'].iloc[0]/1000, 2)} ky", key = key, on_change = proc, args = (key,))
             if st_check_CoarseResTime:
                 # Snippet taken from partial recalc func
@@ -424,23 +424,27 @@ for six, samp in enumerate(list_of_sample_id):
             st.write(f"**{list(siu_dict.keys())[six]} Site**")
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
-            st.write(f"F$_f$ (alternative method) = D/N x 10000 = {np.round(dft['D'].iloc[0]/dft['N'].iloc[0]*10000,1)} g/m$^2$/yr")
+            # st.write(f"F$_f$ (alternative method) = D/N x 10000 = {np.round(dft['D'].iloc[0]/dft['N'].iloc[0]*10000,1)} g/m$^2$/yr")
 
             buf = BytesIO()
             fig.savefig(buf, format="png")
+            lct, rct, cct = st.columns([0.3, 0.3, 0.4])
             # st.image(buf, width = selval_dict["pixelwidth"])
-            st.download_button(label ="Download Modified Input Mass Balance Fluxes",
+            with rct:
+                st.download_button(label ="Download Modified-Input Mass Balance Fluxes",
                     data=buf,
                     file_name="Modified_Mass_Balance_Fluxes.png",
                     mime="image/png", key = "Download_modified_" + str(six))
 
-            if st.checkbox("View Mass Balance with Default Variables", value = True, key ="chkbx_Download_default_" + str(six)):
-                # st.header("Default inputs")
+            # if st.checkbox("View Mass Balance with Default Variables", value = True, key ="chkbx_Download_default_" + str(six)):
+                st.write(f"**Default inputs**")
                 fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
 
                 buf = BytesIO()
                 fig_def.savefig(buf, format="png")
-                st.download_button(label ="Download Figure",
+            lct, rct, cct = st.columns([0.3, 0.3, 0.4])
+            with rct:
+                st.download_button(label ="Download Default-Input Mass Balance Fluxes",
                     data=buf,
                     file_name="Default_Mass_Balance_Fluxes.png",
                     mime="image/png",  key = "Download_default_" + str(six))
