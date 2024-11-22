@@ -479,7 +479,7 @@ st.markdown("""
     
            /* Remove blank space at top and bottom */ 
            .block-container {
-               padding-top: 2.5rem;
+               padding-top: 3rem;
                padding-bottom: 0rem;
             }
            
@@ -492,11 +492,13 @@ st.markdown("""
             [data-testid="stSidebar"] {
                 min-width: 194px;
                 width: 200px;
+                max-width: 200px;
             }
 
             /* make sidebar narrower */
             .stSidebar {
                 min-width: 194px;
+                max-width: 200px;
                 width: 200px;
             }
     </style>
