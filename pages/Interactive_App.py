@@ -491,6 +491,7 @@ st.markdown("""
             /* make sidebar narrower */
             [data-testid="stSidebar"] {
             min-width: 194px;
+            width: 200px;
             }
     </style>
     """, unsafe_allow_html=True)
