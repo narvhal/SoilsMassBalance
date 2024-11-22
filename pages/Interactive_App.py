@@ -279,7 +279,7 @@ for six, samp in enumerate(list_of_sample_id):
     dfti, selval_dict_def = simple_recalc(dft_def, selval_dict_def)
 
     # Provide plot dimension defaults early
-    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':450, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
+    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':500, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
 
     for ki, key in enumerate(list(kk.keys())):
         selval_dict[key] = kk[key]
@@ -297,7 +297,7 @@ for six, samp in enumerate(list_of_sample_id):
         coL = st.container()
         colll = [ coL]
 
-    left_vars, right_results = st.columns([0.35, 0.65])
+    left_vars, right_results = st.columns([0.4, 0.6])
     count = 0
     with left_vars:
         with st.container(height = 800, border = True):
