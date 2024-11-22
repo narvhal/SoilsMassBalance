@@ -490,15 +490,15 @@ st.markdown("""
 
             /* make sidebar narrower */
             [data-testid="stSidebar"] {
-                min-width: 194px;
-                width: 200px;
-                max-width: 200px;
+                min-width: 174px;
+                width: 180px;
+                max-width: 180px;
             }
 
             /* make sidebar narrower */
             .stSidebar {
-                min-width: 194px;
-                max-width: 200px;
+                min-width: 174px;
+                max-width: 180px;
                 width: 200px;
             }
     </style>
