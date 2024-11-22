@@ -481,6 +481,8 @@ st.markdown("""
            .block-container {
                padding-top: 3rem;
                padding-bottom: 0rem;
+               padding-left: 3rem;
+               padding-right: 3rem;
             }
            
             /* moves menu up a little */
