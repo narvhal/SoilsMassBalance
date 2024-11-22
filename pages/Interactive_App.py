@@ -302,9 +302,9 @@ for six, samp in enumerate(list_of_sample_id):
     with left_vars:
         with st.container(height = 800, border = True):
 
-            exp_br = st.expander("Modify Bedrock Inputs") #, key = "expand_carb_comp_br"+str(count))
-            exp_c = st.expander("Modify Coarse Sediment Inputs")#, key = "expand_carb_comp_c"+str(count))
-            exp_f = st.expander("Modify Dust and Fine Sediment Inputs") #, key = "expand_carb_comp_f"+str(count))
+            exp_br = st.expander("**Modify Bedrock Inputs**") #, key = "expand_carb_comp_br"+str(count))
+            exp_c = st.expander("**Modify Coarse Sediment Inputs**")#, key = "expand_carb_comp_c"+str(count))
+            exp_f = st.expander("**Modify Dust and Fine Sediment Inputs**") #, key = "expand_carb_comp_f"+str(count))
             with exp_br:
                 dft,selval_dict = plot_carb_pct(dft,selval_dict, collist = ['C_br'],labellist = ['Bedrock Composition'],ft = ['F$_b$'], ec = 'k', six = six)
 
@@ -344,7 +344,7 @@ for six, samp in enumerate(list_of_sample_id):
                     dft, selval_dict = Make_Var_Radio(dft, selcolkey, selval_dict, varvalues_dict, varnames_dict2, vars_dict, six, expb_d, varunits_dict)
 
             if six == 0:
-                with st.expander(f"See plot dimension options"): #,  key='exp_show_plot_dimensions'):
+                with st.expander("**See plot dimension options**"): #,  key='exp_show_plot_dimensions'):
                     # Select box model shape:
                     keystr = "model_shape_radio_" + str(samp)
                     model_shape = st.radio("Box shapes: ", ["Uniform height", "Squares", 1.,  5.], index = 0, key = keystr, on_change=proc, args = (keystr,), horizontal = True)
@@ -423,7 +423,7 @@ for six, samp in enumerate(list_of_sample_id):
         with st.container(border = False): # , key = "left_vars"+str(count)):
             st.write(f"**{list(siu_dict.keys())[six]} Site**")
 
-            st.write(f"{\textit Modified Input}")
+            st.markdown("*Modified Input*")
 
             fig = wrap_flux_box_streamlit(dft, selval_dict)
 
@@ -440,7 +440,7 @@ for six, samp in enumerate(list_of_sample_id):
                     mime="image/png", key = "Download_modified_" + str(six))
 
             # if st.checkbox("View Mass Balance with Default Variables", value = True, key ="chkbx_Download_default_" + str(six)):
-                st.write(f"**Default inputs**")
+                st.write(f"*Default inputs*")
                 fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
 
                 buf = BytesIO()
