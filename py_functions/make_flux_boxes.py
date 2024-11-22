@@ -161,7 +161,7 @@ def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],lab
         labelname = labellist[i]
         # with lc:
         st.write(f"**{labelname}** ({ft[i]})  \n  \t   Percent Carbonate:")
-        pct_carb = st.slider("Change Percent Carbonate:", min_value = 0., max_value = 100.0, value = df[colname].iloc[0], format = "%0.1f", key = "slider_pct_carb" + colname + str(six), label_visibility = "collapsed")
+        pct_carb = st.slider("Change Percent Carbonate:", min_value = 0., max_value = 100.0, value = float(df[colname].iloc[0]), format = "%0.1f", key = "slider_pct_carb" + colname + str(six), label_visibility = "collapsed")
 
         fig, ax = plt.subplots()
 
