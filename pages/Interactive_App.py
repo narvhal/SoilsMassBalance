@@ -279,7 +279,7 @@ for six, samp in enumerate(list_of_sample_id):
     dfti, selval_dict_def = simple_recalc(dft_def, selval_dict_def)
 
     # Provide plot dimension defaults early
-    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':520, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
+    kk = {'model_shape':"Uniform height", 'figwidth':9, 'figheight':3, 'pixelwidth':525, 'boxscale':1, 'shape_buffer':2, 'boxheight':2, 'medfont':12, 'textheight':3.25}
 
     for ki, key in enumerate(list(kk.keys())):
         selval_dict[key] = kk[key]
@@ -360,7 +360,7 @@ for six, samp in enumerate(list_of_sample_id):
                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
                     # height
                     keystr = "pixelwidth_radio"+ str(samp)
-                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(200, 50, 15), value = kk['pixelwidth'],
+                    selval_dict["pixelwidth"] = st.select_slider("Scale width of plot in pixels: ",  sliderrange(200, 25, 25), value = kk['pixelwidth'],
                         key = keystr, on_change = proc, args = (keystr,))#, horizontal = True) # width
 
                      # Width in px of image produced...
