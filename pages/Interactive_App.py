@@ -485,13 +485,19 @@ st.markdown("""
            
             /* moves menu up a little */
             [data-testid="stSidebarNavItems"] {
-            padding-top: 3rem;
+                padding-top: 3rem;
             }
 
             /* make sidebar narrower */
             [data-testid="stSidebar"] {
-            min-width: 194px;
-            width: 200px;
+                min-width: 194px;
+                width: 200px;
+            }
+
+            /* make sidebar narrower */
+            .stSidebar {
+                min-width: 194px;
+                width: 200px;
             }
     </style>
     """, unsafe_allow_html=True)
