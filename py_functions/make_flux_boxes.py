@@ -30,8 +30,8 @@ import copy
 #     dft = df[df.sample_id.isin(sample_id)].copy()
 #     return dft
 
-# def vcols(listofcols):
-#     return [c + '_val' for c in listofcols]
+def vcols(listofcols):
+    return [c + '_val' for c in listofcols]
 
 # def findcols(df, schstr, notstr = None):
 #     lst = df.columns.to_list()
