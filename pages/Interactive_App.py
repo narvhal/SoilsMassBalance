@@ -160,7 +160,7 @@ default_site = list(siu_dict.keys())[0]
 
 # st.write("Changes to the input variables will be immediately reflected in the mass balance flux plot below.")
 keystr = "sample_id_selbox" + "0"
-lc, rc, ec, tc = st.columns([0.3, 0.15,0.15, 0.4])
+lc, rc, ec, tc = st.columns([0.2, 0.15,0.15, 0.5])
 with lc:
     st.write("Choose sample sites: ")
 with rc:
