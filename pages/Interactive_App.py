@@ -18,17 +18,17 @@ st.set_page_config( layout="wide" )
 flag_gh = True
 gh_branchname = "main"  # or SoilsMassBalance_Poster_appx or main
 if flag_gh:
-    try:
-        fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/df_initialize.xlsx"
-        #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
-        # fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/defaults_Tables.xlsx"
-        # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
-        fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/SGS_geochem.xlsx"
-    except: 
-        fn = r"/mount/src/soilsmassbalance/data_sources/df_initialize.xlsx"
-        # fn2 = r"/mount/src/soilsmassbalance/data_sources/defaults_Tables.xlsx"
-        fn3 = r"/mount/src/soilsmassbalance/data_sources/SGS_geochem.xlsx"
-        # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
+    # try:
+    fn = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/df_initialize.xlsx"
+    #https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/df_initialize.xlsx"
+    # fn2 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/defaults_Tables.xlsx"
+    # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/defaults_Tables.xlsx"
+    fn3 = r"https://github.com/narvhal/SoilsMassBalance/raw/refs/heads/"+gh_branchname+"/data_sources/SGS_geochem.xlsx"
+    # except: 
+    #     fn = r"/mount/src/soilsmassbalance/data_sources/df_initialize.xlsx"
+    #     # fn2 = r"/mount/src/soilsmassbalance/data_sources/defaults_Tables.xlsx"
+    #     fn3 = r"/mount/src/soilsmassbalance/data_sources/SGS_geochem.xlsx"
+    #     # https://github.com/narvhal/SoilsMassBalance/raw/main/data_sources/SGS_geochem.xlsx"
 else:
     fn = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\df_initialize.xlsx"
     fn2 = r"C:\Users\nariv\OneDrive\JupyterN\streamlit_local\SoilsMassBalance\data_sources\defaults_Tables.xlsx"
