@@ -300,7 +300,7 @@ for six, samp in enumerate(list_of_sample_id):
     left_vars, right_results = st.columns([0.4, 0.6])
     count = 0
     with left_vars:
-        with st.container(height = 800, border = True):
+        with st.container(height = 600, border = True):
 
             exp_br = st.expander("**Modify Bedrock Inputs**") #, key = "expand_carb_comp_br"+str(count))
             exp_c = st.expander("**Modify Coarse Sediment Inputs**")#, key = "expand_carb_comp_c"+str(count))
