@@ -21,7 +21,7 @@ with lc:
     st.write(f"I defended my dissertation in geomorphology in July 2024. I am looking for a job that makes use of the varied skills I've developed in graduate school. I enjoy the creative aspects of science: combining data in new ways, addressing questions using different data visualizations, and discussions with others. I'm motivated by work that involves a component of service, such as science education or hazards research. ")
 
 with rc:
-    st.image(r"/mount/src/narvhal/images/fulls/website_face.jpg")
+    st.image(r"/mount/src/soilsmassbalance/data_sources/website_face.jpg")
 
 
 
