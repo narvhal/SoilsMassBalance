@@ -170,7 +170,13 @@ with ec:
     si1 = st.checkbox(list(siu_dict.keys())[1], value = False, key = keystr , on_change=proc, args = (keystr,))
 si = []
 if si0: si = [list(siu_dict.keys())[0]]
-if si1: si = si + [list(siu_dict.keys())[1]]
+    if si1: si = [list(siu_dict.keys())[0]] + [list(siu_dict.keys())[1]]
+elif si1: 
+    si =  [list(siu_dict.keys())[1]]
+else: 
+    si = []
+    st.write("Select Site to show model!")
+# if si1: si = si + [list(siu_dict.keys())[1]]
 
 list_of_sample_id = [siu_dict[ss] for ss in si]
 selval_dict['sample_id'] = list_of_sample_id
