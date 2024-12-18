@@ -15,7 +15,7 @@ st.header("Nari Miller, Ph.D.")
 st.subheader("Geomorphologist")
 
 # st.header("Interactive Carbonate Regolith Mass Balance Model")
-lc, rc = st.columns([0.5, 0.5])
+lc, rc = st.columns([0.8, 0.2])
 with lc: 
 
     st.write(f"I defended my dissertation in geomorphology in July 2024. I am looking for a job that makes use of the varied skills I've developed in graduate school. I enjoy the creative aspects of science: combining data in new ways, addressing questions using different data visualizations, and discussions with others. I'm motivated by work that involves a component of service, such as science education or hazards research. ")
@@ -31,7 +31,7 @@ st.write(f"I studied arid and semi-arid landscapes composed of carbonate rocks, 
 
 st.write(f"I test whether carbonate landscapes in arid and semi-arid regions are shaped by chemical erosion. A first-order effect of chemical erosion is the reduction of sediment produced on the landscape that requires transport by gravity-driven forces. I compared new and previously published erosion rates to topographic metrics to assess whether there was a signal of lower sediment flux in regions with higher precipitation. ")
 
-st.write(f"I also constructed a mass balance model which solves for dissolved material and dust influx, which I implemented at an arid and a semi-arid site. I made a web app that allows the user to change the inputs to this mass balance model -- take a look: https://carbonate-regolith.streamlit.app/")
+st.write(f"I also constructed a mass balance model which solves for dissolved material and dust influx, which I implemented at an arid and a semi-arid site.")
 
 st.subheader(f"The rest of this website")
 
