@@ -181,6 +181,7 @@ else:
 # if si1: si = si + [list(siu_dict.keys())[1]]
 
 list_of_sample_id = [siu_dict[ss] for ss in si]
+list_of_sample_climates = [ss for ss in si]
 selval_dict['sample_id'] = list_of_sample_id
 
 if model_type == 'simple':
@@ -429,7 +430,7 @@ for six, samp in enumerate(list_of_sample_id):
 
     with right_results:
         with st.container(border = False): # , key = "left_vars"+str(count)):
-            st.write(f"**{samp} Site**")
+            st.write(f"**{list_of_sample_climates[six]} Site**")
             lct, rct = st.columns([0.3, 0.7])
             with lct:
                 st.markdown("*Modified Input*")
