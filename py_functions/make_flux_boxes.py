@@ -46,6 +46,12 @@ def run_mkdn_style():
                     max-width: 180px;
                     width: 200px;
                 }
+
+                /* Emphasize Expander Headers */
+                .streamlit-expanderHeader {
+                    background-color: grey;
+                    color: black; 
+                }
         </style>
         """, unsafe_allow_html=True)
 
