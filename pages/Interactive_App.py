@@ -169,8 +169,10 @@ keystr = "sample_id_selbox" + "1"
 with ec:
     si1 = st.checkbox(list(siu_dict.keys())[1], value = False, key = keystr , on_change=proc, args = (keystr,))
 si = []
-if si0: si = [list(siu_dict.keys())[0]]
-    if si1: si = [list(siu_dict.keys())[0]] + [list(siu_dict.keys())[1]]
+if si0: 
+    si = [list(siu_dict.keys())[0]]
+    if si1: 
+        si = [list(siu_dict.keys())[0]] + [list(siu_dict.keys())[1]]
 elif si1: 
     si =  [list(siu_dict.keys())[1]]
 else: 
