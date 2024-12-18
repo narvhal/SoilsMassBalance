@@ -397,6 +397,10 @@ for six, samp in enumerate(list_of_sample_id):
             ##############################
             # Whether this is plotting default values or modified depends whether dataframe dft has been modified. 
             dft, selval_dict = partial_recalc(dft, selval_dict)
+
+            st.write(f"Coarse Sediment Residence Time: {np.round(dft['max_coarse_residence_time'].iloc[0]/1000, 2)} ky")
+            st.write(f"Fine Sediment Residence Time: {np.round(dft['rt'].iloc[0]/1000, 2)} ky")
+
             key = "st_check_CoarseResTime" + str(six)
             st_check_CoarseResTime =  st.checkbox(f"Set Coarse sediment residence time to equal Fine sediment residence time {np.round(dft['rt'].iloc[0]/1000, 2)} ky", key = key, on_change = proc, args = (key,))
             if st_check_CoarseResTime:
@@ -444,7 +448,7 @@ for six, samp in enumerate(list_of_sample_id):
             # lct, rct= st.columns([0.3, 0.7])
             # st.image(buf, width = selval_dict["pixelwidth"])
             with rct:
-                st.download_button(label ="Download Modified-Input Mass Balance Fluxes",
+                st.download_button(label ="Download Image",
                     data=buf,
                     file_name="Modified_Mass_Balance_Fluxes.png",
                     mime="image/png", key = "Download_modified_" + str(six))
@@ -458,7 +462,7 @@ for six, samp in enumerate(list_of_sample_id):
             buf = BytesIO()
             fig_def.savefig(buf, format="png")
             with rct:
-                st.download_button(label ="Download Default-Input Mass Balance Fluxes",
+                st.download_button(label ="Download Image",
                     data=buf,
                     file_name="Default_Mass_Balance_Fluxes.png",
                     mime="image/png",  key = "Download_default_" + str(six))
