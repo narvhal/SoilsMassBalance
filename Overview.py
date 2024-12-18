@@ -23,7 +23,15 @@ with lc:
 with rc:
     st.image(r"/mount/src/soilsmassbalance/data_sources/website_face.jpg")
 
+url = r"/mount/src/soilsmassbalance/data_sources/Miller_N_CV_2024.pdf"
 
+with open(url, "rb") as pdf_file:
+    PDFbyte = pdf_file.read()
+
+st.download_button(label ="Download CV",
+                    data=PDFbyte,
+                    file_name="Miller_N_CV_2024.pdf",
+                    mime='application/octet-stream')    
 
 st.subheader(f"**Recent Work**")
 
