@@ -442,7 +442,7 @@ for six, samp in enumerate(list_of_sample_id):
     with right_results:
         with st.container(border = False): # , key = "left_vars"+str(count)):
             st.write(f"**{list_of_sample_climates[six]} Site**")
-            lct, rct = st.columns([0.3, 0.7])
+            lct,cct, rct = st.columns([0.3,0.3, 0.4])
             with lct:
                 st.markdown("*Modified Input*")
 
