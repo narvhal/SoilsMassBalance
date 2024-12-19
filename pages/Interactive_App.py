@@ -317,7 +317,7 @@ for six, samp in enumerate(list_of_sample_id):
             #  \textcolor{#e0ffff}   Fdis
             # \textcolor{#deb887}{F_d} 
 
-            txt_exp1 = "$\textcolor{#deb887}{Modify Bedrock Inputs}$"
+            txt_exp1 = f'''<font color="deb887">Modify Bedrock Inputs</font>'''
             exp_br = st.expander(txt_exp1) #, key = "expand_carb_comp_br"+str(count))
             exp_c = st.expander(f"**Modify Coarse Sediment Inputs**")#, key = "expand_carb_comp_c"+str(count))
             exp_f = st.expander(f"**Modify Dust and Fine Sediment Inputs**") #, key = "expand_carb_comp_f"+str(count))
