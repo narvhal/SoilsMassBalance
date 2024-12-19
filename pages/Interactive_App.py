@@ -311,7 +311,8 @@ for six, samp in enumerate(list_of_sample_id):
     with left_vars:
         with st.container(height = 600, border = True):
 
-            exp_br = st.expander(f":orange-background[**Modify Bedrock Inputs**]") #, key = "expand_carb_comp_br"+str(count))
+            txt_exp1 = rf''':primary-background[Modify Bedrock Inputs]'''
+            exp_br = st.expander(txt_exp1) #, key = "expand_carb_comp_br"+str(count))
             exp_c = st.expander(f"**Modify Coarse Sediment Inputs**")#, key = "expand_carb_comp_c"+str(count))
             exp_f = st.expander(f"**Modify Dust and Fine Sediment Inputs**") #, key = "expand_carb_comp_f"+str(count))
             with exp_br:
