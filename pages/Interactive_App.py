@@ -310,8 +310,14 @@ for six, samp in enumerate(list_of_sample_id):
     count = 0
     with left_vars:
         with st.container(height = 600, border = True):
+            #  \textcolor{#808080}   Fb
+            #  \textcolor{#deb887}   Fd
+            #  \textcolor{#bc8f8f}   Fc
+            #  \textcolor{#cd5c5c}   Ffbr
+            #  \textcolor{#e0ffff}   Fdis
+            # \textcolor{#deb887}{F_d} 
 
-            txt_exp1 = rf''':red-background[Modify Bedrock Inputs]'''
+            txt_exp1 = '''$\textcolor{#deb887}{Modify Bedrock Inputs}$'''
             exp_br = st.expander(txt_exp1) #, key = "expand_carb_comp_br"+str(count))
             exp_c = st.expander(f"**Modify Coarse Sediment Inputs**")#, key = "expand_carb_comp_c"+str(count))
             exp_f = st.expander(f"**Modify Dust and Fine Sediment Inputs**") #, key = "expand_carb_comp_f"+str(count))
