@@ -461,7 +461,8 @@ for six, samp in enumerate(list_of_sample_id):
                     mime="image/png", key = "Download_modified_" + str(six))
 
             # if st.checkbox("View Mass Balance with Default Variables", value = True, key ="chkbx_Download_default_" + str(six)):
-            lct, rct = st.columns([0.3, 0.7])
+            lct,cct, rct = st.columns([0.3,0.3, 0.4])
+
             with lct:
                 st.write(f"*Default inputs*")
             fig_def = wrap_flux_box_streamlit(dfti, selval_dict_def)
