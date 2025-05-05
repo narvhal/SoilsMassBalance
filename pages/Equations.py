@@ -31,7 +31,7 @@ with cc:
     st.write(" ")
 
     diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.svg"
-    st.image(diag_name,width = 300, caption="Conceptual diagram. The mass input of material from bedrock and dust is balanced by the outflux of dissolved material, and mechanically eroded material. ")
+    st.image(diag_name,width = 500, caption="Conceptual diagram. The mass input of material from bedrock and dust is balanced by the outflux of dissolved material, and mechanically eroded material. ")
 
 
     st.subheader(f"**Conservation of Mass Equations**")
@@ -62,6 +62,8 @@ with cc:
 
     st.write(" ")
 
+cc, rc = st.columns([0.55,0.35])
+with cc:
     url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
     # pdf_viewer(url, width = 900)
 
