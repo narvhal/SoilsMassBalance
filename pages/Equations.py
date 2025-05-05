@@ -25,7 +25,7 @@ with cc:
     st.write(f"Carbonate rocks can erode mechanically and through dissolution. In humid environments, carbonate rocks form landforms unique to chemical erosion. However, the extent to which chemical erosion acts in semi-arid and arid environments is poorly understood. Significant chemical erosion may reduce sediment flux, decoupling it from bedrock erosion. Another important factor in arid environments, windblown dust may enhance sediment flux as it accumulates. This study quantifies the mass fluxes of hilltop regolith to test whether chemical erosion and dust accumulation are necessary to reconcile the mass balance. ")
 
     st.subheader(f"**Methods**")
-    st.write(f"A mass balance quantifies each component into and out of the volume of interest; here, a unit-volume patch on a hilltop.  In this work we consider the fluxes that compose regolith, the layer of mobile sediment on hillslopes. Flux, F (g/m2/yr), represents the amount of material moving across the boundaries of the unit-volume hilltop patch of regolith.")
+    st.write(f"A mass balance quantifies each component into and out of the volume of interest; here, a unit-volume patch on a hilltop.  In this work we consider the fluxes that compose regolith, the layer of mobile sediment on hillslopes. Flux, F (g/m$^2$/yr), represents the amount of material moving across the boundaries of the unit-volume hilltop patch of regolith.")
     st.write(f"Mechanical weathering of bedrock produces coarse (>2 mm) lithic clasts.  Windblown dust, accumulating in the regolith, adds to the fine sediment fraction ($F_{{fines}}$ = $F_{{dust}}$ + $F_{{fines, bedrock}}$).")
 
     st.write(" ")
