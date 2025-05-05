@@ -15,9 +15,9 @@ from streamlit_navigation_bar import st_navbar
 #  \textcolor{#cd5c5c}   Ffbr
 #  \textcolor{#e0ffff}   Fdis
 
-cc, rc = st.columns([0.61,0.39])
+cc, rc = st.columns([0.65,0.35])
 with cc:
-    with st.container(height=800):
+    with st.container(height=650):
         st.header(f"**Mass Balance Research Summary**")
 
         # with st.expander(f"**Introduction**"):
@@ -54,29 +54,27 @@ with cc:
         st.write(f"The proportion of dissolved flux at the arid site is less than at the other site.  Supports a direct correlation between chemical erosion and climate. More work quantifying chemical erosion in carbonate soils across aridity gradients would help test this hypothesis. ")
         st.write(f"Dust flux was greater at the arid site. Besides climate, different local and regional dust sources, as well as variations in topography, might affect local dust accumulation (McClintock et al., 2015).  ")
 
+        st.write(" ")
+
+        url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
+        # pdf_viewer(url, width = 900)
+
+        st.image(r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller3.png")
+        
+        with open(url, "rb") as pdf_file:
+            PDFbyte = pdf_file.read()
+
+        st.download_button(label ="Download GSA 2024 Poster",
+                            data=PDFbyte,
+                            file_name="NMiller_GSA_2024.pdf",
+                            mime='application/octet-stream')    
+
 with rc:
 
     st.write(" ")
 
     diag_name = r"/mount/src/soilsmassbalance/data_sources/Figure_Fluxes_Concepts_from_INKSCAPE_GSAPoster2.svg"
-    st.image(diag_name,width = 400, caption="Conceptual diagram")
-
-    st.write(" ")
-
-    url = r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller_fontsfixed.pdf"
-    # pdf_viewer(url, width = 900)
-
-    st.image(r"/mount/src/soilsmassbalance/data_sources/GSA_2024_poster_NMiller3.png")
-    
-    with open(url, "rb") as pdf_file:
-        PDFbyte = pdf_file.read()
-
-    st.download_button(label ="Download GSA 2024 Poster",
-                        data=PDFbyte,
-                        file_name="NMiller_GSA_2024.pdf",
-                        mime='application/octet-stream')    
-
-
+    st.image(diag_name,width = 300, caption="Conceptual diagram. The mass input of material from bedrock and dust is balanced by the outflux of dissolved material, and mechanically eroded material. ")
 
 run_mkdn_style()
 
