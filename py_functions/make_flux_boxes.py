@@ -218,6 +218,7 @@ def plot_carb_pct(df,selval_dict, collist = ['C_br', 'C_c', 'C_f', 'C_dust'],lab
         st.divider()
         df[colname] = pct_carb
         selval_dict[colname] = pct_carb
+    df['DF'] = df['C_br']/(1-df['C_br'])   # DF is soluble/insoluble fractions of the bedrock... #Needed update here 9/28/25
     return df,selval_dict
 
 
