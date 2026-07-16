@@ -21,14 +21,14 @@ with lc:
     st.write(f"I defended my dissertation in geomorphology in July 2024. I enjoy the creative aspects of science: combining and visualizing data in new ways, connecting field observations to conceptual and theoretical models.  ")
 
 
-    url = r"/mount/src/soilsmassbalance/data_sources/N_Miller_CV_25_10.pdf"
+    url = r"/mount/src/soilsmassbalance/data_sources/N_Miller_CV_26_07.pdf"
 
     with open(url, "rb") as pdf_file:
         PDFbyte = pdf_file.read()
 
     st.download_button(label ="Download CV",
                         data=PDFbyte,
-                        file_name="N_Miller_CV_25_10.pdf",
+                        file_name="N_Miller_CV_26_07.pdf",
                         mime='application/octet-stream')    
 
     st.subheader(f"**Recent Work**")
