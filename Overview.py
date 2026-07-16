@@ -18,7 +18,7 @@ st.subheader("Geomorphologist")
 lc, rc = st.columns([0.8, 0.2])
 with lc: 
 
-    st.write(f"I defended my dissertation in geomorphology in July 2024. I enjoy the creative aspects of science: combining and visualizing data in new ways and discussions with others, especially in the field. I'm motivated by work that involves a component of service, such as science education or hazards research. ")
+    st.write(f"I defended my dissertation in geomorphology in July 2024. I enjoy the creative aspects of science: combining and visualizing data in new ways, connecting field observations to conceptual and theoretical models.  ")
 
 
     url = r"/mount/src/soilsmassbalance/data_sources/N_Miller_CV_25_10.pdf"
